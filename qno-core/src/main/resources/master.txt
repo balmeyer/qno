@@ -1,0 +1,20 @@
+je vois un ${animal}. Il ${verbe}.
+Cet ${animal} me ${verbe}.
+{
+soudain un ${animal}.
+
+Il ${verbe}
+}
+
+[animal]
+
+chien
+chat
+cochon
+ornithorynque
+
+[verbe]
+mange
+regarde
+dévore
+conchie

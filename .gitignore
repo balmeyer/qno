@@ -1,4 +1,9 @@
 *.class
+.metadata
+
+# maven
+target
+bin
 
 # Package Files #
 *.jar

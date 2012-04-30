@@ -15,14 +15,13 @@
  */
 package net.balmeyer.qno;
 
+import static net.balmeyer.qno.QnoFactory.bag;
+import static net.balmeyer.qno.QnoFactory.request;
+import static net.balmeyer.qno.QnoFactory.word;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-
-import net.balmeyer.qno.impl.PlainRequest;
-import net.balmeyer.qno.impl.PlainWord;
-import net.balmeyer.qno.impl.PlainWordMap;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -52,11 +51,11 @@ public class TestCore {
 		final String variable = "Test !!";
 		
 		//create simple word et test "next"
-		Word w1 = new PlainWord(variable);
+		Word w1 = word(variable);
 		
 		assertEquals(variable, w1.toString());
 		
-		WordBag map = new PlainWordMap("var1");
+		WordBag map = bag("var1");
 		
 		assertEquals("var1", map.getID());
 		
@@ -92,12 +91,12 @@ public class TestCore {
 	 */
 	@Test
 	public void testPattern(){
-		WordBag bag = WordBagFactory.build(Vocabulary.PATTERN_ID);
-		bag.add(new PlainWord("toto"));
+		WordBag bag = bag(Vocabulary.PATTERN_ID);
+		bag.add(word("toto"));
 		
 		//stuff
-		WordBag words = WordBagFactory.build("test1");
-		words.add(new PlainWord("pouet"));
+		WordBag words = bag("test1");
+		words.add(word("pouet"));
 		
 		Vocabulary v = new Vocabulary();
 		v.add(bag);
@@ -112,11 +111,11 @@ public class TestCore {
 	@Test
 	public void testVar(){
 		
-		WordBag map1 = new PlainWordMap("a");
-		WordBag map2 = new PlainWordMap("b");
+		WordBag map1 = bag("a");
+		WordBag map2 = bag("b");
 		
-		map1.add(new PlainWord("alpha"));
-		map2.add(new PlainWord("beta"));
+		map1.add(word("alpha"));
+		map2.add(word("beta"));
 		
 		//simple test
 		for (int i = 0 ; i < 20 ; i++) {
@@ -131,9 +130,10 @@ public class TestCore {
 		assertEquals(2, vocab.getMaps().size());
 		
 		//request on "a" map
-		Request request = new PlainRequest("a");
+		Request request = request("a");
 		
 		Word w1 = vocab.get(request);
+		assertEquals("alpha", w1.toString());
 		
 	}
 	

@@ -15,9 +15,6 @@
  */
 package net.balmeyer.qno;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -42,6 +39,14 @@ public class QnoEngine  {
 
 	public void setVocabulary(Vocabulary vocab) {
 		this.vocab = vocab;
+	}
+	
+	/**
+	 * Execute text !
+	 * @return
+	 */
+	public String execute(){
+		return null;
 	}
 	
 }

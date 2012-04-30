@@ -15,24 +15,46 @@
  */
 package net.balmeyer.qno;
 
+import java.io.IOException;
+
+import net.balmeyer.qno.impl.PlainRequest;
+import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.impl.PlainWordMap;
+import net.balmeyer.qno.impl.SimpleParser;
+import net.balmeyer.qno.text.Parser;
 
 /**
  * 
  * @author JB Balmeyer
  *
  */
-public class WordBagFactory {
+public class QnoFactory {
 
-	private WordBagFactory(){}
+	private QnoFactory(){}
 	
 	/**
 	 * Build simple word bag
 	 * @param expression
 	 * @return
 	 */
-	public static WordBag build(String expression){
+	public static WordBag bag(String expression){
 		return new PlainWordMap(expression);
+	}
+	
+	public static Word word(String expression){
+		return new PlainWord(expression);
+	}
+	
+	public static Request request(String expression){
+		return new PlainRequest(expression);
+	}
+	
+	public static Worder load(String config) throws IOException{
+		return WorderBuilder.load(config);
+	}
+	
+	public static Parser newParser(){
+		return new SimpleParser();
 	}
 	
 }

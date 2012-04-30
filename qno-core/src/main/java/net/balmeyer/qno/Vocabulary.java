@@ -38,6 +38,10 @@ public class Vocabulary implements Worder {
 	@Override
 	public Word get(Request request) {
 		
+		if (this.idToBag == null) {
+			throw new IllegalArgumentException("there is no data to provide !");
+		}
+		
 		WordBag bag = this.idToBag.get(request.getVariableName());
 		
 		if (bag == null){

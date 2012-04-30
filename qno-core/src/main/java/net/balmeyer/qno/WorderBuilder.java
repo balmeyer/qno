@@ -23,22 +23,25 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balmeyer.qno.impl.PlainWord;
+import net.balmeyer.qno.impl.PlainWordMap;
+
 /**
  * 
  * @author JB Balmeyer
  *
  */
-public class WordBuilder {
+public class WorderBuilder {
 
 	/**
 	 * Load configuration for generating text
 	 * @param path
 	 * @throws IOException
 	 */
-	public void load(String path) throws IOException{
+	public static Worder load(String path) throws IOException{
 		
 		//find text pattern
-		URL url = WordBuilder.class.getClassLoader().getResource(path);
+		URL url = Vocabulary.class.getClassLoader().getResource(path);
 		
 		InputStream inputStream = url.openStream();
 		
@@ -48,11 +51,12 @@ public class WordBuilder {
 		
 		String line = "";
 		
-		WordMap currentMap = null;
+		WordBag patterns = new PlainWordMap("pattern");
 		
-		//text pattern
-		List<String> patterns = new ArrayList<String>();
-		
+		WordBag currentMap = patterns;
+		List<WordBag> allmaps = new ArrayList<WordBag>();
+		allmaps.add(patterns);
+
 		//current expression
 		StringBuilder currentExpression = new StringBuilder();
 		boolean inExpression = false;
@@ -65,31 +69,55 @@ public class WordBuilder {
 				
 				//new word
 				if (line.startsWith("[")){
-					
-				}
-				
-				//new pattern
-				
-				if (line.equals("{")){
-					inExpression = true;
+					currentMap = newWordMap(line);
+					allmaps.add(currentMap);
 					continue;
 				}
 				
-				if (line.endsWith("}")){
-					inExpression = false;
+				//new pattern
+				if (line.equals("{")){
+					inExpression = true;
+					currentExpression.setLength(0);
+					continue;
+				}
+
+				if (inExpression) {
+					//end of expression
+					if (line.equals("}")){
+						inExpression = false;
+					} else {
+						if (currentExpression.length() > 0) currentExpression.append("\r\n");
+						currentExpression.append(line);
+						
+						continue;
+					}
+				}
+				else {
+					//simple line
+					currentExpression = new StringBuilder(line);
 				}
 				
-				
-				//new word
-				
-				
-				//current word
+				currentMap.add(new PlainWord(currentExpression.toString()));
+
 			}
 		}
 		
+		//keep all maps
+		Vocabulary set = new Vocabulary();
+		set.setMaps(allmaps);
+		return set;
 		
 	}
 	
+	/**
+	 * Build simple map
+	 * @param expression
+	 * @return
+	 */
+	private static WordBag newWordMap(String expression){
+		WordBag map = new PlainWordMap(expression.replace("[", "").replace("]","").trim());
+		return map;
+	}
 	
 	
 }

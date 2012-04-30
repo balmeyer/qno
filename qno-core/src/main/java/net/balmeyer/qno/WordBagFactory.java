@@ -15,17 +15,24 @@
  */
 package net.balmeyer.qno;
 
-public interface WordMap {
+import net.balmeyer.qno.impl.PlainWordMap;
 
-	/** Add */
-	public void add(Word w);
+/**
+ * 
+ * @author JB Balmeyer
+ *
+ */
+public class WordBagFactory {
+
+	private WordBagFactory(){}
 	
-	/** */
-	public Word next();
-	
-	/** next word */
-	public Word next(WordRequest request);
-	
-	
+	/**
+	 * Build simple word bag
+	 * @param expression
+	 * @return
+	 */
+	public static WordBag build(String expression){
+		return new PlainWordMap(expression);
+	}
 	
 }

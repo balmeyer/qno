@@ -23,6 +23,6 @@ package net.balmeyer.qno;
 public interface Worder {
 
 	/** Provide a word from word set with a wordrequest */
-	public Word request(WordRequest request);
+	public Word get(Request request);
 	
 }

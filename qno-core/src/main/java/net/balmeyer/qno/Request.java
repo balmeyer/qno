@@ -20,7 +20,7 @@ package net.balmeyer.qno;
  * @author JB Balmeyer
  *
  */
-public interface WordRequest {
+public interface Request {
 
 	/** Variable name. */
 	public String getVariableName();

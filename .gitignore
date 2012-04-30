@@ -9,3 +9,6 @@ bin
 *.jar
 *.war
 *.ear
+
+#gedit bakcup
+*~

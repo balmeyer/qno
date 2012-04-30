@@ -16,28 +16,32 @@
 package net.balmeyer.qno;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
  * @author JB Balmeyer
  *
  */
-public class QnoEngine {
+public class QnoEngine  {
 
+	private Vocabulary vocab;
+	
 	public QnoEngine(){
-		this.init();
+
+	}
+
+	public QnoEngine(Vocabulary vocab){
+		this.vocab = vocab;
 	}
 	
-	
-	
-	private void init(){
-		WordBuilder wb = new WordBuilder();
-		try {
-			wb.load("master.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public Vocabulary getVocabulary() {
+		return vocab;
+	}
+
+	public void setVocabulary(Vocabulary vocab) {
+		this.vocab = vocab;
 	}
 	
 }

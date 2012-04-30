@@ -13,62 +13,26 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-
 package net.balmeyer.qno.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import net.balmeyer.qno.Word;
-import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.Request;
 
 /**
  * 
- * @author Word Map
+ * @author vovau
  *
  */
-public class PlainWordMap implements WordBag {
+public class PlainRequest implements Request {
 
-	private String id;
-	private Random rand;
-	private List<Word> words;
+	private String id ;
 	
-	public PlainWordMap(String id){
-		this.words = new ArrayList<Word>();
-		this.rand = new Random(System.currentTimeMillis());
+	public PlainRequest(String id){
 		this.id = id;
 	}
 	
 	@Override
-	public String getID(){
+	public String getVariableName() {
 		return this.id;
 	}
-	
-	/** Add */
-	@Override
-	public void add(Word w){
-		this.words.add(w);
-	}
-	
-	/**
-	 * 
-	 */
-	@Override
-	public Word get(){
-		
-		int i = this.rand.nextInt(this.words.size());
-		
-		return words.get(i);
-	}
-	
-	/** next word */
-	@Override
-	public Word get(Request request)
-	{
-		return get();
-	}
 
-	
 }

@@ -15,15 +15,16 @@
  */
 package net.balmeyer.qno;
 
-/**
- * 
- * @author JB Balmeyer
- *
- */
-public class WordMapFactory {
+public interface WordBag extends Worder{
 
-	public WordMap build(String expression){
-		return null;
-	}
+	/** get word map name */
+	public String getID();
+	
+	/** Add */
+	public void add(Word w);
+	
+	/** */
+	public Word get();
+
 	
 }

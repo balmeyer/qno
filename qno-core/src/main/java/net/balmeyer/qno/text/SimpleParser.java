@@ -13,11 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno.impl;
+package net.balmeyer.qno.text;
 
 import net.balmeyer.qno.Word;
-import net.balmeyer.qno.text.Parser;
-import net.balmeyer.qno.text.Variable;
 
 public class SimpleParser implements Parser {
 
@@ -61,4 +59,9 @@ public class SimpleParser implements Parser {
 
 	}
 
+	@Override
+	public String toString(){
+		return this.getText();
+	}
+	
 }

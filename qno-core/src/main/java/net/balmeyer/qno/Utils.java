@@ -31,14 +31,14 @@ import net.balmeyer.qno.impl.PlainWordMap;
  * @author JB Balmeyer
  *
  */
-public class WorderBuilder {
+public class Utils {
 
 	/**
 	 * Load configuration for generating text
 	 * @param path
 	 * @throws IOException
 	 */
-	public static Worder load(String path) throws IOException{
+	public static Vocabulary load(String path) throws IOException{
 		
 		//find text pattern
 		URL url = Vocabulary.class.getClassLoader().getResource(path);
@@ -51,7 +51,7 @@ public class WorderBuilder {
 		
 		String line = "";
 		
-		WordBag patterns = new PlainWordMap("pattern");
+		WordBag patterns = new PlainWordMap(Vocabulary.PATTERN_ID);
 		
 		WordBag currentMap = patterns;
 		List<WordBag> allmaps = new ArrayList<WordBag>();
@@ -97,7 +97,9 @@ public class WorderBuilder {
 					currentExpression = new StringBuilder(line);
 				}
 				
+				if (currentExpression.length() > 0) {
 				currentMap.add(new PlainWord(currentExpression.toString()));
+				}
 
 			}
 		}

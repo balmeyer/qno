@@ -15,6 +15,9 @@
  */
 package net.balmeyer.qno;
 
+import net.balmeyer.qno.text.Parser;
+import net.balmeyer.qno.text.Variable;
+
 
 /**
  * 
@@ -46,7 +49,35 @@ public class QnoEngine  {
 	 * @return
 	 */
 	public String execute(){
-		return null;
+		return this.execute(this.getVocabulary().getPattern().toString());
+	}
+	
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public String execute(String text){
+		//instantiate a new parser
+		Parser parser = QnoFactory.newParser();
+		parser.setText(text);
+		
+		//variable
+		Variable v = null ;
+		do {
+			v = parser.nextVariable();
+			
+			if (v != null) {
+				//build request from variable
+				Request r = QnoFactory.request(v);
+				//find next word
+				Word w = this.getVocabulary().get(r);
+				//replace
+				parser.replace(v, w);
+			}
+		}while(v != null);
+		
+		return parser.toString();
 	}
 	
 }

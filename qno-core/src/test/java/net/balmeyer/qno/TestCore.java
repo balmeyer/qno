@@ -79,7 +79,12 @@ public class TestCore {
 	public void wordBuilder() {
 
 		try {
-			WorderBuilder.load("master.txt");
+			Vocabulary vocab = Utils.load("master.txt");
+			QnoEngine engine = new QnoEngine(vocab);
+			
+			String result = engine.execute();
+			System.out.println(result);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			fail("Exception : " + e.toString());

@@ -20,8 +20,9 @@ import java.io.IOException;
 import net.balmeyer.qno.impl.PlainRequest;
 import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.impl.PlainWordMap;
-import net.balmeyer.qno.impl.SimpleParser;
 import net.balmeyer.qno.text.Parser;
+import net.balmeyer.qno.text.SimpleParser;
+import net.balmeyer.qno.text.Variable;
 
 /**
  * 
@@ -49,8 +50,12 @@ public class QnoFactory {
 		return new PlainRequest(expression);
 	}
 	
-	public static Worder load(String config) throws IOException{
-		return WorderBuilder.load(config);
+	public static Request request(Variable var){
+		return request(var.getID());
+	}
+	
+	public static Vocabulary load(String config) throws IOException{
+		return Utils.load(config);
 	}
 	
 	public static Parser newParser(){

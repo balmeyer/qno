@@ -15,6 +15,8 @@
  */
 package net.balmeyer.qno;
 
+import net.balmeyer.qno.query.Query;
+
 /**
  * 
  * @author JB Balmeyer
@@ -23,6 +25,6 @@ package net.balmeyer.qno;
 public interface Worder {
 
 	/** Provide a word from word set with a wordrequest */
-	public Word get(Request request);
+	public Word get(Query request);
 	
 }

@@ -16,12 +16,18 @@
 package net.balmeyer.qno;
 
 import static net.balmeyer.qno.QnoFactory.bag;
-import static net.balmeyer.qno.QnoFactory.request;
 import static net.balmeyer.qno.QnoFactory.word;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.balmeyer.qno.query.Query;
+import net.balmeyer.qno.query.QueryFactory;
+import net.balmeyer.qno.text.Variable;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -80,7 +86,7 @@ public class TestCore {
 
 		try {
 			Vocabulary vocab = Utils.load("master.txt");
-			QnoEngine engine = new QnoEngine(vocab);
+			Qno engine = new Qno(vocab);
 			
 			String result = engine.execute();
 			System.out.println(result);
@@ -135,11 +141,66 @@ public class TestCore {
 		assertEquals(2, vocab.getMaps().size());
 		
 		//request on "a" map
-		Request request = request("a");
+		Query request = QueryFactory.query("a");
 		
 		Word w1 = vocab.get(request);
 		assertEquals("alpha", w1.toString());
 		
+	}
+	
+	@Test
+	public void testVarWithProperty(){
+		Variable v = new Variable();
+		v.setText("${test}");
+		assertEquals("test", v.getID());
+		assertEquals("${test}" , v.getText());
+		assertNull(v.getProperty());
+		
+		v.setText("${test.nm}");
+		assertEquals("test", v.getID());
+		assertEquals("nm",v.getProperty());
+		assertEquals("${test.nm}" , v.getText());
+		
+		v.setText("${.nm}");
+		assertEquals("", v.getID());
+		assertEquals("nm",v.getProperty());
+		assertEquals("${.nm}" , v.getText());
+		
+		v.setText("${.n}");
+		assertEquals("", v.getID());
+		assertEquals("n",v.getProperty());
+		assertEquals("${.n}" , v.getText());
+		
+	}
+	
+	@Test
+	public void testVocabMapManip(){
+		WordBag b1 = bag("a");
+		WordBag b2 = bag("b");
+		WordBag b3 = bag("c");
+		
+		List<WordBag> list1 = new ArrayList<WordBag>();
+		list1.add(b1);
+		list1.add(b2);
+		
+		Vocabulary v = new Vocabulary();
+		
+		v.add(list1);
+		v.add(b3);
+		
+		assertEquals(3, v.getMaps().size());
+		
+		v.add(b3);
+		assertEquals(3, v.getMaps().size());
+		
+		//test no double
+		v.add(b3);
+		assertEquals(3, v.getMaps().size());
+		
+		v.add(list1);
+		v.add(b3);
+		
+		assertEquals(3, v.getMaps().size());
 	}
 	
 }

@@ -13,36 +13,32 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno;
+package net.balmeyer.qno.query;
 
-import org.junit.Test;
+import net.balmeyer.qno.dico.EntryQuery;
+import net.balmeyer.qno.text.Variable;
 
-import static net.balmeyer.qno.QnoFactory.*;
-import static org.junit.Assert.assertEquals;
+/**
+ * Query builder
+ * @author Balmeyer
+ *
+ */
+public final class QueryFactory {
 
-public class TestEngine {
-
-	@Test
-	public void test() {
-		Qno engine = new Qno();
-		Vocabulary v = new Vocabulary();
-		
-		WordBag b1 = bag("a");
-		WordBag b2 = bag("b");
-		
-		b1.add(word("alpha"));
-		b2.add(word("beta"));
-		
-		v.add(b1);
-		v.add(b2);
-		engine.setVocabulary(v);
-		
-		String text = "hello ${a} hello ${b} hello ${a} hello ${b}";
-		
-		String result = engine.execute(text);
-		
-		assertEquals("hello alpha hello beta hello alpha hello beta",result);
-		
+	private QueryFactory() {}
+	
+	public static Query query(Variable var){
+		if (var.getProperty() != null){
+			return query(null,var.getProperty());
+		}
+		return query(var.getID());
 	}
-
+	
+	public static Query query(String expression){
+		return new SimpleQuery(expression);
+	}
+	
+	public static Query query(String name, String definition){
+		return new EntryQuery(definition);
+	}
 }

@@ -13,14 +13,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno;
+package net.balmeyer.qno.query;
 
 /**
  * Request to get a word
  * @author JB Balmeyer
  *
  */
-public interface Request {
+public interface Query {
 
 	/** Variable name. */
 	public String getVariableName();

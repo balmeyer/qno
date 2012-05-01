@@ -22,20 +22,20 @@ import java.util.Random;
 
 import net.balmeyer.qno.Word;
 import net.balmeyer.qno.WordBag;
-import net.balmeyer.qno.Request;
+import net.balmeyer.qno.query.Query;
 
 /**
  * 
  * @author Word Map
  *
  */
-public class PlainWordMap implements WordBag {
+public class WordBagImpl implements WordBag {
 
 	private String id;
 	private Random rand;
 	private List<Word> words;
 	
-	public PlainWordMap(String id){
+	public WordBagImpl(String id){
 		this.words = new ArrayList<Word>();
 		this.rand = new Random(System.currentTimeMillis());
 		this.id = id;
@@ -65,7 +65,7 @@ public class PlainWordMap implements WordBag {
 	
 	/** next word */
 	@Override
-	public Word get(Request request)
+	public Word get(Query request)
 	{
 		return get();
 	}

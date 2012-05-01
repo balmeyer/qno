@@ -13,36 +13,39 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno;
+package net.balmeyer.qno.dico;
 
-import org.junit.Test;
+import net.balmeyer.qno.Word;
 
-import static net.balmeyer.qno.QnoFactory.*;
-import static org.junit.Assert.assertEquals;
+/**
+ * 
+ * @author vovau
+ *
+ */
+public class Entry extends TypeAndGenre implements Word  {
 
-public class TestEngine {
+	private String word;
+	private String definition;
 
-	@Test
-	public void test() {
-		Qno engine = new Qno();
-		Vocabulary v = new Vocabulary();
-		
-		WordBag b1 = bag("a");
-		WordBag b2 = bag("b");
-		
-		b1.add(word("alpha"));
-		b2.add(word("beta"));
-		
-		v.add(b1);
-		v.add(b2);
-		engine.setVocabulary(v);
-		
-		String text = "hello ${a} hello ${b} hello ${a} hello ${b}";
-		
-		String result = engine.execute(text);
-		
-		assertEquals("hello alpha hello beta hello alpha hello beta",result);
-		
+
+	public Entry(String word){
+		this.word = word;
+	}
+	
+	@Override
+	public String toString(){
+		return this.word;
+	}
+	
+	public String getDefinition() {
+		return definition;
 	}
 
+	public void setDefinition(String definition) {
+		this.definition = definition;
+		TypeAndGenre.define(this, definition);
+	}
+
+
+	
 }

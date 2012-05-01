@@ -1,20 +1,41 @@
-je vois un ${animal}. Il ${verbe}.
-Cet ${animal} me ${verbe}.
+je vois un ${animal}. Il ${verbe}. la ${.nf} est une ${.nf} car un ${.nm} est un ${.nm}.
+Ce ${animal} me ${verbe}.
 {
 soudain un ${animal}.
 
-Il ${verbe}
+Il ${verbe}.
+}
+Alors le ${animal} est à ${prenom}.
+{
+un ${animal} est là car il ${verbe} un ${animal}.
 }
 
+{
+${.}
+${.}
+}
+{
+${.}
+${.}
+
+${.}
+}
 [animal]
 
 chien
 chat
 cochon
 ornithorynque
+rat
+renard
+petit ${animal}
 
 [verbe]
 mange
 regarde
-d�vore
+dévore
 conchie
+attaque
+boit
+
+@prenom.txt

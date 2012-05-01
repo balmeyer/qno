@@ -15,12 +15,13 @@
  */
 package net.balmeyer.qno;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import net.balmeyer.qno.impl.PlainRequest;
+import net.balmeyer.qno.dico.Dictionary;
+import net.balmeyer.qno.query.Query;
+import net.balmeyer.qno.query.SimpleQuery;
 
 /**
  * A Vocabulary is every data needed to generate text (pattern
@@ -29,20 +30,22 @@ import net.balmeyer.qno.impl.PlainRequest;
  */
 public class Vocabulary implements Worder {
 
-	public static final String PATTERN_ID = ".";
+	public static final String PATTERN_ID = "*";
+	public static final String DICTIONARY = "#";
 	
-	private List<WordBag> maps;
+	private Map<String,Worder> idToBag;
 	
-	private Map<String,WordBag> idToBag;
-	
+	/**
+	 * 
+	 */
 	@Override
-	public Word get(Request request) {
+	public Word get(Query request) {
 		
 		if (this.idToBag == null) {
 			throw new IllegalArgumentException("there is no data to provide !");
 		}
 		
-		WordBag bag = this.idToBag.get(request.getVariableName());
+		Worder bag = this.idToBag.get(request.getVariableName());
 		
 		if (bag == null){
 			throw new IllegalArgumentException("ID not found : " + request.getVariableName() + "[" + request 
@@ -52,38 +55,39 @@ public class Vocabulary implements Worder {
 		return bag.get(request);
 	}
 
-
 	/**
 	 * Add a map to the current list
 	 * @param map
 	 */
 	public void add(WordBag map){
-		if (this.maps == null) this.maps = new ArrayList<WordBag>();
-		this.maps.add(map);
-		this.build();
+		this.add(map.getID(), map);
+
 	}
 	
-	public void setMaps(List<WordBag> maps){
-		this.maps = maps;
-		this.build();
+	public void add(Dictionary dico){
+		this.add(DICTIONARY , dico);
 	}
 	
-	public List<WordBag> getMaps(){
-		return this.maps;
+	private void add(String name ,Worder worder){
+		if (this.idToBag == null) this.idToBag = new HashMap<String,Worder>();
+
+		this.idToBag.put(name,worder);
+	}
+	
+	public void add(Collection<WordBag> maps){
+		for(WordBag bag : maps) add(bag);
+	}
+	
+
+	public Collection<Worder> getMaps(){
+		return this.idToBag.values();
 	}
 	
 
 	public Word getPattern(){
-		return this.get(new PlainRequest(PATTERN_ID));
+		return this.get(new SimpleQuery(PATTERN_ID));
 	}
 	
-
-	private void build(){
-		this.idToBag = new HashMap<String,WordBag>();
-		for (WordBag bag : this.getMaps()){
-			this.idToBag.put(bag.getID(),bag);
-		}
-	}
 	
 	
 }

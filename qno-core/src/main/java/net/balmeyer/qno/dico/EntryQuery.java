@@ -13,26 +13,26 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno.impl;
+package net.balmeyer.qno.dico;
 
-import net.balmeyer.qno.Request;
+import net.balmeyer.qno.Vocabulary;
+import net.balmeyer.qno.query.Query;
 
-/**
- * 
- * @author vovau
- *
- */
-public class PlainRequest implements Request {
+public class EntryQuery extends TypeAndGenre implements Query {
 
-	private String id ;
+	private String expression ;
 	
-	public PlainRequest(String id){
-		this.id = id;
+	public EntryQuery(String expression){
+	
+		this.expression = expression;
+		TypeAndGenre.define(this, expression);
 	}
 	
 	@Override
 	public String getVariableName() {
-		return this.id;
+		//no var name
+		return Vocabulary.DICTIONARY;
 	}
+
 
 }

@@ -15,12 +15,14 @@
  */
 package net.balmeyer.qno;
 
+import static net.balmeyer.qno.QnoFactory.bag;
+import static net.balmeyer.qno.QnoFactory.word;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.Variable;
-import static net.balmeyer.qno.QnoFactory.*;
 
 import org.junit.Test;
 
@@ -117,7 +119,7 @@ public class TestParser {
 				
 				assertNotNull(v.getID());
 				assertNotNull(v.getText());
-				Word w = voca.get(request(v.getID()));
+				Word w = voca.get(QueryFactory.query(v.getID()));
 				
 				parser.replace(v, w);
 			}

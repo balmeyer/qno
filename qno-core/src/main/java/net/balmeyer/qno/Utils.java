@@ -19,12 +19,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balmeyer.qno.dico.Dictionary;
+import net.balmeyer.qno.dico.Entry;
 import net.balmeyer.qno.impl.PlainWord;
-import net.balmeyer.qno.impl.PlainWordMap;
+import net.balmeyer.qno.impl.WordBagImpl;
 
 /**
  * 
@@ -33,16 +36,28 @@ import net.balmeyer.qno.impl.PlainWordMap;
  */
 public class Utils {
 
+	public static Vocabulary load(String path) throws IOException {
+		//find text pattern
+		URL url = url(path);
+		Vocabulary vocab = new Vocabulary();
+		
+		add(vocab,url);
+		
+		return vocab;
+	}
+	
+	private static void add(Vocabulary vocab , String path) throws IOException{
+		URL url = Vocabulary.class.getClassLoader().getResource(path);
+		add(vocab, url);
+	}
+	
 	/**
 	 * Load configuration for generating text
 	 * @param path
 	 * @throws IOException
 	 */
-	public static Vocabulary load(String path) throws IOException{
-		
-		//find text pattern
-		URL url = Vocabulary.class.getClassLoader().getResource(path);
-		
+	private static void add(Vocabulary vocab , URL url) throws IOException{
+
 		InputStream inputStream = url.openStream();
 		
 		BufferedReader reader = new BufferedReader(
@@ -51,7 +66,7 @@ public class Utils {
 		
 		String line = "";
 		
-		WordBag patterns = new PlainWordMap(Vocabulary.PATTERN_ID);
+		WordBag patterns = new WordBagImpl(Vocabulary.PATTERN_ID);
 		
 		WordBag currentMap = patterns;
 		List<WordBag> allmaps = new ArrayList<WordBag>();
@@ -66,6 +81,12 @@ public class Utils {
 			line = reader.readLine();
 			if (line != null){
 				line = line.trim();
+				
+				//import
+				if (line.startsWith("@")){
+					add(vocab, line.substring(1));
+					continue;
+				}
 				
 				//new word
 				if (line.startsWith("[")){
@@ -105,9 +126,7 @@ public class Utils {
 		}
 		
 		//keep all maps
-		Vocabulary set = new Vocabulary();
-		set.setMaps(allmaps);
-		return set;
+		vocab.add(allmaps);
 		
 	}
 	
@@ -117,9 +136,30 @@ public class Utils {
 	 * @return
 	 */
 	private static WordBag newWordMap(String expression){
-		WordBag map = new PlainWordMap(expression.replace("[", "").replace("]","").trim());
+		WordBag map = new WordBagImpl(expression.replace("[", "").replace("]","").trim());
 		return map;
 	}
 	
+	private static URL url(String path){
+		return Utils.class.getClassLoader().getResource(path);
+	}
 	
+	public static Dictionary build(String resource) throws UnsupportedEncodingException, IOException{
+		Dictionary d = new Dictionary();
+		URL url = url(resource);
+		InputStreamReader isr = new InputStreamReader(url.openStream(),"ISO-8859-1");
+		BufferedReader reader = new BufferedReader(isr);
+		
+		do {
+			String line = reader.readLine();
+			if (line == null) break;
+			String [] words = line.split("\t");
+			if (words[1].equals("null")) continue;
+			Entry e = Dictionary.buildEntry(words[0], words[1]);
+			d.add(e);
+			
+		} while(true);
+		
+		return d;
+	}
 }

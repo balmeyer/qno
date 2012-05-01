@@ -15,6 +15,9 @@
  */
 package net.balmeyer.qno;
 
+import net.balmeyer.qno.query.Query;
+import net.balmeyer.qno.query.QueryFactory;
+import net.balmeyer.qno.text.Formater;
 import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.Variable;
 
@@ -24,15 +27,17 @@ import net.balmeyer.qno.text.Variable;
  * @author JB Balmeyer
  *
  */
-public class QnoEngine  {
+public class Qno  {
 
 	private Vocabulary vocab;
 	
-	public QnoEngine(){
+	private Formater formater;
+	
+	public Qno(){
 
 	}
 
-	public QnoEngine(Vocabulary vocab){
+	public Qno(Vocabulary vocab){
 		this.vocab = vocab;
 	}
 	
@@ -44,6 +49,14 @@ public class QnoEngine  {
 		this.vocab = vocab;
 	}
 	
+	public Formater getFormater() {
+		return formater;
+	}
+
+	public void setFormater(Formater formater) {
+		this.formater = formater;
+	}
+
 	/**
 	 * Execute text !
 	 * @return
@@ -69,13 +82,15 @@ public class QnoEngine  {
 			
 			if (v != null) {
 				//build request from variable
-				Request r = QnoFactory.request(v);
+				Query r = QueryFactory.query(v);
 				//find next word
 				Word w = this.getVocabulary().get(r);
 				//replace
 				parser.replace(v, w);
 			}
 		}while(v != null);
+		
+		if (this.formater != null) return this.formater.format(parser.toString());
 		
 		return parser.toString();
 	}

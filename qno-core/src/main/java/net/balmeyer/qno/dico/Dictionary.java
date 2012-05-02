@@ -15,6 +15,11 @@
  */
 package net.balmeyer.qno.dico;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,19 +28,58 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import net.balmeyer.qno.Utils;
+import net.balmeyer.qno.Vocabulary;
 import net.balmeyer.qno.Word;
-import net.balmeyer.qno.Worder;
+import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
 
-public class Dictionary implements Worder {
+public final class Dictionary implements WordBag {
 
+	private static final String DICTIONARY_RESOURCE = "dictionary.txt";
+	
 	private Set<Entry> entries ;
 	private Map<String,List<Entry>> selected;
 	private Random rand;
 	
+
+	
 	public Dictionary(){
 		this.entries = new HashSet<Entry>();
 		this.rand = new Random(System.currentTimeMillis());
+	}
+	
+	@Override
+	public void addRawData(String data){
+		
+		if (data == null || data.startsWith("[")) return;
+		
+		String [] words = data.split("\t");
+		if (words[1].equals("null")) return;
+		
+		Entry e = Dictionary.buildEntry(words[0], words[1]);
+		this.add(e);
+	}
+	
+	/**
+	 * Load resource
+	 * @param resource
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
+	public void loadResource(String resource) throws UnsupportedEncodingException, IOException{
+
+		URL url = Utils.url(resource);
+		InputStreamReader isr = new InputStreamReader(url.openStream(),"ISO-8859-1");
+		BufferedReader reader = new BufferedReader(isr);
+		
+		do {
+			String line = reader.readLine();
+			if (line == null) break;
+			this.addRawData(line);
+			
+		} while(true);
+
 	}
 
 	public Set<Entry> getEntries(){
@@ -55,6 +99,28 @@ public class Dictionary implements Worder {
 		return e;
 	}
 	
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return Vocabulary.DICTIONARY;
+	}
+
+	@Override
+	public void setID(String id){
+		//
+	}
+	
+	@Override
+	public void add(Word w) {
+		// TODO Auto-generated method stub
+		this.add((Entry) w);
+	}
+
+	@Override
+	public Word get() {
+		// TODO Auto-generated method stub
+		return get(new EntryQuery(""));
+	}
 	
 	public void add(Entry e){
 		this.entries.add(e);
@@ -78,11 +144,14 @@ public class Dictionary implements Worder {
 		return null;
 	}
 	
-	
+	/**
+	 * Build lists
+	 */
 	private void build(){
 		this.selected = new HashMap<String,List<Entry>>();
 		
 		for(Entry e : this.entries){
+			//
 			String key = getKey(e);
 			List<Entry> list = this.selected.get(key);
 			if (list == null ){
@@ -92,10 +161,21 @@ public class Dictionary implements Worder {
 			list.add(e);
 		}
 		
+		//build complete list of "nom" (name)
+		String key = Type.nom.toString();
+		
+		ArrayList<Entry> allNames = new ArrayList<Entry>();
+		allNames.addAll(this.selected.get(Type.nom + "-" + Genre.masculin));
+		allNames.addAll(this.selected.get(Type.nom + "-" + Genre.feminin));
+		this.selected.put(key,allNames);
 	}
 	
 	private String getKey(TypeAndGenre tag){
+		
+		if (tag.getGenre() == null) return tag.getType().toString();
 		return tag.getType() + "-" + tag.getGenre();
 	}
+
+
 	
 }

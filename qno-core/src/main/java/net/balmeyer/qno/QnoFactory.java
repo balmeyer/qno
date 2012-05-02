@@ -34,14 +34,7 @@ public class QnoFactory {
 
 	private QnoFactory(){}
 	
-	/**
-	 * Build simple word bag
-	 * @param expression
-	 * @return
-	 */
-	public static WordBag bag(String expression){
-		return new WordBagImpl(expression);
-	}
+
 	
 	public static Word word(String expression){
 		return new PlainWord(expression);

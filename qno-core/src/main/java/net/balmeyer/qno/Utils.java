@@ -34,8 +34,14 @@ import net.balmeyer.qno.impl.WordBagImpl;
  * @author JB Balmeyer
  *
  */
-public class Utils {
+public final class Utils {
 
+	private Utils(){}
+	
+	public static void check(boolean expression, String msg){
+		if (!expression) throw new IllegalArgumentException(msg);
+	}
+	
 	public static Vocabulary load(String path) throws IOException {
 		//find text pattern
 		URL url = url(path);
@@ -66,7 +72,8 @@ public class Utils {
 		
 		String line = "";
 		
-		WordBag patterns = new WordBagImpl(Vocabulary.PATTERN_ID);
+		WordBag patterns = new WordBagImpl();
+		patterns.setID(Vocabulary.PATTERN_ID);
 		
 		WordBag currentMap = patterns;
 		List<WordBag> allmaps = new ArrayList<WordBag>();
@@ -90,7 +97,7 @@ public class Utils {
 				
 				//new word
 				if (line.startsWith("[")){
-					currentMap = newWordMap(line);
+					currentMap = (WordBag) WorderFactory.bag(line);
 					allmaps.add(currentMap);
 					continue;
 				}
@@ -119,7 +126,7 @@ public class Utils {
 				}
 				
 				if (currentExpression.length() > 0) {
-				currentMap.add(new PlainWord(currentExpression.toString()));
+				currentMap.addRawData(currentExpression.toString());
 				}
 
 			}
@@ -130,36 +137,9 @@ public class Utils {
 		
 	}
 	
-	/**
-	 * Build simple map
-	 * @param expression
-	 * @return
-	 */
-	private static WordBag newWordMap(String expression){
-		WordBag map = new WordBagImpl(expression.replace("[", "").replace("]","").trim());
-		return map;
-	}
-	
-	private static URL url(String path){
+	public static URL url(String path){
 		return Utils.class.getClassLoader().getResource(path);
 	}
 	
-	public static Dictionary build(String resource) throws UnsupportedEncodingException, IOException{
-		Dictionary d = new Dictionary();
-		URL url = url(resource);
-		InputStreamReader isr = new InputStreamReader(url.openStream(),"ISO-8859-1");
-		BufferedReader reader = new BufferedReader(isr);
-		
-		do {
-			String line = reader.readLine();
-			if (line == null) break;
-			String [] words = line.split("\t");
-			if (words[1].equals("null")) continue;
-			Entry e = Dictionary.buildEntry(words[0], words[1]);
-			d.add(e);
-			
-		} while(true);
-		
-		return d;
-	}
+
 }

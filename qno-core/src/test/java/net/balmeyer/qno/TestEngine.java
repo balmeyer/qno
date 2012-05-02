@@ -15,10 +15,11 @@
  */
 package net.balmeyer.qno;
 
-import org.junit.Test;
-
-import static net.balmeyer.qno.QnoFactory.*;
+import static net.balmeyer.qno.QnoFactory.word;
+import static net.balmeyer.qno.WorderFactory.bag;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class TestEngine {
 

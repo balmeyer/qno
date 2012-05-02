@@ -34,5 +34,9 @@ public class EntryQuery extends TypeAndGenre implements Query {
 		return Vocabulary.DICTIONARY;
 	}
 
+	@Override
+	public String toString(){
+		return this.expression;
+	}
 
 }

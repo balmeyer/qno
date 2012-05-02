@@ -20,6 +20,11 @@ public interface WordBag extends Worder{
 	/** get word map name */
 	public String getID();
 	
+	public void setID(String id);
+	
+	/** Add raw data*/
+	public void addRawData(String data);
+	
 	/** Add */
 	public void add(Word w);
 	

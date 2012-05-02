@@ -35,15 +35,25 @@ public class WordBagImpl implements WordBag {
 	private Random rand;
 	private List<Word> words;
 	
-	public WordBagImpl(String id){
+	public WordBagImpl(){
 		this.words = new ArrayList<Word>();
 		this.rand = new Random(System.currentTimeMillis());
-		this.id = id;
 	}
+	
 	
 	@Override
 	public String getID(){
 		return this.id;
+	}
+	
+	@Override
+	public void setID(String id){
+		this.id = id;
+	}
+	
+	@Override
+	public void addRawData(String data){
+		this.add(new PlainWord(data));
 	}
 	
 	/** Add */

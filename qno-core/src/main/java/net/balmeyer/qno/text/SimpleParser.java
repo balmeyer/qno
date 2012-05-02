@@ -15,6 +15,7 @@
  */
 package net.balmeyer.qno.text;
 
+import net.balmeyer.qno.Utils;
 import net.balmeyer.qno.Word;
 
 public class SimpleParser implements Parser {
@@ -55,6 +56,8 @@ public class SimpleParser implements Parser {
 
 	@Override
 	public void replace(Variable var, Word word) {
+		Utils.check(var != null , "Var must not be null");
+		Utils.check(word != null, "word must not be null");
 		this.text.replace(var.getStart(), var.getEnd()+1, word.toString());
 
 	}

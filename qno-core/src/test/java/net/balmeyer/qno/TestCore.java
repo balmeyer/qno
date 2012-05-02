@@ -15,10 +15,9 @@
  */
 package net.balmeyer.qno;
 
-import static net.balmeyer.qno.QnoFactory.bag;
 import static net.balmeyer.qno.QnoFactory.word;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.util.List;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.Variable;
+import static net.balmeyer.qno.WorderFactory.bag;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -87,6 +87,9 @@ public class TestCore {
 		try {
 			Vocabulary vocab = Utils.load("master.txt");
 			Qno engine = new Qno(vocab);
+			
+			//add dictionary
+			
 			
 			String result = engine.execute();
 			System.out.println(result);
@@ -162,12 +165,12 @@ public class TestCore {
 		assertEquals("${test.nm}" , v.getText());
 		
 		v.setText("${.nm}");
-		assertEquals("", v.getID());
+		assertEquals(Vocabulary.DICTIONARY, v.getID());
 		assertEquals("nm",v.getProperty());
 		assertEquals("${.nm}" , v.getText());
 		
 		v.setText("${.n}");
-		assertEquals("", v.getID());
+		assertEquals(Vocabulary.DICTIONARY, v.getID());
 		assertEquals("n",v.getProperty());
 		assertEquals("${.n}" , v.getText());
 		

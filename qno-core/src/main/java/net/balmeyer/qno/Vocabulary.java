@@ -48,11 +48,20 @@ public class Vocabulary implements Worder {
 		Worder bag = this.idToBag.get(request.getVariableName());
 		
 		if (bag == null){
+			
+			if (request.getVariableName().equals(Vocabulary.DICTIONARY)){
+				throw new IllegalArgumentException("No Dictionary was provided");
+			}
+			
 			throw new IllegalArgumentException("ID not found : " + request.getVariableName() + "[" + request 
 					+"]");
 		}
 
-		return bag.get(request);
+		Word w = bag.get(request);
+		
+		Utils.check(w != null , "Word is null. Request : " + request);
+		
+		return w;
 	}
 
 	/**

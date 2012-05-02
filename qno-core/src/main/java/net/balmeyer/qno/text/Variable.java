@@ -15,6 +15,8 @@
  */
 package net.balmeyer.qno.text;
 
+import net.balmeyer.qno.Vocabulary;
+
 public class Variable {
 
 	private String ID;
@@ -24,28 +26,11 @@ public class Variable {
 	private int end;
 	
 	public String getID() {
-		if (ID == null && text != null){
-			//bulld id
-			String inside = text.substring(text.indexOf("{")+1);
-			inside = inside.substring(0 , inside.indexOf("}")).toLowerCase();
-			
-			if (inside.indexOf(".") >= 0){
-				this.ID = inside.substring(0, inside.indexOf("."));
-				this.property = inside.substring(inside.indexOf(".")+1);
-			} else {
-				this.ID = inside;
-			}
-			
-		}
 		return this.ID;
 	}
 
 	public String getProperty() {
 		return property;
-	}
-
-	public void setProperty(String property) {
-		this.property = property;
 	}
 
 	public String getText() {
@@ -54,6 +39,7 @@ public class Variable {
 	public void setText(String text) {
 		this.text = text;
 		this.ID = null;
+		this.build();
 	}
 	public int getStart() {
 		return start;
@@ -68,5 +54,27 @@ public class Variable {
 		this.end = end;
 	}
 
+	@Override
+	public String toString(){
+		return this.getText();
+	}
 	
+	
+	private void build(){
+
+		//bulld id
+		String inside = text.substring(text.indexOf("{")+1);
+		inside = inside.substring(0 , inside.indexOf("}")).toLowerCase();
+		
+		if (inside.indexOf(".") >= 0){
+			this.ID = inside.substring(0, inside.indexOf("."));
+			this.property = inside.substring(inside.indexOf(".")+1);
+			//dictionary
+			if (this.ID.length() == 0) this.ID = Vocabulary.DICTIONARY;
+		} else {
+			this.ID = inside;
+		}
+		
+		
+	}
 }

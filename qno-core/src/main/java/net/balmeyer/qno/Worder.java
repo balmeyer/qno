@@ -27,4 +27,5 @@ public interface Worder {
 	/** Provide a word from word set with a wordrequest */
 	public Word get(Query request);
 	
+
 }

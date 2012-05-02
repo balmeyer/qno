@@ -102,7 +102,8 @@ public class TestDictionary {
 	
 	@Test
 	public void testAddVocabulary() throws UnsupportedEncodingException, IOException{
-		Dictionary d = Utils.build("dictionary.txt");
+		Dictionary d = new Dictionary();
+		d.loadResource("dictionary.txt");
 		Vocabulary v = new Vocabulary();
 		
 		v.add(d);
@@ -112,13 +113,17 @@ public class TestDictionary {
 		
 		Word w2 = v.get(QueryFactory.query(".","nm"));
 		assertNotNull(w2);
+		
+		Word w3 = v.get(new EntryQuery("n"));
+		assertNotNull(w3);
 	}
 	
 	
 	
 	@Test
 	public void testBuildAll() throws UnsupportedEncodingException, IOException{
-		Dictionary d = Utils.build("dictionary.txt");
+		Dictionary d = new Dictionary();
+		d.loadResource("dictionary.txt");
 		
 		assertTrue(d.getEntries().size() > 1000);
 		
@@ -137,7 +142,7 @@ public class TestDictionary {
 		
 		//-----
 		Variable v = new Variable();
-		v.setProperty("nf");
+		v.setText("${.nf}");
 		r = QueryFactory.query(v);
 		assertNotNull(r);
 		assertEquals(Vocabulary.DICTIONARY, r.getVariableName());

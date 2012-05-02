@@ -18,12 +18,8 @@ package net.balmeyer.qno;
 import java.io.IOException;
 
 import net.balmeyer.qno.impl.PlainWord;
-import net.balmeyer.qno.impl.WordBagImpl;
-import net.balmeyer.qno.query.SimpleQuery;
-import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.SimpleParser;
-import net.balmeyer.qno.text.Variable;
 
 /**
  * 

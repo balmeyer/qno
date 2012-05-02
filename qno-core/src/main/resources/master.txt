@@ -1,28 +1,29 @@
 @dictionary.txt
 je vois un ${animal}. Il ${verbe}. la ${.nf} est une ${.nf} car un ${.nm} est un ${.nm}.
 Ce ${animal} me ${verbe}.
-{
+<
 soudain un ${animal}.
 
 Il ${verbe}. Un ${.nm}.
-}
+>
 Alors le ${animal} est à ${prenom}. Attention ! ${.n} !
-{
+<
 un ${animal} est là car il ${verbe} un ${animal}.
 Une ${.nf}.
-}
+>
 
-{
+<
 ${*}
 ${*}
-}
-{
+>
+<
 ${*}
 ${*}
 
 ${*}
-}
-[animal]
+>
+
+%animal
 
 chien
 chat
@@ -32,7 +33,7 @@ rat
 renard
 petit ${animal}
 
-[verbe]net.balmeyer.qno.impl.WordBagImpl
+%verbe net.balmeyer.qno.impl.WordBagImpl
 mange
 regarde
 dévore

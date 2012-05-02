@@ -28,12 +28,18 @@ public class WorderFactory {
 
 	public static WordBag bag(String expression){
 		
-		if (!expression.contains("[")) return bag(expression, "");
+		//remove %
+		String name = expression.replace("%","").trim();
 		
-		String name = expression.substring(1, expression.indexOf("]"));
+		if (!expression.contains(" ")) return bag(name, "");
+		
+		///
+		name = name.substring(0, name.indexOf(" ")+1).trim();
+		
+		
 		String claz = null;
-		if (expression.indexOf("]") < expression.length()){
-			claz = expression.substring(expression.indexOf("]")+1);
+		if (expression.indexOf(" ") < expression.length()){
+			claz = expression.substring(expression.indexOf(" ")+1);
 		}
 		
 		return bag(name, claz);
@@ -56,7 +62,11 @@ public class WorderFactory {
 		
 	}
 	
-	public static WordBag bag(String name , Class claz){
+	public static WordBag patterns(){
+		return bag(Vocabulary.PATTERN_ID, "");
+	}
+	
+	public static WordBag bag(String name , @SuppressWarnings("rawtypes") Class claz){
 		WordBag bag = null;
 		try {
 			//new instance

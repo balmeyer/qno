@@ -36,7 +36,7 @@ import net.balmeyer.qno.query.Query;
 
 public final class Dictionary implements WordBag {
 
-	private static final String DICTIONARY_RESOURCE = "dictionary.txt";
+	//private static final String DICTIONARY_RESOURCE = "dictionary.txt";
 	
 	private Set<Entry> entries ;
 	private Map<String,List<Entry>> selected;
@@ -52,7 +52,7 @@ public final class Dictionary implements WordBag {
 	@Override
 	public void addRawData(String data){
 		
-		if (data == null || data.startsWith("[")) return;
+		if (data == null || data.startsWith("%")) return;
 		
 		String [] words = data.split("\t");
 		if (words[1].equals("null")) return;

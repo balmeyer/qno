@@ -19,14 +19,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.balmeyer.qno.dico.Dictionary;
-import net.balmeyer.qno.dico.Entry;
-import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.impl.WordBagImpl;
 
 /**
@@ -96,14 +92,14 @@ public final class Utils {
 				}
 				
 				//new word
-				if (line.startsWith("[")){
+				if (line.startsWith("%")){
 					currentMap = (WordBag) WorderFactory.bag(line);
 					allmaps.add(currentMap);
 					continue;
 				}
 				
 				//new pattern
-				if (line.equals("{")){
+				if (line.equals("<")){
 					inExpression = true;
 					currentExpression.setLength(0);
 					continue;
@@ -111,7 +107,7 @@ public final class Utils {
 
 				if (inExpression) {
 					//end of expression
-					if (line.equals("}")){
+					if (line.equals(">")){
 						inExpression = false;
 					} else {
 						if (currentExpression.length() > 0) currentExpression.append("\r\n");

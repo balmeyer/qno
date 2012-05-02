@@ -33,9 +33,7 @@ import net.balmeyer.qno.text.Variable;
 public class QnoFactory {
 
 	private QnoFactory(){}
-	
 
-	
 	public static Word word(String expression){
 		return new PlainWord(expression);
 	}

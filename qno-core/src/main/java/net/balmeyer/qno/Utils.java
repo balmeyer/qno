@@ -67,7 +67,7 @@ public final class Utils {
 		InputStream inputStream = url.openStream();
 		
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(inputStream)
+				new InputStreamReader(inputStream, "UTF-8")
 				);
 		
 		String line = "";

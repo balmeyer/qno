@@ -83,7 +83,11 @@ public class Root {
 	private Node analyze(String text, int start, int end) {
 		String inside = text.substring(start + 1, end);
 
-		return this.analyze(inside);
+		Node n = this.analyze(inside);
+		n.setStart(start);
+		n.setEnd(end);
+		
+		return n;
 	}
 
 }

@@ -30,6 +30,9 @@ public class Node {
 	private String text;
 	private boolean optional ;
 	private Node parent;
+	
+	private int start;
+	private int end;
 
 	private List<Node> children;
 	
@@ -70,12 +73,27 @@ public class Node {
 	public void addChild(Node node){
 		node.setParent(this);
 		this.children.add(node);
-		
 
 	}
 	
 	public List<Node> getChildren(){
 		return this.children;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
 	}
 
 }

@@ -36,18 +36,103 @@ public class Root {
 
 	}
 
+	
+	public List<Node> buildOrNodes(String text){
+		
+		boolean intext = true;
+		int level = 0;
+		StringBuilder sb = new StringBuilder();
+		
+		List<Node> currentNode = new ArrayList<Node>();
+		
+		for (int i = 0; i < text.length(); i++) {
+			
+			char c = text.charAt(i);
+			
+			if (c == '|' && intext && sb.length() > 0){
+				Node n = new Node();
+				n.setText(sb.toString());
+				sb.setLength(0);
+				currentNode.add(n);
+				continue;
+			}
+			
+			//
+			for (Marker m : this.markers) {
+				if (m.start == c) {
+					level++;
+					intext = false;
+					break;
+				}
+
+				if (c == m.end) {
+					level--;
+					if (level == 0) {
+						intext = true;
+						
+					} 
+					break;
+				}
+			}
+			
+			
+			if (intext){
+				sb.append(c);
+			}
+
+			
+		}
+		
+		//final node
+		if (sb.length() > 0){
+			Node n = new Node();
+			n.setText(sb.toString());
+			currentNode.add(n);
+		
+		}
+		
+		
+		//examine sub nodes
+		for(Node n : currentNode){
+			n.addChildren(buildOrNodes(n.getText()));
+			
+		}
+		
+		
+		return currentNode;
+		
+	}
+	
 	public Node analyze(String text) {
 		// current node
 		Node doc = new Node();
 		doc.setText(text);
+		
+		StringBuilder sb = new StringBuilder();
 
+		boolean insideVar = false;
 		int start = -1;
 		Marker currentMark = null;
 		int level = 0;
 
 		for (int i = 0; i < text.length(); i++) {
+			
 			char c = text.charAt(i);
+			
 
+			if (c == '$'){
+				insideVar = true;
+				continue;
+			}
+			
+			if (insideVar){
+				if (c == '{') continue;
+				if (c == '}'){
+					insideVar = false;
+					continue;
+				}
+			}
+			
 			for (Marker m : this.markers) {
 				if (m.start == c) {
 					if (m.equals(currentMark))
@@ -75,6 +160,8 @@ public class Root {
 				}
 			}
 
+			//
+			
 		}
 
 		return doc;

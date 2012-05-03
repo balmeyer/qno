@@ -15,8 +15,11 @@
  */
 package net.balmeyer.qno;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+
 import net.balmeyer.qno.pattern.Node;
 import net.balmeyer.qno.pattern.Root;
 
@@ -25,8 +28,36 @@ import org.junit.Test;
 public class TestPattern {
 
 	@Test
+	public void testOrPattern(){
+		String pattern = "hello !";
+		Root r = new Root();
+		List<Node> nodes = r.buildOrNodes(pattern);
+		
+		assertEquals(pattern, nodes.toString());
+		assertEquals(1, nodes.size());
+		
+		pattern = "hello ! | hallu";
+		nodes = r.buildOrNodes(pattern);
+		
+		assertEquals(pattern, nodes.toString());
+		assertEquals(2, nodes.size());
+		
+		pattern = "hello ! | hallu | [prout | pipi]";
+		nodes = r.buildOrNodes(pattern);
+		
+		assertEquals(pattern, nodes.toString());
+		assertEquals(3, nodes.size());
+		
+		pattern = "hello ! | hallu {caca | cucu} | [prout | pipi]";
+		nodes = r.buildOrNodes(pattern);
+		
+		assertEquals(pattern, nodes.toString());
+		assertEquals(3, nodes.size());
+	}
+	
+	@Test
 	public void testNodeSimple() {
-		String pattern = "hello [, hello ]!";
+		String pattern = "hello [, hello ]! ${world}.";
 		
 		Qno q = new Qno();
 		q.setVocabulary(new Vocabulary());
@@ -58,7 +89,7 @@ public class TestPattern {
 		assertEquals(pattern, node.toString());
 		
 		//under node
-		pattern = "hello [, hello ]! [deux [pouet]] x {trois | quatre [hello {caca}] } [cinq [1][2]{3}]";
+		pattern = "hello ${pouet} [, hello ]! [deux [pouet]] x {trois | quatre [hello {caca}] } [cinq [1][2]{3}]";
 		node = r.analyze(pattern);
 		assertNotNull(node.getChildren());
 		assertEquals(4 , node.getChildren().size());

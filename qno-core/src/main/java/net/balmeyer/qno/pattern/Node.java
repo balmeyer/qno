@@ -73,7 +73,10 @@ public class Node {
 	public void addChild(Node node){
 		node.setParent(this);
 		this.children.add(node);
-
+	}
+	
+	public void addChildren(Collection<Node> nodes){
+		for(Node n : nodes) addChild(n);
 	}
 	
 	public List<Node> getChildren(){

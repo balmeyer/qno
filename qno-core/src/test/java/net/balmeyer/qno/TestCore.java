@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
+import net.balmeyer.qno.text.SimpleFormater;
 import net.balmeyer.qno.text.Variable;
 import static net.balmeyer.qno.WordSourceFactory.bag;
 
@@ -87,6 +88,7 @@ public class TestCore {
 		try {
 			Vocabulary vocab = QnoFactory.load("master.txt");
 			Qno engine = new Qno(vocab);
+			engine.addFormater(new SimpleFormater());
 			
 			//add dictionary
 			

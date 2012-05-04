@@ -15,8 +15,9 @@
  */
 package net.balmeyer.qno;
 
-import net.balmeyer.qno.pattern.PatternBuilder;
-import net.balmeyer.qno.pattern.PatternBuilderFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.Formater;
@@ -33,7 +34,7 @@ public class Qno  {
 
 	private Vocabulary vocab;
 	
-	private Formater formater;
+	private List<Formater> formaters = new ArrayList<Formater>();;
 	
 	public Qno(){
 
@@ -51,12 +52,12 @@ public class Qno  {
 		this.vocab = vocab;
 	}
 	
-	public Formater getFormater() {
-		return formater;
+	public List<Formater> getFormater() {
+		return formaters;
 	}
 
-	public void setFormater(Formater formater) {
-		this.formater = formater;
+	public void addFormater(Formater formater) {
+		this.formaters.add(formater);
 	}
 
 	/**
@@ -93,9 +94,13 @@ public class Qno  {
 			}
 		}while(v != null);
 		
-		if (this.formater != null) return this.formater.format(parser.toString());
-		
-		return parser.toString();
+		//format final text
+		StringBuilder formated = new StringBuilder(parser.toString());
+		for(Formater f : this.formaters){
+			f.format(formated);
+		}
+
+		return formated.toString();
 	}
 	
 }

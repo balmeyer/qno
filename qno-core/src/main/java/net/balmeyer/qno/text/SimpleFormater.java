@@ -18,8 +18,36 @@ package net.balmeyer.qno.text;
 public class SimpleFormater implements Formater {
 
 	@Override
-	public String format(String text){
-		//TODO implements this
-		return text;
+	public void format(StringBuilder sb){
+
+		//
+		boolean startQuote = true;
+		
+		//MAJUSCULE
+		for(int i = 0 ; i < sb.length(); i++){
+			char c = sb.charAt(i);
+			
+			if (c == ' ') continue;
+			
+			if (c == '.' || c == '\n'){
+				startQuote = true;
+				continue;
+			}
+			
+			if (startQuote){
+				sb.setCharAt(i, Character.toUpperCase(c));
+				startQuote = false;
+			}
+			
+		}
+		
+		//DOUBLE SPACE
+		int a = 0;
+		while (a >= 0){
+			a = sb.indexOf("  ");
+			if (a >= 0){
+				sb.replace(a, a + 1, "");
+			}
+		}
 	}
 }

@@ -16,12 +16,12 @@
 package net.balmeyer.qno.text;
 
 /**
- * Format text
+ * Format final text to enhance presentation.
  * @author Balmeyer
  *
  */
 public interface Formater {
 
-	public String format(String text);
+	public void format(StringBuilder text);
 	
 }

@@ -15,9 +15,16 @@
  */
 package net.balmeyer.qno;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.balmeyer.qno.impl.PlainWord;
+import net.balmeyer.qno.impl.WordBagImpl;
 import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.SimpleParser;
 
@@ -34,14 +41,111 @@ public class QnoFactory {
 		return new PlainWord(expression);
 	}
 
-
-	public static Vocabulary load(String config) throws IOException{
-		return Utils.load(config);
-	}
-	
 	
 	public static Parser newParser(){
 		return new SimpleParser();
+	}
+	
+
+	/**
+	 * Load Vocabulary since a configuration file
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	public static Vocabulary load(String path) throws IOException {
+		//find text pattern
+		URL url = Utils.url(path);
+		Vocabulary vocab = new Vocabulary();
+		
+		add(vocab,url);
+		
+		return vocab;
+	}
+	
+	private static void add(Vocabulary vocab , String path) throws IOException{
+		URL url = Vocabulary.class.getClassLoader().getResource(path);
+		add(vocab, url);
+	}
+	
+	/**
+	 * Load configuration for generating text
+	 * @param path
+	 * @throws IOException
+	 */
+	private static void add(Vocabulary vocab , URL url) throws IOException{
+
+		InputStream inputStream = url.openStream();
+		
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(inputStream, "UTF-8")
+				);
+		
+		String line = "";
+		
+		WordBag patterns = new WordBagImpl();
+		patterns.setID(Vocabulary.PATTERN_ID);
+		
+		WordBag currentMap = patterns;
+		List<WordBag> allmaps = new ArrayList<WordBag>();
+		allmaps.add(patterns);
+
+		//current expression
+		StringBuilder currentExpression = new StringBuilder();
+		boolean inExpression = false;
+		
+		//read line
+		while (line != null){
+			line = reader.readLine();
+			if (line != null){
+				line = line.trim();
+				
+				//import
+				if (line.startsWith("@")){
+					add(vocab, line.substring(1));
+					continue;
+				}
+				
+				//new word
+				if (line.startsWith("%")){
+					currentMap = (WordBag) WordSourceFactory.bag(line);
+					allmaps.add(currentMap);
+					continue;
+				}
+				
+				//new pattern
+				if (line.equals("<")){
+					inExpression = true;
+					currentExpression.setLength(0);
+					continue;
+				}
+
+				if (inExpression) {
+					//end of expression
+					if (line.equals(">")){
+						inExpression = false;
+					} else {
+						if (currentExpression.length() > 0) currentExpression.append("\r\n");
+						currentExpression.append(line);
+						
+						continue;
+					}
+				}
+				else {
+					//simple line
+					currentExpression = new StringBuilder(line);
+				}
+				
+				if (currentExpression.length() > 0) {
+				currentMap.addRawData(currentExpression.toString());
+				}
+
+			}
+		}
+		
+		//keep all maps
+		vocab.add(allmaps);
+		
 	}
 	
 }

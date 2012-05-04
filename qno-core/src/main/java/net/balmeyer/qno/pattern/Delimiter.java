@@ -15,16 +15,32 @@
  */
 package net.balmeyer.qno.pattern;
 
-public class Marker {
+public class Delimiter {
 
 	public char start;
 	public char end;
 
-	public Marker(){}
+	private Occurence occurence;
 	
-	public Marker(char start, char end){
+	public Delimiter(){}
+	
+	public Delimiter(char start, char end, int min , int max){
 		this.start = start;
 		this.end = end;
+		this.setOccurence(new Occurence(min, max));
+	}
+
+	/**
+	 * Occurence associated with this marker.
+	 * Determine how the data inside marker are optional or not
+	 * @return
+	 */
+	public Occurence getOccurence() {
+		return occurence;
+	}
+
+	public void setOccurence(Occurence occurence) {
+		this.occurence = occurence;
 	}
 	
 }

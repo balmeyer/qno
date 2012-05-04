@@ -28,12 +28,12 @@ import net.balmeyer.qno.query.SimpleQuery;
  * @author JB Balmeyer
  *
  */
-public class Vocabulary implements Worder {
+public class Vocabulary implements WordSource {
 
 	public static final String PATTERN_ID = "*";
 	public static final String DICTIONARY = "#";
 	
-	private Map<String,Worder> idToBag;
+	private Map<String,WordSource> idToBag;
 	
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class Vocabulary implements Worder {
 			throw new IllegalArgumentException("there is no data to provide !");
 		}
 		
-		Worder bag = this.idToBag.get(request.getVariableName());
+		WordSource bag = this.idToBag.get(request.getVariableName());
 		
 		if (bag == null){
 			
@@ -77,8 +77,8 @@ public class Vocabulary implements Worder {
 		this.add(DICTIONARY , dico);
 	}
 	
-	private void add(String name ,Worder worder){
-		if (this.idToBag == null) this.idToBag = new HashMap<String,Worder>();
+	private void add(String name ,WordSource worder){
+		if (this.idToBag == null) this.idToBag = new HashMap<String,WordSource>();
 
 		this.idToBag.put(name,worder);
 	}
@@ -88,7 +88,7 @@ public class Vocabulary implements Worder {
 	}
 	
 
-	public Collection<Worder> getMaps(){
+	public Collection<WordSource> getMaps(){
 		return this.idToBag.values();
 	}
 	

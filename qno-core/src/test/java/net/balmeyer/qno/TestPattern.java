@@ -15,90 +15,95 @@
  */
 package net.balmeyer.qno;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
-import net.balmeyer.qno.pattern.Node;
-import net.balmeyer.qno.pattern.Root;
+import net.balmeyer.qno.pattern.PatternBuilder;
 
 import org.junit.Test;
 
 public class TestPattern {
 
 	@Test
-	public void testOrPattern(){
+	public void testPattern() {
 		String pattern = "hello !";
-		Root r = new Root();
-		List<Node> nodes = r.buildOrNodes(pattern);
-		
-		assertEquals(pattern, nodes.toString());
-		assertEquals(1, nodes.size());
-		
-		pattern = "hello ! | hallu";
-		nodes = r.buildOrNodes(pattern);
-		
-		assertEquals(pattern, nodes.toString());
-		assertEquals(2, nodes.size());
-		
-		pattern = "hello ! | hallu | [prout | pipi]";
-		nodes = r.buildOrNodes(pattern);
-		
-		assertEquals(pattern, nodes.toString());
-		assertEquals(3, nodes.size());
-		
-		pattern = "hello ! | hallu {caca | cucu} | [prout | pipi]";
-		nodes = r.buildOrNodes(pattern);
-		
-		assertEquals(pattern, nodes.toString());
-		assertEquals(3, nodes.size());
+		PatternBuilder r = new PatternBuilder();
+		String result = r.buildPattern(pattern);
+
+		assertEquals(pattern, result);
+
+		pattern = "1234|5678";
+		result = r.buildPattern(pattern);
+
+		assertNotNull(result);
+		assertEquals(4, result.length());
+
+		for (int i = 0; i < 40; i++) {
+
+			// Optional condition
+			pattern = "123|456|{789|0ab}";
+			result = r.buildPattern(pattern);
+			assertEquals(3, result.length());
+
+			pattern = "{123|456}|{78|0a}b|{cde|f{gh|ij}}";
+			result = r.buildPattern(pattern);
+			assertEquals(3, result.length());
+
+			pattern = "{cde|f{gh|ij}}|{cde|f{gh|ij}}";
+			result = r.buildPattern(pattern);
+			assertEquals(3, result.length());
+
+			pattern = "ab|{cd|ef}|{g{h|{i|j}}}";
+			result = r.buildPattern(pattern);
+			assertEquals(2, result.length());
+
+			//
+			pattern = "12[34]";
+			result = r.buildPattern(pattern);
+			assertTrue(result.length() == 2 || result.length() == 4);
+
+			pattern = "12[34]|56{78|[90|ab]}";
+			result = r.buildPattern(pattern);
+			assertTrue(result.length() == 2 || result.length() == 4);
+
+			pattern = "{hello}";
+			result = r.buildPattern(pattern);
+			assertEquals("hello", result);
+
+			pattern = "{abc|def}";
+			result = r.buildPattern(pattern);
+			assertTrue(result.equals("abc") || result.equals("def"));
+
+			pattern = "[hello]";
+			result = r.buildPattern(pattern);
+			assertTrue(result.equals("hello") || result.equals(""));
+
+			pattern = "[abc|def]";
+			result = r.buildPattern(pattern);
+			assertTrue(result.equals("abc") || result.equals("def") || result.equals(""));
+
+		}
 	}
-	
+
 	@Test
 	public void testNodeSimple() {
 		String pattern = "hello [, hello ]! ${world}.";
-		
+
 		Qno q = new Qno();
 		q.setVocabulary(new Vocabulary());
-		WordBag patterns = WorderFactory.patterns();
+		WordBag patterns = WordSourceFactory.patterns();
 		q.getVocabulary().add(patterns);
-		
+
 		patterns.addRawData(pattern);
-		
-		//simple
+
+		// simple
 		Object testp = q.getVocabulary().getPattern();
 		assertEquals(pattern.toString(), testp.toString());
-		
+
 		//
-		Root r = new Root();
-		Node node = r.analyze(pattern);
-		
-		assertNotNull(node);
-		assertNotNull(node.getChildren());
-		assertEquals(1 , node.getChildren().size());
-		assertEquals(pattern, node.toString());
-		assertEquals(pattern, node.getText());
-		for (Node sub : node.getChildren()) assertEquals(", hello ", sub.toString());
-		
-		//
-		pattern = "hello [, hello ]! [deux] x {trois | quatre }";
-		node = r.analyze(pattern);
-		assertNotNull(node.getChildren());
-		assertEquals(3 , node.getChildren().size());
-		assertEquals(pattern, node.toString());
-		
-		//under node
-		pattern = "hello ${pouet} [, hello ]! [deux [pouet]] x {trois | quatre [hello {caca}] } [cinq [1][2]{3}]";
-		node = r.analyze(pattern);
-		assertNotNull(node.getChildren());
-		assertEquals(4 , node.getChildren().size());
-		assertEquals(pattern, node.toString());
-		for (Node sub : node.getChildren()) assertNotNull(sub.getChildren());
-		assertEquals(1, node.getChildren().get(1).getChildren().size()); // [deux [pouet]]
-		assertEquals(3, node.getChildren().get(3).getChildren().size()); // [cinq [1][2]{3}]
-		
-		
+		PatternBuilder r = new PatternBuilder();
+		// Node node = r.analyze(pattern);
+
 	}
 
 }

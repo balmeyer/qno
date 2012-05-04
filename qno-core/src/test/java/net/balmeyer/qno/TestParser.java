@@ -15,7 +15,7 @@
  */
 package net.balmeyer.qno;
 
-import static net.balmeyer.qno.WorderFactory.bag;
+import static net.balmeyer.qno.WordSourceFactory.bag;
 import static net.balmeyer.qno.QnoFactory.word;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

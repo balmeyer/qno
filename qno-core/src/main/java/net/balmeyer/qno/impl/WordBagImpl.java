@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.balmeyer.qno.Utils;
 import net.balmeyer.qno.Word;
 import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
@@ -32,12 +33,12 @@ import net.balmeyer.qno.query.Query;
 public class WordBagImpl implements WordBag {
 
 	private String id;
-	private Random rand;
+	
 	private List<Word> words;
 	
 	public WordBagImpl(){
 		this.words = new ArrayList<Word>();
-		this.rand = new Random(System.currentTimeMillis());
+		
 	}
 	
 	
@@ -68,7 +69,7 @@ public class WordBagImpl implements WordBag {
 	@Override
 	public Word get(){
 		
-		int i = this.rand.nextInt(this.words.size());
+		int i = Utils.getRandInstance().nextInt(this.words.size());
 		
 		return words.get(i);
 	}

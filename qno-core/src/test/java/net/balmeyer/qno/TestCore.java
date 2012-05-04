@@ -27,7 +27,7 @@ import java.util.List;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.Variable;
-import static net.balmeyer.qno.WorderFactory.bag;
+import static net.balmeyer.qno.WordSourceFactory.bag;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -85,7 +85,7 @@ public class TestCore {
 	public void wordBuilder() {
 
 		try {
-			Vocabulary vocab = Utils.load("master.txt");
+			Vocabulary vocab = QnoFactory.load("master.txt");
 			Qno engine = new Qno(vocab);
 			
 			//add dictionary

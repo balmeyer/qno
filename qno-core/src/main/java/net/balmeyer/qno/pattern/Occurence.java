@@ -13,23 +13,31 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno;
+package net.balmeyer.qno.pattern;
 
-public interface WordBag extends WordSource{
+public class Occurence {
 
-	/** get word map name */
-	public String getID();
+	private int min;
+	private int max;
 	
-	public void setID(String id);
+	public Occurence(){}
 	
-	/** Add raw data*/
-	public void addRawData(String data);
+	public Occurence(int min , int max){
+		this.min = min;
+		this.max = max;
+	}
 	
-	/** Add */
-	public void add(Word w);
-	
-	/** */
-	public Word get();
-
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
+	}
 	
 }

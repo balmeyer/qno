@@ -16,7 +16,7 @@
 package net.balmeyer.qno.query;
 
 /**
- * Request to get a word
+ * Define a request to get a word in a "WordSource" object.
  * @author JB Balmeyer
  *
  */

@@ -18,11 +18,11 @@ package net.balmeyer.qno;
 import net.balmeyer.qno.query.Query;
 
 /**
- * 
+ * Object that can return a "Word" with a defined query.
  * @author JB Balmeyer
  *
  */
-public interface Worder {
+public interface WordSource {
 
 	/** Provide a word from word set with a wordrequest */
 	public Word get(Query request);

@@ -40,13 +40,10 @@ public final class Dictionary implements WordBag {
 	
 	private Set<Entry> entries ;
 	private Map<String,List<Entry>> selected;
-	private Random rand;
-	
 
-	
+
 	public Dictionary(){
 		this.entries = new HashSet<Entry>();
-		this.rand = new Random(System.currentTimeMillis());
 	}
 	
 	@Override
@@ -137,7 +134,7 @@ public final class Dictionary implements WordBag {
 		List<Entry> list = this.selected.get(getKey(eq));
 		
 		if (list != null && list.size() > 0 ){
-			int i = this.rand.nextInt(list.size());
+			int i = Utils.getRandInstance().nextInt(list.size());
 			return list.get(i);
 		}
 		

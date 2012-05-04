@@ -15,9 +15,6 @@
  */
 package net.balmeyer.qno.pattern;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Node
@@ -28,16 +25,13 @@ import java.util.List;
 public class Node {
 
 	private String text;
-	private boolean optional ;
-	private Node parent;
+
 	
 	private int start;
 	private int end;
 
-	private List<Node> children;
 	
 	public Node(){
-		children = new ArrayList<Node>();
 
 	}
 	
@@ -54,34 +48,6 @@ public class Node {
 		this.text = text;
 	}
 
-	public Node getParent() {
-		return parent;
-	}
-
-	public void setParent(Node parent) {
-		this.parent = parent;
-	}
-
-	public boolean isOptional() {
-		return optional;
-	}
-
-	public void setOptional(boolean optional) {
-		this.optional = optional;
-	}
-	
-	public void addChild(Node node){
-		node.setParent(this);
-		this.children.add(node);
-	}
-	
-	public void addChildren(Collection<Node> nodes){
-		for(Node n : nodes) addChild(n);
-	}
-	
-	public List<Node> getChildren(){
-		return this.children;
-	}
 
 	public int getStart() {
 		return start;

@@ -18,13 +18,13 @@ package net.balmeyer.qno;
 import net.balmeyer.qno.impl.WordBagImpl;
 
 /**
- * Build any worder from name / class
+ * Build any WordSource from name / class
  * @author JB Balmeyer
  *
  */
-public class WorderFactory {
+public class WordSourceFactory {
 
-	private WorderFactory(){}
+	private WordSourceFactory(){}
 
 	public static WordBag bag(String expression){
 		
@@ -52,9 +52,9 @@ public class WorderFactory {
 			return bag(name, WordBagImpl.class);
 		}
 		
-		Class<Worder> claz = null;
+		Class<WordSource> claz = null;
 		try {
-			claz = (Class<Worder>) WorderFactory.class.getClassLoader().loadClass(clazName);
+			claz = (Class<WordSource>) WordSourceFactory.class.getClassLoader().loadClass(clazName);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException("Class not found : " + clazName,e);
 		}

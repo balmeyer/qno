@@ -16,16 +16,16 @@
 package net.balmeyer.qno.pattern;
 
 /**
- * Object that analyze a pattern with options possible and give "ready to replace" canva
- * with variables.
+ * Provide instance of PatternBuilder
  * @author JB Balmeyer
  *
  */
-public interface PatternBuilder {
+public final class PatternBuilderFactory {
 
+	private PatternBuilderFactory(){}
 	
-	public String buildPattern(String text);
-	
-	public void buildPattern(StringBuilder sb);
+	public static PatternBuilder get(){
+		return new SimplePatternBuilder();
+	}
 	
 }

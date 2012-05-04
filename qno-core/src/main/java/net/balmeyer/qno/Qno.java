@@ -15,6 +15,8 @@
  */
 package net.balmeyer.qno;
 
+import net.balmeyer.qno.pattern.PatternBuilder;
+import net.balmeyer.qno.pattern.PatternBuilderFactory;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.Formater;
@@ -67,13 +69,14 @@ public class Qno  {
 	
 	/**
 	 * 
-	 * @param text
+	 * @param pattern
 	 * @return
 	 */
-	public String execute(String text){
+	public String execute(String pattern){
+		
 		//instantiate a new parser
 		Parser parser = QnoFactory.newParser();
-		parser.setText(text);
+		parser.setText(pattern); 
 		
 		//variable
 		Variable v = null ;

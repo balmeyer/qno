@@ -15,10 +15,11 @@
  */
 package net.balmeyer.qno;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import net.balmeyer.qno.pattern.PatternBuilder;
+import net.balmeyer.qno.pattern.PatternBuilderFactory;
 
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class TestPattern {
 	@Test
 	public void testPattern() {
 		String pattern = "hello !";
-		PatternBuilder r = new PatternBuilder();
+		PatternBuilder r = PatternBuilderFactory.get();
 		String result = r.buildPattern(pattern);
 
 		assertEquals(pattern, result);
@@ -101,7 +102,7 @@ public class TestPattern {
 		assertEquals(pattern.toString(), testp.toString());
 
 		//
-		PatternBuilder r = new PatternBuilder();
+		//PatternBuilder r = new PatternBuilder();
 		// Node node = r.analyze(pattern);
 
 	}

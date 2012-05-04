@@ -18,6 +18,7 @@ package net.balmeyer.qno;
 import static net.balmeyer.qno.QnoFactory.word;
 import static net.balmeyer.qno.WordSourceFactory.bag;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -27,23 +28,60 @@ public class TestEngine {
 	public void test() {
 		Qno engine = new Qno();
 		Vocabulary v = new Vocabulary();
-		
+
 		WordBag b1 = bag("a");
 		WordBag b2 = bag("b");
-		
+
 		b1.add(word("alpha"));
 		b2.add(word("beta"));
-		
+
 		v.add(b1);
 		v.add(b2);
 		engine.setVocabulary(v);
-		
+
 		String text = "hello ${a} hello ${b} hello ${a} hello ${b}";
-		
+
 		String result = engine.execute(text);
-		
-		assertEquals("hello alpha hello beta hello alpha hello beta",result);
-		
+
+		assertEquals("hello alpha hello beta hello alpha hello beta", result);
+
+	}
+
+	@Test
+	public void testPatternWithWar() {
+		Qno engine = new Qno();
+		Vocabulary v = new Vocabulary();
+
+		WordBag b1 = bag("a");
+		WordBag b2 = bag("b");
+
+		b1.add(word("alpha"));
+		b2.add(word("beta"));
+
+		v.add(b1);
+		v.add(b2);
+		engine.setVocabulary(v);
+
+		for (int i = 0; i < 50; i++) {
+			String text = "${a}|${b}";
+			String result = engine.execute(text);
+
+			assertTrue(result.equals("alpha") || result.equals("beta"));
+
+			text = "{${a}|${b}}";
+			result = engine.execute(text);
+			assertTrue(result.equals("alpha") || result.equals("beta"));
+
+			text = "{${a}|${b}}|alpha|${b}";
+			result = engine.execute(text);
+			assertTrue(result.equals("alpha") || result.equals("beta"));
+
+			text = "{${a}|${b}}|alpha|${a}${b}|${a}[${b}]";
+			result = engine.execute(text);
+			assertTrue(result.equals("alpha") || result.equals("beta")
+					|| result.equals("alphabeta"));
+
+		}
 	}
 
 }

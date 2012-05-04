@@ -23,6 +23,8 @@ ${*}
 ${*}
 >
 
+Il y {un ${.nm}|une ${.nf}}[, étrangement] qui {promène un ${animal}|${verbe} [très ]fort}.
+
 %animal
 
 chien

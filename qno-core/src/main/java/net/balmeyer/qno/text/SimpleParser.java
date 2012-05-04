@@ -17,6 +17,8 @@ package net.balmeyer.qno.text;
 
 import net.balmeyer.qno.Utils;
 import net.balmeyer.qno.Word;
+import net.balmeyer.qno.pattern.PatternBuilder;
+import net.balmeyer.qno.pattern.PatternBuilderFactory;
 
 public class SimpleParser implements Parser {
 
@@ -30,6 +32,7 @@ public class SimpleParser implements Parser {
 	@Override
 	public void setText(String text){
 		this.text = new StringBuilder(text);
+		this.rebuild();
 	}
 	
 	@Override
@@ -60,11 +63,19 @@ public class SimpleParser implements Parser {
 		Utils.check(word != null, "word must not be null");
 		this.text.replace(var.getStart(), var.getEnd()+1, word.toString());
 
+
+		this.rebuild();
 	}
 
 	@Override
 	public String toString(){
 		return this.getText();
+	}
+	
+	private void rebuild(){
+		//analyze pattern
+		PatternBuilder pp = PatternBuilderFactory.get();
+		pp.buildPattern(this.text);
 	}
 	
 }

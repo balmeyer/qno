@@ -25,6 +25,7 @@ import java.util.List;
 
 import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.impl.WordBagImpl;
+import net.balmeyer.qno.text.Formater;
 import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.SimpleParser;
 
@@ -53,19 +54,21 @@ public class QnoFactory {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Vocabulary load(String path) throws IOException {
+	public static Qno load(String path) throws IOException {
+		
+		Qno qno = new Qno();
+		
 		//find text pattern
 		URL url = Utils.url(path);
-		Vocabulary vocab = new Vocabulary();
 		
-		add(vocab,url);
+		add(qno,url);
 		
-		return vocab;
+		return qno;
 	}
 	
-	private static void add(Vocabulary vocab , String path) throws IOException{
+	private static void add(Qno qno , String path) throws IOException{
 		URL url = Vocabulary.class.getClassLoader().getResource(path);
-		add(vocab, url);
+		add(qno, url);
 	}
 	
 	/**
@@ -73,7 +76,7 @@ public class QnoFactory {
 	 * @param path
 	 * @throws IOException
 	 */
-	private static void add(Vocabulary vocab , URL url) throws IOException{
+	private static void add(Qno qno , URL url) throws IOException{
 
 		InputStream inputStream = url.openStream();
 		
@@ -101,10 +104,19 @@ public class QnoFactory {
 				line = line.trim();
 				
 				//import
-				if (line.startsWith("@")){
-					add(vocab, line.substring(1));
+				if (line.startsWith("@import")){
+					add(qno, line.substring(7).trim());
 					continue;
 				}
+				
+				//formater
+				if (line.startsWith("@format")){
+					qno.addFormater(createFormaterFromClassName(line.substring(7).trim()));
+					continue;
+				}
+				
+
+				
 				
 				//new word
 				if (line.startsWith("%")){
@@ -144,7 +156,32 @@ public class QnoFactory {
 		}
 		
 		//keep all maps
-		vocab.add(allmaps);
+		qno.getVocabulary().add(allmaps);
+		
+	}
+
+	private static Formater createFormaterFromClassName(String clazz){
+		
+		Formater instance = null;
+		
+		Class cl = null;
+		try {
+			cl = QnoFactory.class.getClassLoader().loadClass(clazz);
+			instance = (Formater) cl.newInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+
+		if (instance == null){
+			throw new IllegalArgumentException("impossible to create class : " + clazz);
+		}
+		
+		return instance;
 		
 	}
 	

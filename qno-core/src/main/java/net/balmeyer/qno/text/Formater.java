@@ -24,4 +24,8 @@ public interface Formater {
 
 	public void format(StringBuilder text);
 	
+	
+	
+
+	
 }

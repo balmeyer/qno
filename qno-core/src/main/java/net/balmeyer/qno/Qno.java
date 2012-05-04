@@ -32,17 +32,14 @@ import net.balmeyer.qno.text.Variable;
  */
 public class Qno  {
 
-	private Vocabulary vocab;
+	private Vocabulary vocab = new Vocabulary();
 	
-	private List<Formater> formaters = new ArrayList<Formater>();;
+	private List<Formater> formaters = new ArrayList<Formater>();
 	
 	public Qno(){
 
 	}
 
-	public Qno(Vocabulary vocab){
-		this.vocab = vocab;
-	}
 	
 	public Vocabulary getVocabulary() {
 		return vocab;

@@ -15,6 +15,9 @@
  */
 package net.balmeyer.qno.text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleFormater implements Formater {
 
 	@Override
@@ -40,14 +43,67 @@ public class SimpleFormater implements Formater {
 			}
 			
 		}
+
+		this.replaceChar(sb);
 		
-		//DOUBLE SPACE
-		int a = 0;
-		while (a >= 0){
-			a = sb.indexOf("  ");
-			if (a >= 0){
-				sb.replace(a, a + 1, "");
-			}
+		//Trim
+		while (sb.toString().startsWith(" ")){
+			sb.replace(0, 1, "");
 		}
+		
+		while (sb.toString().endsWith(" ")){
+			sb.setLength(sb.length() - 1);
+		}
+		
+		//Punctuation
+	}
+	
+	
+	
+	private void replaceChar(StringBuilder sb){
+		
+		List<Replacer> replacers = new ArrayList<Replacer>();
+		replacers.add(new Replacer("  ", " "));
+		replacers.add(new Replacer(" .", ". "));
+		replacers.add(new Replacer("\n ", "\n"));
+		
+		
+		boolean change = true;
+		
+		while (change){
+		
+			change = false;
+		for(Replacer rep : replacers){
+			
+			do{
+				
+				int a = sb.indexOf(rep.oldtext);
+				if(a < 0) break;
+				
+				sb.replace(a, a + rep.oldtext.length(), rep.newtext);
+				change = true;
+				
+			} while (true);
+			
+		}
+		
+		}
+		
+		
+	}
+	/**
+	 * 
+	 * @author Balmeyer
+	 *
+	 */
+	private class Replacer{
+		
+		public Replacer(String oldtext, String newtext){
+			this.oldtext = oldtext;
+			this.newtext = newtext;
+		}
+		
+		public String oldtext;
+		public String newtext;
 	}
 }

@@ -1,46 +1,42 @@
-@dictionary.txt
-je vois un ${animal}. Il ${verbe}. la ${.nf} est une ${.nf} car un ${.nm} est un ${.nm}.
-Ce ${animal} me ${verbe}.
-<
-soudain un ${animal}.
-
-Il ${verbe}. Un ${.nm}.
->
-Alors le ${animal} est à ${prenom}. Attention ! ${.n} !
-<
-un ${animal} est là car il ${verbe} un ${animal}.
-Une ${.nf}.
->
+@import dictionary.txt
+@format net.balmeyer.qno.text.SimpleFormater
+@format net.balmeyer.qno.text.ElisionFormater
 
 <
-${*}
-${*}
+${titre}
+-------------------------------
+
+${body}
 >
+
+%titre
+{histoire d'une | une | la } ${.nf}
+{conte du | un | le } ${.nf}
+
+%body
 <
-${*}
-${*}
-
-${*}
+${intro}[ ! | ?]
+[${intro} | ${outro}]
+[...]
+${outro}
 >
 
-Il y {un ${.nm}|une ${.nf}}[, étrangement] qui {promène un ${animal}|${verbe} [très ]fort}.
+%intro 
 
-%animal
+[je {vois | sens}] {un|le} ${.nm}, [et] puis {une|la} ${.nf}
+[[moi] je {sais | connais}] {un|le} ${.nm} [${couleur} [, et ${couleur}|noire]] [sur {une|la} ${.nf}]
 
-chien
-chat
-cochon
-ornithorynque
-rat
-renard
-petit ${animal}
 
-%verbe net.balmeyer.qno.impl.WordBagImpl
-mange
-regarde
-dévore
-conchie
-attaque
-boit
+%outro
+et puis, ${intro}
+[alors] [soudain] {la ${.nf} plus {forte|verte|étrange} | le ${.nm} plus ${couleur}} {que le | qu'un} ${.nm}.
+%couleur
+vert
+rouge
+bleu
+orange
+mordoré
+écarlate
+marron
+pourpre
 
-@prenom.txt

@@ -16,6 +16,8 @@
 package net.balmeyer.qno;
 
 import static net.balmeyer.qno.QnoFactory.word;
+import static net.balmeyer.qno.WordSourceFactory.bag;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -28,7 +30,6 @@ import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
 import net.balmeyer.qno.text.SimpleFormater;
 import net.balmeyer.qno.text.Variable;
-import static net.balmeyer.qno.WordSourceFactory.bag;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -86,8 +87,7 @@ public class TestCore {
 	public void wordBuilder() {
 
 		try {
-			Vocabulary vocab = QnoFactory.load("master.txt");
-			Qno engine = new Qno(vocab);
+			Qno engine = QnoFactory.load("master.txt");
 			engine.addFormater(new SimpleFormater());
 			
 			//add dictionary
@@ -95,6 +95,12 @@ public class TestCore {
 			
 			String result = engine.execute();
 			System.out.println(result);
+			
+			assertTrue(!result.contains("["));
+			assertTrue(!result.contains("]"));
+			assertTrue(!result.contains("{"));
+			assertTrue(!result.contains("}"));
+			assertTrue(!result.contains("|"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

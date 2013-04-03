@@ -26,7 +26,7 @@ import net.balmeyer.qno.text.Variable;
 
 
 /**
- * 
+ * Main class
  * @author JB Balmeyer
  *
  */

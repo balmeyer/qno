@@ -17,6 +17,16 @@ package net.balmeyer.qno.text;
 
 import net.balmeyer.qno.Vocabulary;
 
+/**
+ * A Variable contains information used for text replacement.<br/><br/>
+ * 
+ * ID is the variable name found in pattern inside delimiters. Example : ${ID}.<br/><br/>
+ * 
+ * Text is the raw varible text, containg name and also properties. Example : ${color.red}
+ * 
+ * @author jean-baptiste
+ *
+ */
 public class Variable {
 
 	private String ID;
@@ -25,10 +35,18 @@ public class Variable {
 	private int start;
 	private int end;
 	
+	/**
+	 * Variable name in pattern, between delimiters
+	 * @return
+	 */
 	public String getID() {
 		return this.ID;
 	}
 
+	/**
+	 * Additional information in pattern
+	 * @return
+	 */
 	public String getProperty() {
 		return property;
 	}

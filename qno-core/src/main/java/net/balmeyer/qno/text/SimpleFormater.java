@@ -18,6 +18,12 @@ package net.balmeyer.qno.text;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple implementation of @Formater for basic text enhancements. 
+ * 
+ * @author jean-baptiste
+ *
+ */
 public class SimpleFormater implements Formater {
 
 	@Override

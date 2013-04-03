@@ -24,7 +24,7 @@ import net.balmeyer.qno.query.Query;
  */
 public interface WordSource {
 
-	/** Provide a word from word set with a wordrequest */
+	/** Provide a @Word with a @Query */
 	public Word get(Query request);
 	
 

@@ -16,6 +16,7 @@
 package net.balmeyer.qno;
 
 /**
+ * A word to display.
  * 
  * @author JB Balmeyer
  *

@@ -30,7 +30,7 @@ import net.balmeyer.qno.text.Parser;
 import net.balmeyer.qno.text.SimpleParser;
 
 /**
- * 
+ * Construct 
  * @author JB Balmeyer
  *
  */
@@ -49,7 +49,8 @@ public class QnoFactory {
 	
 
 	/**
-	 * Load Vocabulary since a configuration file
+	 * Load Vocabulary from a configuration file.
+	 * 
 	 * @param path
 	 * @return
 	 * @throws IOException
@@ -61,23 +62,31 @@ public class QnoFactory {
 		//find text pattern
 		URL url = Utils.url(path);
 		
+		//add config to the empty qno object
 		add(qno,url);
 		
 		return qno;
 	}
 	
+	/**
+	 * Load a configuration file for text generation and add infos to a @Qno instance.
+	 * @param qno
+	 * @param path
+	 * @throws IOException
+	 */
 	private static void add(Qno qno , String path) throws IOException{
 		URL url = Vocabulary.class.getClassLoader().getResource(path);
 		add(qno, url);
 	}
 	
 	/**
-	 * Load configuration for generating text
+	 * Load a configuration file for text generation and add infos to a @Qno instance.
 	 * @param path
 	 * @throws IOException
 	 */
 	private static void add(Qno qno , URL url) throws IOException{
 
+		//open input stream to read text file
 		InputStream inputStream = url.openStream();
 		
 		BufferedReader reader = new BufferedReader(
@@ -86,9 +95,12 @@ public class QnoFactory {
 		
 		String line = "";
 		
+		//patterns found are added in a "WordBag" object.
 		WordBag patterns = new WordBagImpl();
 		patterns.setID(Vocabulary.PATTERN_ID);
 		
+		//currentMap is the list where words found arred currently added. 
+		//Fist list is the list pattern.
 		WordBag currentMap = patterns;
 		List<WordBag> allmaps = new ArrayList<WordBag>();
 		allmaps.add(patterns);
@@ -103,22 +115,20 @@ public class QnoFactory {
 			if (line != null){
 				line = line.trim();
 				
-				//import
+				//import a configuration file
 				if (line.startsWith("@import")){
 					add(qno, line.substring(7).trim());
 					continue;
 				}
 				
-				//formater
+				//add a formater
 				if (line.startsWith("@format")){
 					qno.addFormater(createFormaterFromClassName(line.substring(7).trim()));
 					continue;
 				}
 				
-
 				
-				
-				//new word
+				//new words list is found. The word after % symbol is the variable/list name.
 				if (line.startsWith("%")){
 					currentMap = (WordBag) WordSourceFactory.bag(line);
 					allmaps.add(currentMap);
@@ -160,11 +170,17 @@ public class QnoFactory {
 		
 	}
 
+	/**
+	 * Create a @Formater instance from a class name found in configuration file.
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	private static Formater createFormaterFromClassName(String clazz){
 		
 		Formater instance = null;
 		
-		Class cl = null;
+		Class<?> cl = null;
 		try {
 			cl = QnoFactory.class.getClassLoader().loadClass(clazz);
 			instance = (Formater) cl.newInstance();

@@ -25,8 +25,10 @@ import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
 
 /**
+ * A simple implementation of @WordBag.
  * 
- * @author Word Map
+ * 
+ * 
  *
  */
 public class WordBagImpl implements WordBag {

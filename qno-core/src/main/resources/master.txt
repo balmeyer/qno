@@ -8,6 +8,9 @@ ${titre}
 
 ${body}
 >
+TITRE : ${titre}
+TEXTE : ${body}
+
 
 %titre
 {histoire d'une | une | la } ${.nf}

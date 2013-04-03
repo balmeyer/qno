@@ -20,6 +20,11 @@ import net.balmeyer.qno.Word;
 import net.balmeyer.qno.pattern.PatternBuilder;
 import net.balmeyer.qno.pattern.PatternBuilderFactory;
 
+/**
+ * Basic implementation of @Parser. 
+ * @author jean-baptiste
+ *
+ */
 public class SimpleParser implements Parser {
 
 	private StringBuilder text;

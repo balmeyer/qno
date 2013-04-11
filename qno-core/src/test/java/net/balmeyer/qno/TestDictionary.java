@@ -98,6 +98,12 @@ public class TestDictionary {
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
 		assertEquals(Type.nom, eq.getType());
 		assertEquals(Genre.masculin, eq.getGenre());
+		
+		eq = new EntryQuery("nf");
+		
+		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
+		assertEquals(Type.nom, eq.getType());
+		assertEquals(Genre.feminin, eq.getGenre());
 	}
 	
 	@Test

@@ -8,13 +8,17 @@ ${titre}
 
 ${body}
 >
-TITRE : ${titre}
-TEXTE : ${body}
-
+<
+${titre}
+${titre}[, ${titre}]
+${body}
+[${body}]
+[${body}]
+>
 
 %titre
 {histoire d'une | une | la } ${.nf}
-{conte du | un | le } ${.nf}
+{conte du | un | le } ${.nm}
 
 %body
 <

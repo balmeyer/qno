@@ -18,6 +18,11 @@ package net.balmeyer.qno.dico;
 import net.balmeyer.qno.Vocabulary;
 import net.balmeyer.qno.query.Query;
 
+/**
+ * Query with gender and type
+ * @author balmeyer
+ *
+ */
 public class EntryQuery extends TypeAndGenre implements Query {
 
 	private String expression ;

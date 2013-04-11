@@ -103,7 +103,7 @@ public class TestCore {
 			assertTrue(!result.contains("|"));
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			//fail
 			fail("Exception : " + e.toString());
 		}
 	}

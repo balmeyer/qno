@@ -33,5 +33,10 @@ public class SimpleQuery implements Query {
 	public String getVariableName() {
 		return this.id;
 	}
+	
+	@Override
+	public String toString(){
+		return this.id;
+	}
 
 }

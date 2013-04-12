@@ -96,7 +96,7 @@ public class Qno  {
 		//variable
 		Variable v = null ;
 		do {
-			//find next varible in pattern 
+			//find next variable in pattern 
 			v = parser.nextVariable();
 			
 			if (v != null) {
@@ -108,7 +108,7 @@ public class Qno  {
 				parser.replace(v, w);
 			}
 			//loop until no variable is found
-			//note : a variable can be replaced by a text containg also one or several variables !
+			//note : a variable can be replaced by a text containing also one or several variables !
 		}while(v != null);
 		
 		//format final text

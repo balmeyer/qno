@@ -137,6 +137,11 @@ public class QnoFactory {
 				
 				//new pattern
 				if (line.equals("<")){
+					//check last
+					if (inExpression){
+						throw new IllegalStateException("Last sign '<' was not closed");
+					}
+					
 					inExpression = true;
 					currentExpression.setLength(0);
 					continue;
@@ -145,6 +150,10 @@ public class QnoFactory {
 				if (inExpression) {
 					//end of expression
 					if (line.equals(">")){
+						//check last
+						if (!inExpression){
+							throw new IllegalStateException("Sign '>' already closed");
+						}
 						inExpression = false;
 					} else {
 						if (currentExpression.length() > 0) currentExpression.append("\r\n");
@@ -165,11 +174,25 @@ public class QnoFactory {
 			}
 		}
 		
+		//check
+		if (inExpression){
+			throw new IllegalStateException("malformated text. "
+					+" Check patterns and < and > signs.");
+		}
+		
 		//keep all maps
 		qno.getVocabulary().add(allmaps);
 		
 	}
 
+	/**
+	 * Check pattern
+	 * @param text
+	 */
+	private static void checkText(String text){
+		
+	}
+	
 	/**
 	 * Create a @Formater instance from a class name found in configuration file.
 	 * 

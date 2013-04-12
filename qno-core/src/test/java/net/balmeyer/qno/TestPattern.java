@@ -20,12 +20,47 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.balmeyer.qno.pattern.PatternBuilder;
 import net.balmeyer.qno.pattern.PatternBuilderFactory;
+import net.balmeyer.qno.pattern.SimplePatternBuilder;
 
 import org.junit.Test;
 
 public class TestPattern {
 
-
+	/**
+	 * Test simple pattern browsing
+	 */
+	@Test
+	public void simpleSimlePattern(){
+		String pattern = "one|two|three";
+		
+		SimplePatternBuilder spb = new SimplePatternBuilder();
+		
+		//simple split
+		for(int i = 0 ; i < 100 ; i++){
+			String result = spb.buildPattern(pattern);
+			boolean check = result.equals("one") || result.equals("two") || result.equals("three");
+			assertTrue(check);
+		}
+		
+		//most complex split
+		pattern = "a|b|{c|d}";
+		for(int i = 0 ; i < 100 ; i++){
+			String result = spb.buildPattern(pattern);
+			boolean check = result.equals("a") || result.equals("b") || result.equals("c") || result.equals("d");
+			assertTrue(check);
+		}
+		
+		//most most complex split
+		pattern = "a|{a|{a|a}}|a|{a|{a|a|a}}";
+		for(int i = 0 ; i < 100 ; i++){
+			String result = spb.buildPattern(pattern);
+			boolean check = result.equals("a");
+			assertTrue(check);
+		}
+		
+	}
+	
+	
 	@Test
 	public void testPattern() {
 		String pattern = "hello !";
@@ -109,3 +144,4 @@ public class TestPattern {
 	}
 
 }
+

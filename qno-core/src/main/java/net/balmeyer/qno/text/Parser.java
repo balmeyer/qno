@@ -24,15 +24,15 @@ import net.balmeyer.qno.Word;
  */
 public interface Parser {
 
-	/** */
+	/** Text to analyse (also called pattern), containing variables. */
 	public String getText();
 	
 	public void setText(String text);
 	
-	/** find next variable*/
+	/** find next variable in a pattern. */
 	public Variable nextVariable();
 	
-	/** replace var in text*/
+	/** replace a variable in a pattern. */
 	public void replace(Variable var, Word word );
 	
 }

@@ -24,7 +24,10 @@ import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.SimpleQuery;
 
 /**
- * A Vocabulary is every data needed to generate text (pattern
+ * A Vocabulary is a dataset for text generation (pattern).
+ * 
+ * The data contains several "list" 
+ * 
  * @author JB Balmeyer
  *
  */
@@ -36,7 +39,7 @@ public class Vocabulary implements WordSource {
 	private Map<String,WordSource> idToBag;
 	
 	/**
-	 * 
+	 * return a single @Word from a @Query
 	 */
 	@Override
 	public Word get(Query request) {
@@ -93,6 +96,10 @@ public class Vocabulary implements WordSource {
 	}
 	
 
+	/**
+	 * Provide a pattern, which is in fact a @Word object. 
+	 * @return
+	 */
 	public Word getPattern(){
 		return this.get(new SimpleQuery(PATTERN_ID));
 	}

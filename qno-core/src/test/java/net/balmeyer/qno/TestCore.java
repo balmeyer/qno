@@ -17,9 +17,9 @@ package net.balmeyer.qno;
 
 import static net.balmeyer.qno.QnoFactory.word;
 import static net.balmeyer.qno.WordSourceFactory.bag;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -103,7 +103,7 @@ public class TestCore {
 			assertTrue(!result.contains("|"));
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			//fail
 			fail("Exception : " + e.toString());
 		}
 	}
@@ -176,6 +176,16 @@ public class TestCore {
 		assertEquals(Vocabulary.DICTIONARY, v.getID());
 		assertEquals("nm",v.getProperty());
 		assertEquals("${.nm}" , v.getText());
+		
+		v.setText("${test.nf}");
+		assertEquals("test", v.getID());
+		assertEquals("nf",v.getProperty());
+		assertEquals("${test.nf}" , v.getText());
+		
+		v.setText("${.nf}");
+		assertEquals(Vocabulary.DICTIONARY, v.getID());
+		assertEquals("nf",v.getProperty());
+		assertEquals("${.nf}" , v.getText());
 		
 		v.setText("${.n}");
 		assertEquals(Vocabulary.DICTIONARY, v.getID());

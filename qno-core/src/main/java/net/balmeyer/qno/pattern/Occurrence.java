@@ -13,37 +13,36 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package net.balmeyer.qno;
-
-import java.net.URL;
-import java.util.Random;
+package net.balmeyer.qno.pattern;
 
 /**
  * 
- * @author JB Balmeyer
+ * @author jean-baptiste
  *
  */
-public final class Utils {
+public class Occurrence {
 
-	private static Random rand;
+	private int min;
+	private int max;
 	
-	private Utils(){}
+	public Occurrence(){}
 	
-	
-	public static Random getRandInstance(){
-		if (rand == null){
-			rand = new Random(System.currentTimeMillis());
-		}
-		return rand;
+	public Occurrence(int min , int max){
+		this.min = min;
+		this.max = max;
 	}
 	
-	public static void check(boolean expression, String msg){
-		if (!expression) throw new IllegalArgumentException(msg);
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
 	}
 	
-	public static URL url(String path){
-		return Utils.class.getClassLoader().getResource(path);
-	}
-	
-
 }

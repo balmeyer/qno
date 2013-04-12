@@ -1,5 +1,3 @@
-#qno 2012-05 balmeyer
-
 @import dictionary.txt
 @format net.balmeyer.qno.text.SimpleFormater
 @format net.balmeyer.qno.text.ElisionFormater
@@ -10,20 +8,25 @@ ${titre}
 
 ${body}
 >
+<
+${titre}
+${titre}[, ${titre}]
+${body}
+[${body}]
+[${body}]
+>
 
 %titre
 {histoire d'une | une | la } ${.nf}
-{conte du | un | le } ${.nf}
+{conte du | un | le } ${.nm}
 
 %body
-<${intro}[ ! | ?]
+<
+${intro}[ ! | ?]
 [${intro} | ${outro}]
 [...]
 ${outro}
 >
-<${intro}...
-O ! ${intro}
-${outro}>
 
 %intro 
 

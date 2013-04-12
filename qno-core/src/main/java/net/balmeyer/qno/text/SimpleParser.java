@@ -20,6 +20,11 @@ import net.balmeyer.qno.Word;
 import net.balmeyer.qno.pattern.PatternBuilder;
 import net.balmeyer.qno.pattern.PatternBuilderFactory;
 
+/**
+ * Basic implementation of @Parser. 
+ * @author jean-baptiste
+ *
+ */
 public class SimpleParser implements Parser {
 
 	private StringBuilder text;
@@ -50,7 +55,7 @@ public class SimpleParser implements Parser {
 				v.setText(this.text.substring(start, end + 1));
 			
 			} else {
-				throw new IllegalArgumentException("error when parsing variable");
+				throw new IllegalArgumentException("error when parsing variable. text is <<<" + this.text + ">>>");
 			}
 		}
 		
@@ -75,6 +80,7 @@ public class SimpleParser implements Parser {
 	private void rebuild(){
 		//analyze pattern
 		PatternBuilder pp = PatternBuilderFactory.get();
+		//TODO BUG !!! variable ${} are removed
 		pp.buildPattern(this.text);
 	}
 	

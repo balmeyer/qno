@@ -26,12 +26,14 @@ import net.balmeyer.qno.text.Variable;
 
 
 /**
+ * Main class of Qno engine.
  * 
  * @author JB Balmeyer
  *
  */
 public class Qno  {
 
+	//with a default Vocabulary
 	private Vocabulary vocab = new Vocabulary();
 	
 	private List<Formater> formaters = new ArrayList<Formater>();
@@ -40,7 +42,10 @@ public class Qno  {
 
 	}
 
-	
+	/**
+	 * Current Vocabulary used to generate text.
+	 * @return
+	 */
 	public Vocabulary getVocabulary() {
 		return vocab;
 	}
@@ -49,16 +54,24 @@ public class Qno  {
 		this.vocab = vocab;
 	}
 	
+	/**
+	 * Formater list, used to enhance text when generation is finished.
+	 * @return
+	 */
 	public List<Formater> getFormater() {
 		return formaters;
 	}
 
+	/**
+	 * Add a @Formater to list.
+	 * @param formater
+	 */
 	public void addFormater(Formater formater) {
 		this.formaters.add(formater);
 	}
 
 	/**
-	 * Execute text !
+	 * Execute text generation, using a pattern provided by @Vocabulary instance.
 	 * @return
 	 */
 	public String execute(){
@@ -66,6 +79,9 @@ public class Qno  {
 	}
 	
 	/**
+	 * Execute a text generation based on a specified pattern. 
+	 * 
+	 * Replace variables in given pattern, then enhance final text with @Formater instances.
 	 * 
 	 * @param pattern
 	 * @return
@@ -74,21 +90,25 @@ public class Qno  {
 		
 		//instantiate a new parser
 		Parser parser = QnoFactory.newParser();
+		//specify the pattern used to generate text
 		parser.setText(pattern); 
 		
 		//variable
 		Variable v = null ;
 		do {
+			//find next variable in pattern 
 			v = parser.nextVariable();
 			
 			if (v != null) {
-				//build request from variable
+				//build request from variable to fetch word
 				Query r = QueryFactory.query(v);
-				//find next word
+				//find next word in Vocabulary with the query
 				Word w = this.getVocabulary().get(r);
-				//replace
+				//replace with the parser the variable found with the new word.
 				parser.replace(v, w);
 			}
+			//loop until no variable is found
+			//note : a variable can be replaced by a text containing also one or several variables !
 		}while(v != null);
 		
 		//format final text

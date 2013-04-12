@@ -17,15 +17,18 @@ package net.balmeyer.qno.text;
 
 /**
  * Format final text to enhance presentation.
+ * 
  * @author Balmeyer
  *
  */
 public interface Formater {
 
+	/**
+	 * Modify a @StringBuilder with specified rules.
+	 * @param text
+	 */
 	public void format(StringBuilder text);
 	
 	
-	
-
 	
 }

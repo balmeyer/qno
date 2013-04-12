@@ -25,8 +25,10 @@ import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
 
 /**
+ * A simple implementation of @WordBag.
  * 
- * @author Word Map
+ * 
+ * 
  *
  */
 public class WordBagImpl implements WordBag {
@@ -67,6 +69,10 @@ public class WordBagImpl implements WordBag {
 	 */
 	@Override
 	public Word get(){
+		
+		if (this.words.size() == 0){
+			throw new IllegalArgumentException("list is null for " + this.getID());
+		}
 		
 		int i = Utils.getRandInstance().nextInt(this.words.size());
 		

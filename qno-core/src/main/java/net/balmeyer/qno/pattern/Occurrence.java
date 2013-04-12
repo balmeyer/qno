@@ -15,14 +15,19 @@
  */
 package net.balmeyer.qno.pattern;
 
-public class Occurence {
+/**
+ * 
+ * @author jean-baptiste
+ *
+ */
+public class Occurrence {
 
 	private int min;
 	private int max;
 	
-	public Occurence(){}
+	public Occurrence(){}
 	
-	public Occurence(int min , int max){
+	public Occurrence(int min , int max){
 		this.min = min;
 		this.max = max;
 	}

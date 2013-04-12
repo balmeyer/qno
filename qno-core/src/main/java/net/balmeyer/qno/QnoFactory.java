@@ -186,14 +186,6 @@ public class QnoFactory {
 	}
 
 	/**
-	 * Check pattern
-	 * @param text
-	 */
-	private static void checkText(String text){
-		
-	}
-	
-	/**
 	 * Create a @Formater instance from a class name found in configuration file.
 	 * 
 	 * @param clazz

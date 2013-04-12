@@ -72,6 +72,9 @@ public class TestDictionary {
 		
 	}
 
+	/**
+	 * test add a simple entry to dictionary and count
+	 */
 	@Test
 	public void testAdd() {
 		String nom = "outil";
@@ -91,6 +94,9 @@ public class TestDictionary {
 		assertEquals(1, d.getEntries().size());
 	}
 
+	/**
+	 * test a query on the main dictionary
+	 */
 	@Test
 	public void testEntryQuery(){
 		EntryQuery eq = new EntryQuery("nm");
@@ -106,6 +112,11 @@ public class TestDictionary {
 		assertEquals(Genre.feminin, eq.getGenre());
 	}
 	
+	/**
+	 * test load dictionary "dictionary.txt" and make a simple request
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
 	@Test
 	public void testAddVocabulary() throws UnsupportedEncodingException, IOException{
 		Dictionary d = new Dictionary();
@@ -124,7 +135,74 @@ public class TestDictionary {
 		assertNotNull(w3);
 	}
 	
+	/**
+	 * populate a dictionary and check gender
+	 */
+	@Test
+	public void testManipDictionary() {
+		Dictionary d = new Dictionary();
+		d.addRawData("maison	nf");
+		d.addRawData("banane	nf");
+		d.addRawData("arbre	nm");
+		d.addRawData("pantalon	nm");
+		
+		Vocabulary v = new Vocabulary();
+		v.add(d);
+		
+		for (int i = 0 ; i < 300 ; i++){
+			//
+			Word feminin = v.get(new EntryQuery("nf"));
+			assertTrue("maisonbanane".contains(feminin.toString()));
+			//
+			Word masculin = v.get(new EntryQuery("nm"));
+			assertTrue("arbrepantalon".contains(masculin.toString()));
+		}
+		
+		//test with pattern
+		Qno qno = new Qno();
+		qno.setVocabulary(v);
+		
+		for (int i = 0 ; i < 300 ; i++){
+			String result = qno.execute("${.nf}");
+			assertTrue("maisonbanane".contains(result));
+			
+			result = qno.execute("${.nm}");
+			assertTrue("arbrepantalon".contains(result));
+		}
+	}
 	
+	@Test
+	public void testSimpleDictAndPattern() {
+		Dictionary d = new Dictionary();
+		d.addRawData("maison	nf");
+		d.addRawData("pantalon	nm");
+		
+		Vocabulary v = new Vocabulary();
+		v.add(d);
+		
+		//test with pattern
+		Qno qno = new Qno();
+		qno.setVocabulary(v);
+		
+		for (int i = 0 ; i < 300 ; i++){
+			String result = qno.execute("{une|la} ${.nf}");
+			assertTrue(result.equals("une maison") || result.equals("la maison"));
+			
+			result = qno.execute("{un|le} ${.nm}");
+			assertTrue(result.equals("un pantalon") || result.equals("le pantalon"));
+			
+			result = qno.execute("${.nm} ${.nf}");
+			assertTrue(result.equals("pantalon maison"));
+			
+			result = qno.execute("${.nm}[${.nf}]");
+			assertTrue(result.equals("pantalonmaison") || result.equals("pantalon"));
+			
+			
+			result = qno.execute("[je {vois | sens}] {un|le} ${.nm}, [et] puis {une|la} ${.nf}");
+			assertTrue(!result.contains("le maison"));
+			assertTrue(!result.contains("un maison"));
+		}
+	}
 	
 	@Test
 	public void testBuildAll() throws UnsupportedEncodingException, IOException{

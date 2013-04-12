@@ -97,24 +97,21 @@ public final class Dictionary implements WordBag {
 	
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return Vocabulary.DICTIONARY;
 	}
 
 	@Override
 	public void setID(String id){
-		//
+		//nothing to do
 	}
 	
 	@Override
 	public void add(Word w) {
-		// TODO Auto-generated method stub
 		this.add((Entry) w);
 	}
 
 	@Override
 	public Word get() {
-		// TODO Auto-generated method stub
 		return get(new EntryQuery(""));
 	}
 	

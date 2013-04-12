@@ -57,30 +57,38 @@ public final class SimplePatternBuilder implements PatternBuilder {
 	}
 
 	/**
-	 * Build a final pattern, without brackets, regarding a base pattern.
+	 * Build a final pattern, without brackets (but with variables), regarding a base pattern. <br/>
+	 * 1 - split the high level text in several nodes using the pipe("|") delimiter, and choose one the nodes.<br/>
+	 * 2 - browse into the chosen node and do recursively the step 1<br/>
 	 * @param text
 	 * @return
 	 */
 	@Override
 	public String buildPattern(String text){
 		StringBuilder sb = new StringBuilder(text);
+		
 		browseAndSplit(sb, null);
 		
 		return sb.toString();
 	}
 	
+	/**
+	 * .
+	 */
 	@Override
 	public void buildPattern(StringBuilder sb){
 		this.browseAndSplit(sb, null);
 	}
+	
 	/**
-	 * Analyze a pattern and split it with "|" (pipe) delimiter,
-	 * and then return on of the splitter pattern
+	 * Analyze a pattern and split it with the "|" (pipe) delimiter,
+	 * and then return one of the splited pattern.
+	 * Example : if text is "one | two | three" return "one" or "two" or "three".
 	 * @param text
 	 * @return
 	 */
-	private void browseAndSplit(StringBuilder sb, Occurence occurence){
-		
+	private void browseAndSplit(StringBuilder sb, Occurrence occurence){
+		//TODO resolve bug !! ${} var are removed
 		boolean intext = true;
 		int level = 0;
 		int start = 0;
@@ -101,7 +109,7 @@ public final class SimplePatternBuilder implements PatternBuilder {
 				continue;
 			}
 			
-			//
+			//check delimiters like [] or {} to see if we're in text
 			for (Delimiter m : this.delimiters) {
 				if (m.start == c) {
 					level++;
@@ -130,7 +138,7 @@ public final class SimplePatternBuilder implements PatternBuilder {
 		}
 		
 		
-		//Chose NODE
+		//Choose NODE
 		int n = Utils.getRandInstance().nextInt(currentNode.size());
 		Node node = currentNode.get(n);
 		
@@ -181,13 +189,14 @@ public final class SimplePatternBuilder implements PatternBuilder {
 				insideVar = true;
 				continue;
 			}
-			
+			//when inside a variable as "${...}"
 			if (insideVar){
 				if (c == '{') continue;
 				if (c == '}'){
 					insideVar = false;
 					continue;
 				}
+				continue;
 			}
 			
 			for (Delimiter m : this.delimiters) {

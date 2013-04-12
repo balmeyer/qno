@@ -1,3 +1,5 @@
+#qno 2012-05 balmeyer
+
 @import dictionary.txt
 @format net.balmeyer.qno.text.SimpleFormater
 @format net.balmeyer.qno.text.ElisionFormater
@@ -14,12 +16,14 @@ ${body}
 {conte du | un | le } ${.nf}
 
 %body
-<
-${intro}[ ! | ?]
+<${intro}[ ! | ?]
 [${intro} | ${outro}]
 [...]
 ${outro}
 >
+<${intro}...
+O ! ${intro}
+${outro}>
 
 %intro 
 

@@ -103,6 +103,9 @@ public class QnoFactory {
 			if (line != null){
 				line = line.trim();
 				
+				//comment
+				if (line.startsWith("#")) continue;
+				
 				//import
 				if (line.startsWith("@import")){
 					add(qno, line.substring(7).trim());
@@ -126,16 +129,17 @@ public class QnoFactory {
 				}
 				
 				//new pattern
-				if (line.equals("<")){
+				if (line.startsWith("<")){
 					inExpression = true;
 					currentExpression.setLength(0);
-					continue;
+					line = line.substring(1);
 				}
 
 				if (inExpression) {
 					//end of expression
-					if (line.equals(">")){
+					if (line.endsWith(">")){
 						inExpression = false;
+						line = line.substring(0, line.length() - 1);
 					} else {
 						if (currentExpression.length() > 0) currentExpression.append("\r\n");
 						currentExpression.append(line);

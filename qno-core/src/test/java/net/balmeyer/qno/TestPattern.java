@@ -25,6 +25,7 @@ import org.junit.Test;
 
 public class TestPattern {
 
+
 	@Test
 	public void testPattern() {
 		String pattern = "hello !";

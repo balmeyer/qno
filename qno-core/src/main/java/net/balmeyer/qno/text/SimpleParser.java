@@ -80,7 +80,6 @@ public class SimpleParser implements Parser {
 	private void rebuild(){
 		//analyze pattern
 		PatternBuilder pp = PatternBuilderFactory.get();
-		//TODO BUG !!! variable ${} are removed
 		pp.buildPattern(this.text);
 	}
 	

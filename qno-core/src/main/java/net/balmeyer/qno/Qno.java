@@ -90,7 +90,7 @@ public class Qno  {
 		
 		//instantiate a new parser
 		Parser parser = QnoFactory.newParser();
-		//specify the pattern used to generate text
+		//specify the pattern used to generate text -
 		parser.setText(pattern); 
 		
 		//variable

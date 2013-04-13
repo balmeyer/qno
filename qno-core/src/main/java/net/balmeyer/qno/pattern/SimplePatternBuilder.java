@@ -88,7 +88,6 @@ public final class SimplePatternBuilder implements PatternBuilder {
 	 * @return
 	 */
 	private void browseAndSplit(StringBuilder sb, Occurrence occurence){
-		//TODO resolve bug !! ${} var are removed
 		boolean intext = true;
 		int level = 0;
 		int start = 0;
@@ -218,6 +217,7 @@ public final class SimplePatternBuilder implements PatternBuilder {
 						StringBuilder inside = new StringBuilder(sb.substring(start + 1, i));
 						this.browseAndSplit(inside , currentMark.getOccurence());
 						sb.replace(start  , i +1,inside.toString());
+						i--;
 						currentMark = null;
 						
 					} else {

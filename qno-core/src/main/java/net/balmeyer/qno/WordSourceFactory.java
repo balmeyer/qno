@@ -73,10 +73,8 @@ public class WordSourceFactory {
 			bag = (WordBag) claz.newInstance();
 			bag.setID(name);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

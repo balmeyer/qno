@@ -1,4 +1,4 @@
-@import dictionary.txt
+@import dictionary.csv
 @format net.balmeyer.qno.text.SimpleFormater
 @format net.balmeyer.qno.text.ElisionFormater
 

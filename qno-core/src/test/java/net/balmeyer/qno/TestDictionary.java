@@ -120,6 +120,9 @@ public class TestDictionary {
 	@Test
 	public void testAddVocabulary() throws UnsupportedEncodingException, IOException{
 		Dictionary d = new Dictionary();
+		
+		assertEquals(d.getID(), Vocabulary.DICTIONARY);
+		
 		d.loadResource("dictionary.txt");
 		Vocabulary v = new Vocabulary();
 		

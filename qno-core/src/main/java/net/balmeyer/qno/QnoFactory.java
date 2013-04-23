@@ -60,6 +60,7 @@ public class QnoFactory {
 		Qno qno = new Qno();
 		
 		//find text pattern
+		System.out.println("IMPORT : " + path);
 		URL url = Utils.url(path);
 		
 		//add config to the empty qno object
@@ -85,7 +86,7 @@ public class QnoFactory {
 	 * @throws IOException
 	 */
 	private static void add(Qno qno , URL url) throws IOException{
-
+		System.out.println(url);
 		//open input stream to read text file
 		InputStream inputStream = url.openStream();
 		

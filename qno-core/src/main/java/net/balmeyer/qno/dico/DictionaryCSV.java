@@ -40,16 +40,24 @@ public class DictionaryCSV implements WordBag {
 	}
 	
 	@Override
-	public Word get(Query request) {
+	public Word get(Query query) {
 
+		EntryQuery request = (EntryQuery) query;
+		
+		//find word
 		List<TypedWord> list = this.entries.get(request.toString());
 		
 		if (list != null && list.size() > 0 ){
 			int i = Utils.getRandInstance().nextInt(list.size());
-			return list.get(i);
+			TypedWord result = list.get(i);
+			
+			//forme ?
+			return this.formalize(result, request.getForme());
+			
 		}
 		
-		return null;
+		throw new IllegalArgumentException("Request not found : " + request);
+		//return null;
 		
 	}
 
@@ -115,9 +123,31 @@ public class DictionaryCSV implements WordBag {
 	@Override
 	public Word get() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new IllegalArgumentException("not implemented");
 	}
 	
+	private TypedWord formalize(TypedWord word, String forme){
+		if (forme == null) forme = "";
+		if(word instanceof Adjectif){
+			Adjectif adj = (Adjectif) word;
+			
+			adj.setPluriel(forme.contains("p"));
+			adj.setFeminin(forme.contains("f"));
+			
+			return adj;
+		}
+		
+		if(word instanceof Nom){
+			Nom nom = (Nom) word;
+			
+			nom.setPluriel(forme.contains("p"));
+			
+			return nom;
+		}
+		
+		
+		return word;
+	}
 	
 	private void buildNametoPattern(String data){
 		this.nameToColumn = new HashMap<String,Integer>();

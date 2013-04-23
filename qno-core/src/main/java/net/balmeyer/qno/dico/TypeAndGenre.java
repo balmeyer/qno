@@ -31,8 +31,8 @@ public abstract class TypeAndGenre {
 		if (definition.startsWith("adj")) e.setType(Type.adjectif);
 		if (definition.startsWith("adv")) e.setType(Type.adverbe);
 		
-		if (definition.startsWith("nf")) e.setGenre(Genre.feminin);
-		if (definition.startsWith("nm")) e.setGenre(Genre.masculin);
+		if (definition.contains("f")) e.setGenre(Genre.feminin);
+		if (definition.contains("m")) e.setGenre(Genre.masculin);
 	}
 	
 	

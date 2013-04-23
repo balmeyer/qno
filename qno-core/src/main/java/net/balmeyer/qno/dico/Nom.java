@@ -26,6 +26,8 @@ public class Nom implements TypedWord {
 	
 	private String type;
 	
+	private boolean ispluriel;
+	
 	public Nom(String text, Genre genre){
 		this.base = text;
 		this.setPluriel(text + "s");
@@ -61,6 +63,15 @@ public class Nom implements TypedWord {
 		this.type = definition;
 	}
 	
-	 
+	public void setPluriel(boolean value){
+		this.ispluriel = value;
+		this.rebase();
+	}
+	
+	private void rebase(){
+		if (!ispluriel) this.text = this.base;
+		if (ispluriel) this.text = this.pluriel;
+	}
+	
 	
 }

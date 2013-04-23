@@ -26,10 +26,18 @@ import net.balmeyer.qno.query.Query;
 public class EntryQuery extends TypeAndGenre implements Query {
 
 	private String expression ;
+	private String forme ;
 	
 	public EntryQuery(String expression){
 	
 		this.expression = expression;
+		
+		int pos = this.expression.indexOf(':');
+		if (pos>=0){
+			this.expression = expression.substring(0, pos);
+			this.forme = expression.substring(pos+1);
+		}
+		
 		TypeAndGenre.define(this, expression);
 	}
 	
@@ -42,6 +50,10 @@ public class EntryQuery extends TypeAndGenre implements Query {
 	@Override
 	public String toString(){
 		return this.expression;
+	}
+	
+	public String getForme(){
+		return this.forme;
 	}
 
 }

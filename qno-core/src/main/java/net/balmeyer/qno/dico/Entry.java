@@ -15,7 +15,6 @@
  */
 package net.balmeyer.qno.dico;
 
-import net.balmeyer.qno.Word;
 
 /**
  * 

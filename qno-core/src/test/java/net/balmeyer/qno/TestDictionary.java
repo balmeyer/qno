@@ -104,12 +104,23 @@ public class TestDictionary {
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
 		assertEquals(Type.nom, eq.getType());
 		assertEquals(Genre.masculin, eq.getGenre());
+		assertNull(eq.getForme());
 		
 		eq = new EntryQuery("nf");
 		
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
 		assertEquals(Type.nom, eq.getType());
 		assertEquals(Genre.feminin, eq.getGenre());
+		assertNull(eq.getForme());
+		
+		//with forme
+		eq = new EntryQuery("adj:f");
+		
+		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
+		assertEquals(Type.adjectif, eq.getType());
+		assertEquals(Genre.feminin, eq.getGenre());
+		assertNotNull(eq.getForme());
+		assertEquals("f", eq.getForme());
 	}
 	
 	/**

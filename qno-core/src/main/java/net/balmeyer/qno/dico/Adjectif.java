@@ -27,6 +27,9 @@ public class Adjectif implements TypedWord{
 	
 	private String type;
 	
+	private boolean ispluriel;
+	private boolean isfeminin;
+	
 	public Adjectif(String text){
 		this.base = text;
 		this.setPluriel(text + "s");
@@ -62,4 +65,24 @@ public class Adjectif implements TypedWord{
 	public void setFemininPluriel(String femininPluriel){
 		this.femininPluriel = femininPluriel;
 	}
+	
+	public void setPluriel(boolean value){
+		this.ispluriel = value;
+		this.rebase();
+	}
+	
+	
+	public void setFeminin(boolean value){
+		this.isfeminin = value;
+		this.rebase();
+	}
+	
+	private void rebase(){
+		if (!isfeminin && !ispluriel) this.text = this.base;
+		if (!isfeminin && ispluriel) this.text = this.pluriel;
+		if (isfeminin && !ispluriel) this.text = this.feminin;
+		if (isfeminin && ispluriel) this.text = this.femininPluriel;
+	}
+	
+	
 }

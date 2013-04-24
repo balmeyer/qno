@@ -15,14 +15,13 @@
  */
 package net.balmeyer.qno.dico;
 
-import net.balmeyer.qno.Word;
 
 /**
  * 
  * @author vovau
  *
  */
-public class Entry extends TypeAndGenre implements Word  {
+public class Entry extends TypeAndGenre implements TypedWord  {
 
 	private String word;
 	private String definition;
@@ -37,6 +36,7 @@ public class Entry extends TypeAndGenre implements Word  {
 		return this.word;
 	}
 	
+	@Override
 	public String getDefinition() {
 		return definition;
 	}

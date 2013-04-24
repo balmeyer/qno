@@ -76,11 +76,7 @@ public class Vocabulary implements WordSource {
 
 	}
 	
-	public void add(Dictionary dico){
-		this.add(DICTIONARY , dico);
-	}
-	
-	private void add(String name ,WordSource worder){
+	private void add(String name , WordSource worder){
 		if (this.idToBag == null) this.idToBag = new HashMap<String,WordSource>();
 
 		this.idToBag.put(name,worder);

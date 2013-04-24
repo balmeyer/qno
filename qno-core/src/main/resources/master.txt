@@ -1,4 +1,4 @@
-@import dictionary.txt
+@import dictionary.csv
 @format net.balmeyer.qno.text.SimpleFormater
 @format net.balmeyer.qno.text.ElisionFormater
 
@@ -17,8 +17,8 @@ ${body}
 >
 
 %titre
-{histoire d'une | une | la } ${.nf}
-{conte du | un | le } ${.nm}
+{histoire d'une | une | la } ${.nf} ${.adj:f}
+{conte du | un | le } ${.nm} ${.adj:m}
 
 %body
 <

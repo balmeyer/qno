@@ -16,9 +16,9 @@
 package net.balmeyer.qno.dico;
 
 public enum Type {
-	nom,
-	adjectif,
-	adverbe,
-	verbe,
-	verbeIntransitif
+	noun,
+	adjective,
+	adverb,
+	verb,
+	verbIntransitive
 }

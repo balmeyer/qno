@@ -38,7 +38,12 @@ public class EntryQuery extends TypeAndGenre implements Query {
 			this.forme = expression.substring(pos+1);
 		}
 		
-		TypeAndGenre.define(this, expression);
+		this.defineMe(expression);
+	}
+	
+	@Override
+	public Definition getDefinition(){
+		return new Definition(this.expression);
 	}
 	
 	@Override
@@ -50,6 +55,11 @@ public class EntryQuery extends TypeAndGenre implements Query {
 	@Override
 	public String toString(){
 		return this.expression;
+	}
+	
+	@Override
+	public int hashCode(){
+		return this.expression.hashCode();
 	}
 	
 	public String getForme(){

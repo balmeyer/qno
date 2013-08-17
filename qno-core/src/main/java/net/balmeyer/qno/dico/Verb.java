@@ -16,15 +16,19 @@
 package net.balmeyer.qno.dico;
 
 
-public class Verbe implements TypedWord {
+public class Verb implements TypedWord {
 
 	private String text ;
 	private int groupe;
-	private String type;
+	private Type type;
 	
-	public Verbe(String text){
+	private Definition definition;
+	
+	public Verb(String text, String definition){
 		this.text = text;
 		this.groupe = 1;
+		
+		this.definition = new Definition(definition);
 	}
 	
 	@Override
@@ -37,14 +41,15 @@ public class Verbe implements TypedWord {
 	}
 	
 	@Override
-	public String getDefinition() {
-		return this.type;
+	public Definition getDefinition() {
+		return this.definition;
+	}
+	
+	@Override
+	public Type getType(){
+		return Type.verb;
 	}
 
-	@Override
-	public void setDefinition(String definition){
-		this.type = definition;
-	}
 	
 	
 }

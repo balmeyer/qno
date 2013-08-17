@@ -15,7 +15,13 @@
  */
 package net.balmeyer.qno.dico;
 
-public enum Genre {
+/**
+ * Gender of words, in french language.
+ * 
+ * @author Balmeyer
+ *
+ */
+public enum Gender {
 
 	masculin,
 	feminin

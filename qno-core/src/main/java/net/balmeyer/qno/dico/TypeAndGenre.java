@@ -15,38 +15,55 @@
  */
 package net.balmeyer.qno.dico;
 
-public abstract class TypeAndGenre {
-	private Genre genre;
-	private Type type;
+/**
+ * Word with a Type, and add a genre (for nouns and adjectives)
+ * @author vovau
+ *
+ */
+public abstract class TypeAndGenre implements TypedWord{
+	
+	private Gender genre;
+	private Type type; 
+	private Definition definition;
 	
 	/**
 	 * Define type and genre on a word
 	 * @param e
 	 * @param definition
 	 */
-	public static void define(TypeAndGenre e, String definition){
-		if (definition.startsWith("n")) e.setType(Type.nom);
-		if (definition.startsWith("v")) e.setType(Type.verbe);
-		if (definition.startsWith("vi")) e.setType(Type.verbeIntransitif);
-		if (definition.startsWith("adj")) e.setType(Type.adjectif);
-		if (definition.startsWith("adv")) e.setType(Type.adverbe);
+	protected void defineMe(String definition){
 		
-		if (definition.contains("f")) e.setGenre(Genre.feminin);
-		if (definition.contains("m")) e.setGenre(Genre.masculin);
+		if (definition.startsWith("n")) this.setType(Type.noun);
+		if (definition.startsWith("v")) this.setType(Type.verb);
+		if (definition.startsWith("vi")) this.setType(Type.verbIntransitive);
+		if (definition.startsWith("adj")) this.setType(Type.adjective);
+		if (definition.startsWith("adv")) this.setType(Type.adverb);
+		
+		if (definition.contains("f")) this.setGenre(Gender.feminin);
+		if (definition.contains("m")) this.setGenre(Gender.masculin);
+		
+		this.definition = new Definition(definition);
 	}
 	
 	
-	public Genre getGenre() {
+	public Gender getGenre() {
 		return genre;
 	}
-	public void setGenre(Genre genre) {
+	public void setGenre(Gender genre) {
 		this.genre = genre;
 	}
+	
+	@Override
 	public Type getType() {
 		return type;
 	}
+	
 	public void setType(Type type) {
 		this.type = type;
 	}
 	
+	@Override
+	public Definition getDefinition(){
+		return this.definition;
+	}
 }

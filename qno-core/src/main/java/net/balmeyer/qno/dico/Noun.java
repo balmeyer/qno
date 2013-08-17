@@ -15,24 +15,25 @@
  */
 package net.balmeyer.qno.dico;
 
-import net.balmeyer.qno.Word;
-
-public class Nom implements TypedWord {
+/**
+ * Noun
+ * @author balmeyer
+ *
+ */
+public class Noun extends TypeAndGenre {
 
 	private String base ;
 	private String pluriel;
 	private String text;
-	private Genre genre;
-	
-	private String type;
-	
+
 	private boolean ispluriel;
 	
-	public Nom(String text, Genre genre){
+	public Noun(String text, String definition){
 		this.base = text;
 		this.setPluriel(text + "s");
 		this.text = this.base;
-		this.genre = genre;
+		
+		this.defineMe(definition);
 	}
 	
 	@Override
@@ -45,22 +46,8 @@ public class Nom implements TypedWord {
 		this.pluriel = text;
 	}
 	
-	/**
-	 * Returns gender
-	 * @return
-	 */
-	public Genre getGenre(){
-		return this.genre;
-	}
-
-	@Override
-	public String getDefinition() {
-		return this.type;
-	}
-
-	@Override
-	public void setDefinition(String definition){
-		this.type = definition;
+	public Type getType(){
+		return Type.noun;
 	}
 	
 	public void setPluriel(boolean value){

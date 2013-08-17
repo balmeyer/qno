@@ -24,11 +24,23 @@ package net.balmeyer.qno.dico;
 public class Entry extends TypeAndGenre implements TypedWord  {
 
 	private String word;
-	private String definition;
+	private Definition definition;
 
+	public static Entry buildEntry(String word){
+		return new Entry(word);
+	}
+	public static Entry buildEntry(String word, String definition){
+		return new Entry(word,definition);
+	}
 
-	public Entry(String word){
+	private Entry(String word){
 		this.word = word;
+	}
+	
+	private Entry(String word, String definition){
+		this.word = word;
+		this.definition = new Definition(definition);
+		this.defineMe(definition);
 	}
 	
 	@Override
@@ -37,13 +49,8 @@ public class Entry extends TypeAndGenre implements TypedWord  {
 	}
 	
 	@Override
-	public String getDefinition() {
+	public Definition getDefinition() {
 		return definition;
-	}
-
-	public void setDefinition(String definition) {
-		this.definition = definition;
-		TypeAndGenre.define(this, definition);
 	}
 
 

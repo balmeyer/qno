@@ -25,7 +25,7 @@ public class Adjectif implements TypedWord{
 	private String pluriel;
 	private String femininPluriel;
 	
-	private String type;
+	private Definition definition;
 	
 	private boolean ispluriel;
 	private boolean isfeminin;
@@ -36,6 +36,8 @@ public class Adjectif implements TypedWord{
 		this.setFeminin(text + "e");
 		this.setFemininPluriel(text + "es");
 		this.text = this.base;
+		
+		this.definition = new Definition("adj");
 	}
 	
 	@Override
@@ -44,16 +46,14 @@ public class Adjectif implements TypedWord{
 	}
 	
 	@Override
-	public String getDefinition() {
-		return this.type;
+	public Definition getDefinition() {
+		return this.definition;
+	}
+	
+	public Type getType(){
+		return Type.adjective;
 	}
 
-	@Override
-	public void setDefinition(String definition){
-		this.type = definition;
-	}
-	
-	
 	public void setPluriel(String pluriel){
 		this.pluriel = pluriel;
 	}

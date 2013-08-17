@@ -33,12 +33,17 @@ import net.balmeyer.qno.Word;
 import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
 
+/**
+ * Simple dictionary (see "dictionary.txt" file), based on text/type.
+ * @author vovau
+ *
+ */
 public final class Dictionary implements WordBag {
 
 	//private static final String DICTIONARY_RESOURCE = "dictionary.txt";
 	
 	private Set<Entry> entries ;
-	private Map<String,List<Entry>> selected;
+	private Map<Definition,List<Entry>> selected;
 
 
 	public Dictionary(){
@@ -89,9 +94,8 @@ public final class Dictionary implements WordBag {
 	 * @return
 	 */
 	public static Entry buildEntry(String word, String definition){
-		Entry e = new Entry(word);
-		e.setDefinition(definition);
-
+		//TODO remove : doublon
+		Entry e = Entry.buildEntry(word,definition);
 		return e;
 	}
 	
@@ -141,11 +145,12 @@ public final class Dictionary implements WordBag {
 	 * Build lists
 	 */
 	private void build(){
-		this.selected = new HashMap<String,List<Entry>>();
+		this.selected = new HashMap<Definition,List<Entry>>();
 		
 		for(Entry e : this.entries){
 			//
-			String key = getKey(e);
+			Definition key = getKey(e);
+			
 			List<Entry> list = this.selected.get(key);
 			if (list == null ){
 				list = new ArrayList<Entry>();
@@ -155,18 +160,19 @@ public final class Dictionary implements WordBag {
 		}
 		
 		//build complete list of "nom" (name)
-		String key = Type.nom.toString();
+		Definition key = new Definition(Type.noun);
 		
 		ArrayList<Entry> allNames = new ArrayList<Entry>();
-		allNames.addAll(this.selected.get(Type.nom + "-" + Genre.masculin));
-		allNames.addAll(this.selected.get(Type.nom + "-" + Genre.feminin));
+		allNames.addAll(this.selected.get(new Definition(Type.noun , Gender.masculin)));
+		allNames.addAll(this.selected.get(new Definition(Type.noun , Gender.feminin)));
 		this.selected.put(key,allNames);
 	}
 	
-	private String getKey(TypeAndGenre tag){
+	private Definition getKey(TypeAndGenre tag){
+		String text = null;
+		if (tag.getGenre() == null) return new Definition(tag.getType());
+		return new Definition(tag.getType(),  tag.getGenre());
 		
-		if (tag.getGenre() == null) return tag.getType().toString();
-		return tag.getType() + "-" + tag.getGenre();
 	}
 
 

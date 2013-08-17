@@ -26,7 +26,7 @@ import java.io.UnsupportedEncodingException;
 import net.balmeyer.qno.dico.Dictionary;
 import net.balmeyer.qno.dico.Entry;
 import net.balmeyer.qno.dico.EntryQuery;
-import net.balmeyer.qno.dico.Genre;
+import net.balmeyer.qno.dico.Gender;
 import net.balmeyer.qno.dico.Type;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
@@ -47,8 +47,8 @@ public class TestDictionary {
 		Entry e = (Entry) w;
 		assertNotNull(e);
 		
-		assertEquals(Type.nom , e.getType());
-		assertEquals(Genre.feminin , e.getGenre());
+		assertEquals(Type.noun , e.getType());
+		assertEquals(Gender.feminin , e.getGenre());
 		assertEquals(nom , e.toString());
 		assertEquals(nom , w.toString());
 		
@@ -57,8 +57,8 @@ public class TestDictionary {
 		def = "nm";
 		e = Dictionary.buildEntry(nom, def);
 		
-		assertEquals(Type.nom , e.getType());
-		assertEquals(Genre.masculin , e.getGenre());
+		assertEquals(Type.noun , e.getType());
+		assertEquals(Gender.masculin , e.getGenre());
 		assertEquals(nom , e.toString());
 		
 		//
@@ -66,7 +66,7 @@ public class TestDictionary {
 		def = "adj";
 		e = Dictionary.buildEntry(nom, def);
 		
-		assertEquals(Type.adjectif , e.getType());
+		assertEquals(Type.adjective , e.getType());
 		assertNull(e.getGenre());
 		assertEquals(nom , e.toString());
 		
@@ -81,8 +81,8 @@ public class TestDictionary {
 		String def = "nm";
 		Entry e = Dictionary.buildEntry(nom, def);
 		
-		assertEquals(Type.nom , e.getType());
-		assertEquals(Genre.masculin , e.getGenre());
+		assertEquals(Type.noun , e.getType());
+		assertEquals(Gender.masculin , e.getGenre());
 		assertEquals(nom , e.toString());
 		
 		Dictionary d = new Dictionary();
@@ -102,23 +102,23 @@ public class TestDictionary {
 		EntryQuery eq = new EntryQuery("nm");
 		
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
-		assertEquals(Type.nom, eq.getType());
-		assertEquals(Genre.masculin, eq.getGenre());
+		assertEquals(Type.noun, eq.getType());
+		assertEquals(Gender.masculin, eq.getGenre());
 		assertNull(eq.getForme());
 		
 		eq = new EntryQuery("nf");
 		
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
-		assertEquals(Type.nom, eq.getType());
-		assertEquals(Genre.feminin, eq.getGenre());
+		assertEquals(Type.noun, eq.getType());
+		assertEquals(Gender.feminin, eq.getGenre());
 		assertNull(eq.getForme());
 		
 		//with forme
 		eq = new EntryQuery("adj:f");
 		
 		assertEquals(Vocabulary.DICTIONARY , eq.getVariableName());
-		assertEquals(Type.adjectif, eq.getType());
-		assertEquals(Genre.feminin, eq.getGenre());
+		assertEquals(Type.adjective, eq.getType());
+		assertEquals(Gender.feminin, eq.getGenre());
 		assertNotNull(eq.getForme());
 		assertEquals("f", eq.getForme());
 	}
@@ -235,8 +235,8 @@ public class TestDictionary {
 		
 		Entry e = (Entry) w;
 		assertNotNull(e);
-		assertEquals(Type.nom, e.getType());
-		assertEquals(Genre.masculin, e.getGenre());
+		assertEquals(Type.noun, e.getType());
+		assertEquals(Gender.masculin, e.getGenre());
 		
 		//-----
 		Variable v = new Variable();
@@ -250,8 +250,8 @@ public class TestDictionary {
 		
 		e = (Entry) w;
 		assertNotNull(e);
-		assertEquals(Type.nom, e.getType());
-		assertEquals(Genre.feminin, e.getGenre());
+		assertEquals(Type.noun, e.getType());
+		assertEquals(Gender.feminin, e.getGenre());
 		
 	}
 	

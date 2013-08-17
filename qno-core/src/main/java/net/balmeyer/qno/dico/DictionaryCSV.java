@@ -26,17 +26,31 @@ import net.balmeyer.qno.Word;
 import net.balmeyer.qno.WordBag;
 import net.balmeyer.qno.query.Query;
 
+/**
+ * More complex dictionary than "Dictionary" class, based on the "dictionary.csv" files.
+ * This file contains several column to decline words with gender and number.
+ * @author vovau
+ *
+ */
 public class DictionaryCSV implements WordBag {
+
+	//name of column in file
+	private static final String DIC_COLUMN_TEXT = "texte";
+	private static final String DIC_COLUMN_TYPE = "type";
+	private static final String DIC_COLUMN_PLURIEL = "pluriel";
+	private static final String DIC_COLUMN_FEMININ = "feminin";
+	private static final String DIC_COLUMN_FEMININPLURIEL = "femininpluriel";
+	private static final String DIC_COLUMN_GROUP = "groupe";
 
 	//column
 	private Map<String,Integer> nameToColumn;
 	private static final String SEPARATOR = "\t";
 	
 	//entries
-	private Map<String,List<TypedWord>> entries;
+	private Map<Definition,List<TypedWord>> entries;
 	
 	public DictionaryCSV(){
-		this.entries = new HashMap<String,List<TypedWord>>();
+		this.entries = new HashMap<Definition,List<TypedWord>>();
 	}
 	
 	@Override
@@ -45,7 +59,7 @@ public class DictionaryCSV implements WordBag {
 		EntryQuery request = (EntryQuery) query;
 		
 		//find word
-		List<TypedWord> list = this.entries.get(request.toString());
+		List<TypedWord> list = this.entries.get(request.getDefinition());
 		
 		if (list != null && list.size() > 0 ){
 			int i = Utils.getRandInstance().nextInt(list.size());
@@ -84,16 +98,16 @@ public class DictionaryCSV implements WordBag {
 		}
 		
 		String [] words = data.split(SEPARATOR); 
-		String type = getValue(words,"type");
+		String type = getValue(words, DIC_COLUMN_TYPE);
 		TypedWord word = null;
 		
 		if (type.startsWith("n")){
 			//nom
-			word = this.buildNom(words);
+			word = this.buildNoun(words);
 		}
 		
 		if (type.startsWith("adj")){
-			//adj
+			//adjectives
 			word = this.buildAdjectif(words);
 		}
 		
@@ -103,7 +117,9 @@ public class DictionaryCSV implements WordBag {
 		}
 		
 		if (word != null) {
-			word.setDefinition(type);
+			//check def
+			Utils.check(word.getDefinition() != null, "definition is null for word : " + word);
+			
 			this.add(word);
 		}
 	}
@@ -137,8 +153,8 @@ public class DictionaryCSV implements WordBag {
 			return adj;
 		}
 		
-		if(word instanceof Nom){
-			Nom nom = (Nom) word;
+		if(word instanceof Noun){
+			Noun nom = (Noun) word;
 			
 			nom.setPluriel(forme.contains("p"));
 			
@@ -178,43 +194,46 @@ public class DictionaryCSV implements WordBag {
 	 * @param words
 	 * @return
 	 */
-	private Nom buildNom(String[]words){
+	private Noun buildNoun(String[]words){
 		
-		String type = getValue(words,"type");
-		Genre genre = (type.equals("nf")) ? Genre.feminin : Genre.masculin;
+		String definition = getValue(words,"type");
 		
-		Nom nom = new Nom(words[nameToColumn.get("texte")], genre);
+		Noun noun = new Noun(words[nameToColumn.get(DIC_COLUMN_TEXT)], definition);
 		
-		if (getValue(words,"pluriel") != null){
-			nom.setPluriel(getValue(words,"pluriel") );
+		if (getValue(words,DIC_COLUMN_PLURIEL) != null){
+			noun.setPluriel(getValue(words,DIC_COLUMN_PLURIEL) );
 		}
 		
-		return nom;
+		
+		return noun;
 	}
 	
 	private Adjectif buildAdjectif(String[]words){
-		Adjectif adj = new Adjectif(words[nameToColumn.get("texte")]);
+		Adjectif adj = new Adjectif(words[nameToColumn.get(DIC_COLUMN_TEXT)]);
 		
 		if (getValue(words,"pluriel") != null){
-			adj.setPluriel(getValue(words,"pluriel") );
+			adj.setPluriel(getValue(words,DIC_COLUMN_PLURIEL) );
 		}
 		
 		if (getValue(words,"feminin") != null){
-			adj.setFeminin(getValue(words,"feminin") );
+			adj.setFeminin(getValue(words,DIC_COLUMN_FEMININ) );
 		}
 		
-		if (getValue(words,"femininpluriel") != null){
-			adj.setFemininPluriel(getValue(words,"femininpluriel") );
+		if (getValue(words,DIC_COLUMN_FEMININPLURIEL) != null){
+			adj.setFemininPluriel(getValue(words,DIC_COLUMN_FEMININPLURIEL) );
 		}
 		
 		return adj;
 	}
 	
-	private Verbe buildVerbe(String[]words){
-		Verbe verbe = new Verbe(words[nameToColumn.get("texte")]);
+	private Verb buildVerbe(String[]words){
+		Verb verbe = new Verb(
+				words[nameToColumn.get(DIC_COLUMN_TEXT)],
+				words[nameToColumn.get(DIC_COLUMN_TYPE)]
+				);
 		
-		if (getValue(words,"groupe") != null){
-			verbe.setGroupe(Integer.valueOf(getValue(words,"groupe")));
+		if (getValue(words,DIC_COLUMN_GROUP) != null){
+			verbe.setGroupe(Integer.valueOf(getValue(words,DIC_COLUMN_GROUP)));
 		}
 		
 		return verbe;

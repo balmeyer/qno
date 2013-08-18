@@ -18,21 +18,22 @@ package net.balmeyer.qno.text;
 import net.balmeyer.qno.Word;
 
 /**
- * 
+ * Build text uppon a pattern. 
  * @author JB Balmeyer
  *
  */
-public interface Parser {
+public interface TextBuilder {
 
-	/** Text to analyse (also called pattern), containing variables. */
-	public String getText();
+	/** Text to analyse (based on the pattern), containing variables. */
+	public String getCurrentText();
 	
-	public void setText(String text);
+	/** Set a pattern to the builder. */
+	public void setPattern(String text);
 	
-	/** find next variable in a pattern. */
+	/** find next variable in a pattern to work on. */
 	public Variable nextVariable();
 	
-	/** replace a variable in a pattern. */
+	/** replace a variable in a current text. */
 	public void replace(Variable var, Word word );
 	
 }

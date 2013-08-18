@@ -80,4 +80,8 @@ public class TestFormater {
 		assertEquals("...l'ouzo. L'a.",pattern.toString());
 	}
 	
+	@Test
+	public void testEngineWithFormaters(){
+
+	}
 }

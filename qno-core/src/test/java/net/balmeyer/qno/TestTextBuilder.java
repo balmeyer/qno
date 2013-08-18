@@ -16,12 +16,12 @@
 package net.balmeyer.qno;
 
 import static net.balmeyer.qno.WordSourceFactory.bag;
-import static net.balmeyer.qno.QnoFactory.word;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.balmeyer.qno.query.QueryFactory;
-import net.balmeyer.qno.text.Parser;
+import net.balmeyer.qno.text.TextBuilder;
+import net.balmeyer.qno.text.SimpleTextBuilder;
 import net.balmeyer.qno.text.Variable;
 
 import org.junit.Test;
@@ -30,22 +30,23 @@ import org.junit.Test;
  * @author vovau
  *
  */
-public class TestParser {
+public class TestTextBuilder {
 
 	/**
 	 * Text simple replace
 	 */
 	@Test
 	public void testSimpleVarAndReplace() {
-		Parser parser = QnoFactory.newParser();
+		
+		TextBuilder parser = new SimpleTextBuilder();
 		
 		assertNotNull(parser);
 		
 		String text = "test ${Test} tata";
 		
-		parser.setText(text);
+		parser.setPattern(text);
 		
-		assertEquals(text,parser.getText());
+		assertEquals(text,parser.getCurrentText());
 		
 		Variable var = parser.nextVariable();
 		assertNotNull(var);
@@ -55,22 +56,22 @@ public class TestParser {
 		assertEquals("test", var.getID());
 		
 		//replace
-		parser.replace(var, QnoFactory.word("tut"));
+		parser.replace(var, Qno.word("tut"));
 		
-		assertEquals("test tut tata", parser.getText());
+		assertEquals("test tut tata", parser.getCurrentText());
 		
 	}
 
 	@Test
 	public void testDoubleVar(){
-		Parser parser = QnoFactory.newParser();
+		TextBuilder parser = new SimpleTextBuilder();
 		
 		assertNotNull(parser);
 		
 		String text = "one ${two} three ${four} five ${six} ${two} seven";
-		parser.setText(text);
+		parser.setPattern(text);
 		
-		assertEquals(text,parser.getText());
+		assertEquals(text,parser.getCurrentText());
 		
 		int i = 0;
 		
@@ -81,11 +82,11 @@ public class TestParser {
 				assertTrue (v.getEnd() > v.getStart());
 				assertTrue(v.getID().length() <= 4);
 				assertTrue(v.getText().length() > 5);
-				parser.replace(v, QnoFactory.word("ok" + (i++)));
+				parser.replace(v, Qno.word("ok" + (i++)));
 			}
 		} while(v != null);
 		
-		assertEquals("one ok0 three ok1 five ok2 ok3 seven",parser.getText());
+		assertEquals("one ok0 three ok1 five ok2 ok3 seven",parser.getCurrentText());
 	}
 	
 	/**
@@ -93,20 +94,20 @@ public class TestParser {
 	 */
 	@Test
 	public void testComplete(){
-		Parser parser = QnoFactory.newParser();
+		TextBuilder parser = new SimpleTextBuilder();
 		
 		assertNotNull(parser);
 		
 		String text = "hello ${a} hello ${b} hello ${a} hello ${b}";
-		parser.setText(text);
+		parser.setPattern(text);
 		
-		assertEquals(text,parser.getText());
+		assertEquals(text,parser.getCurrentText());
 		
 		Vocabulary voca = new Vocabulary();
 		WordBag bagA = bag("a");
-		bagA.add(word("alpha"));
+		bagA.add(Qno.word("alpha"));
 		WordBag bagB = bag("b");
-		bagB.add(word("beta"));
+		bagB.add(Qno.word("beta"));
 		
 		voca.add(bagA);
 		voca.add(bagB);
@@ -128,6 +129,6 @@ public class TestParser {
 			}
 		} while(v != null);
 		
-		assertEquals("hello alpha hello beta hello alpha hello beta",parser.getText());
+		assertEquals("hello alpha hello beta hello alpha hello beta",parser.getCurrentText());
 	}
 }

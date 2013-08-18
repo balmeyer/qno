@@ -15,7 +15,6 @@
  */
 package net.balmeyer.qno;
 
-import static net.balmeyer.qno.QnoFactory.word;
 import static net.balmeyer.qno.WordSourceFactory.bag;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -32,8 +31,8 @@ public class TestEngine {
 		WordBag b1 = bag("a");
 		WordBag b2 = bag("b");
 
-		b1.add(word("alpha"));
-		b2.add(word("beta"));
+		b1.add(Qno.word("alpha"));
+		b2.add(Qno.word("beta"));
 
 		v.add(b1);
 		v.add(b2);
@@ -55,8 +54,8 @@ public class TestEngine {
 		WordBag b1 = bag("a");
 		WordBag b2 = bag("b");
 
-		b1.add(word("alpha"));
-		b2.add(word("beta"));
+		b1.add(Qno.word("alpha"));
+		b2.add(Qno.word("beta"));
 
 		v.add(b1);
 		v.add(b2);

@@ -15,7 +15,6 @@
  */
 package net.balmeyer.qno;
 
-import static net.balmeyer.qno.QnoFactory.word;
 import static net.balmeyer.qno.WordSourceFactory.bag;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -59,7 +58,7 @@ public class TestCore {
 		final String variable = "Test !!";
 		
 		//create simple word et test "next"
-		Word w1 = word(variable);
+		Word w1 = Qno.word(variable);
 		
 		assertEquals(variable, w1.toString());
 		
@@ -87,11 +86,11 @@ public class TestCore {
 	public void wordBuilder() {
 
 		try {
-			Qno engine = QnoFactory.load("master.txt");
+			Qno engine = new Qno();
+			engine.load("master.txt");
 			engine.addFormater(new SimpleFormater());
 			
 			//add dictionary
-			
 			
 			String result = engine.execute();
 			System.out.println(result);
@@ -114,11 +113,11 @@ public class TestCore {
 	@Test
 	public void testPattern(){
 		WordBag bag = bag(Vocabulary.PATTERN_ID);
-		bag.add(word("toto"));
+		bag.add(Qno.word("toto"));
 		
 		//stuff
 		WordBag words = bag("test1");
-		words.add(word("pouet"));
+		words.add(Qno.word("pouet"));
 		
 		Vocabulary v = new Vocabulary();
 		v.add(bag);
@@ -136,8 +135,8 @@ public class TestCore {
 		WordBag map1 = bag("a");
 		WordBag map2 = bag("b");
 		
-		map1.add(word("alpha"));
-		map2.add(word("beta"));
+		map1.add(Qno.word("alpha"));
+		map2.add(Qno.word("beta"));
 		
 		//simple test
 		for (int i = 0 ; i < 20 ; i++) {

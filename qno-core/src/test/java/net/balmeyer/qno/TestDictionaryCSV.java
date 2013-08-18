@@ -2,9 +2,6 @@ package net.balmeyer.qno;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import net.balmeyer.qno.dico.DictionaryCSV;
 import net.balmeyer.qno.dico.EntryQuery;
 

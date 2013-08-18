@@ -21,21 +21,21 @@ import net.balmeyer.qno.pattern.PatternBuilder;
 import net.balmeyer.qno.pattern.PatternBuilderFactory;
 
 /**
- * Basic implementation of @Parser. 
+ * Basic implementation of @TextBuilder. 
  * @author jean-baptiste
  *
  */
-public class SimpleParser implements Parser {
+public class SimpleTextBuilder implements TextBuilder {
 
 	private StringBuilder text;
 	
 	@Override
-	public String getText() {
+	public String getCurrentText() {
 		return text.toString();
 	}
 
 	@Override
-	public void setText(String text){
+	public void setPattern(String text){
 		this.text = new StringBuilder(text);
 		this.rebuild();
 	}
@@ -74,7 +74,7 @@ public class SimpleParser implements Parser {
 
 	@Override
 	public String toString(){
-		return this.getText();
+		return this.getCurrentText();
 	}
 	
 	private void rebuild(){

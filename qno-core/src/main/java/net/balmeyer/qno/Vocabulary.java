@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.balmeyer.qno.dico.Dictionary;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.SimpleQuery;
 

@@ -15,13 +15,23 @@
  */
 package net.balmeyer.qno;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balmeyer.qno.impl.PlainWord;
+import net.balmeyer.qno.impl.WordBagImpl;
 import net.balmeyer.qno.query.Query;
 import net.balmeyer.qno.query.QueryFactory;
+import net.balmeyer.qno.text.ElisionFormater;
 import net.balmeyer.qno.text.Formater;
-import net.balmeyer.qno.text.Parser;
+import net.balmeyer.qno.text.SimpleFormater;
+import net.balmeyer.qno.text.SimpleTextBuilder;
+import net.balmeyer.qno.text.TextBuilder;
 import net.balmeyer.qno.text.Variable;
 
 
@@ -67,6 +77,11 @@ public class Qno  {
 	 * @param formater
 	 */
 	public void addFormater(Formater formater) {
+		//check if formater already exists.
+		for(Formater f : this.formaters){
+			if (f.getClass().equals(formater.getClass())) return;
+		}
+		
 		this.formaters.add(formater);
 	}
 
@@ -89,9 +104,9 @@ public class Qno  {
 	public String execute(String pattern){
 		
 		//instantiate a new parser
-		Parser parser = QnoFactory.newParser();
+		TextBuilder parser = Qno.newTextBuilder();
 		//specify the pattern used to generate text -
-		parser.setText(pattern); 
+		parser.setPattern(pattern); 
 		
 		//variable
 		Variable v = null ;
@@ -119,5 +134,194 @@ public class Qno  {
 
 		return formated.toString();
 	}
+	
+
+	public static Word word(String expression){
+		return new PlainWord(expression);
+	}
+
+	
+	/**
+	 * Create a new instance of TextBuilder
+	 * @return
+	 */
+	private static TextBuilder newTextBuilder(){
+		return new SimpleTextBuilder();
+	}
+	
+
+	/**
+	 * Load Vocabulary from a configuration file.
+	 * 
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	public void load(String path) throws IOException {
+		
+		URL url = Utils.url(path);
+		
+		//add config to the empty qno object
+		add(url);
+		
+		//add formaters
+		addFormater(new SimpleFormater());
+		addFormater(new ElisionFormater());
+
+	}
+	
+
+	
+	/**
+	 * Load a configuration file for text generation and add infos to a @Qno instance.
+	 * @param qno
+	 * @param path
+	 * @throws IOException
+	 */
+	private void add(String path) throws IOException{
+		URL url = Vocabulary.class.getClassLoader().getResource(path);
+		add(url);
+	}
+	
+	/**
+	 * Load a configuration file for text generation and add infos to a @Qno instance.
+	 * @param path
+	 * @throws IOException
+	 */
+	private void add(URL url) throws IOException{
+		System.out.println(url);
+		//open input stream to read text file
+		InputStream inputStream = url.openStream();
+		
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(inputStream, "UTF-8")
+				);
+		
+		String line = "";
+		
+		//patterns found are added in a "WordBag" object.
+				WordBag patterns = new WordBagImpl();
+				patterns.setID(Vocabulary.PATTERN_ID);
+
+				//currentMap is the list where words found arred currently added. 
+				//Fist list is the list pattern.
+				WordBag currentMap = patterns;
+				List<WordBag> allwords = new ArrayList<WordBag>();
+				allwords.add(patterns);
+
+				//current expression
+				StringBuilder currentExpression = new StringBuilder();
+				boolean inExpression = false;
+
+				//read line
+				while (line != null){
+					line = reader.readLine();
+					
+					if (line != null){
+						line = line.trim();
+
+
+						//import a configuration file
+						if (line.startsWith("@import")){
+							add(line.substring(7).trim());
+							continue;
+						}
+
+						//add a formater
+						if (line.startsWith("@format")){
+							this.addFormater(createFormaterFromClassName(line.substring(7).trim()));
+							continue;
+						}
+
+
+						//new words list is found. The word after % symbol is the variable/list name.
+						if (line.startsWith("%")){
+							currentMap = (WordBag) WordSourceFactory.bag(line);
+							allwords.add(currentMap);
+							continue;
+						}
+
+						//new pattern
+						if (line.startsWith("<")){
+							//check last
+							if (inExpression){
+								throw new IllegalStateException("Last sign '<' was not closed");
+							}
+
+							inExpression = true;
+							currentExpression.setLength(0);
+							//add rest of line
+							if (line.length() > 1) currentExpression.append(line.substring(1));
+							continue;
+						}
+
+						if (inExpression) {
+							//end of expression
+							if (line.endsWith(">")){
+								//end of expression
+								inExpression = false;
+								if (line.length() > 0) line = line.substring(0 , line.length() - 1);
+							} 
+							
+							//in expression, waiting for closing sign
+							if (currentExpression.length() > 0) currentExpression.append("\r\n");
+							currentExpression.append(line);
+
+							if (inExpression) continue;
+							
+						}
+						else {
+							//simple line
+							currentExpression = new StringBuilder(line);
+						}
+
+						if (currentExpression.length() > 0) {
+						currentMap.addRawData(currentExpression.toString());
+						}
+
+					}
+				}
+
+				//check
+				if (inExpression){
+					throw new IllegalStateException("malformated text. "
+							+" Check patterns and < and > signs.");
+				}
+
+				//keep all maps
+				this.getVocabulary().add(allwords);
+	}
+
+	/**
+	 * Create a @Formater instance from a class name found in configuration file.
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	private static Formater createFormaterFromClassName(String clazz){
+		
+		Formater instance = null;
+		
+		Class<?> cl = null;
+		try {
+			cl = Qno.class.getClassLoader().loadClass(clazz);
+			instance = (Formater) cl.newInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+
+		if (instance == null){
+			throw new IllegalArgumentException("impossible to create class : " + clazz);
+		}
+		
+		return instance;
+		
+	}
+	
 	
 }

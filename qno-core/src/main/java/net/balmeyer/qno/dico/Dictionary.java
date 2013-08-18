@@ -169,7 +169,6 @@ public final class Dictionary implements WordBag {
 	}
 	
 	private Definition getKey(TypeAndGenre tag){
-		String text = null;
 		if (tag.getGenre() == null) return new Definition(tag.getType());
 		return new Definition(tag.getType(),  tag.getGenre());
 		

@@ -62,6 +62,13 @@ public class SimpleFormater implements Formater {
 		}
 		
 		//Punctuation
+		int start = -1;
+		do {
+			start = sb.indexOf(" ,");
+			if (start >=0){
+				sb.replace(start, start + 1, ",");
+			}
+		} while(start >= 0);
 	}
 	
 	

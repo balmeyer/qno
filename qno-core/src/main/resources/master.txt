@@ -3,13 +3,15 @@
 @format net.balmeyer.qno.text.ElisionFormater
 
 <
+1
 ${titre}
--------------------------------
-
+${body}
+${body}
 ${body}
 >
+
 <
-${titre}
+2 ${titre}
 ${titre}[, ${titre}]
 ${body}
 [${body}]
@@ -21,11 +23,14 @@ ${body}
 {conte du | un | le } ${.nm} ${.adj:m}
 
 %body
-<
+
 ${intro}[ ! | ?]
 [${intro} | ${outro}]
 [...]
 ${outro}
+<
+${intro}
+${body}
 >
 
 %intro 
@@ -37,6 +42,7 @@ ${outro}
 %outro
 et puis, ${intro}
 [alors] [soudain] {la ${.nf} plus {forte|verte|étrange} | le ${.nm} plus ${couleur}} {que le | qu'un} ${.nm}.
+
 %couleur
 vert
 rouge

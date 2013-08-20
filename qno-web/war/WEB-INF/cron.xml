@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+
+
+  <cron>
+    <url>/qno</url>
+    <description>Publish blog</description>
+    <schedule>every 24 hours</schedule>
+  </cron>
+  
+</cronentries>

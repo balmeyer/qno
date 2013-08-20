@@ -49,7 +49,13 @@ public class Qno  {
 	private List<Formater> formaters = new ArrayList<Formater>();
 	
 	public Qno(){
-
+		//add default dictionary
+		try {
+			this.add("dictionary.csv");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

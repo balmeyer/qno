@@ -1,5 +1,0 @@
-%# net.balmeyer.qno.dico.Dictionary
-femme	nf
-homme	nm
-avion	nm
-allée	nf

@@ -1,0 +1,51 @@
+<
+
+${titre}
+${body}
+${body}
+${body}
+>
+
+<
+${titre}
+${titre}[, ${titre}]
+${body}
+[${body}]
+[${body}]
+>
+
+%titre
+{histoire d'une | une | la } ${.nf} ${.adj:f}
+{conte du | un | le } ${.nm} ${.adj:m}
+
+%body
+
+${intro}[ ! | ?]
+[${intro} | ${outro}]
+[...]
+${outro}
+<
+${intro}
+${body}
+>
+
+%intro 
+
+[je {vois | sens}] {un|le} ${.nm}, [et] puis {une|la} ${.nf}
+[[moi] je {sais | connais}] {un|le} ${.nm} [${couleur} [, et ${couleur}|noire]] [sur {une|la} ${.nf}]
+
+
+%outro
+et puis, ${intro}
+[alors] [soudain] {la ${.nf} plus {forte|verte|étrange} | le ${.nm} plus ${couleur}} {que le | qu'un} ${.nm}.
+
+%couleur
+vert
+rouge
+bleu
+orange
+mordoré
+écarlate
+marron
+pourpre
+

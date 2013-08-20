@@ -1,7 +1,0 @@
-%prenom
-
-jules
-pierre
-bob
-richard
-françois

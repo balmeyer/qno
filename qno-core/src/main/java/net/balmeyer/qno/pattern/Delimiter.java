@@ -24,14 +24,16 @@ public class Delimiter {
 
 	public char start;
 	public char end;
+	public char variableMarker; //don't parse if variable
 
 	private Occurrence occurence;
 	
 	public Delimiter(){}
 	
-	public Delimiter(char start, char end, int min , int max){
+	public Delimiter(char start, char end, int min , int max, char variableMarker){
 		this.start = start;
 		this.end = end;
+		this.variableMarker = variableMarker;
 		this.setOccurence(new Occurrence(min, max));
 	}
 

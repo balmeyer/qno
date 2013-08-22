@@ -223,4 +223,14 @@ public class TestCore {
 		assertEquals(3, v.getMaps().size());
 	}
 	
+	@Test
+	public void testSeveralTime() throws IOException{
+		Qno engine = new Qno();
+		engine.load("master.txt");
+		
+		for (int i = 0 ; i < 500 ; i++) {
+			String result = engine.execute();
+		}
+	}
+	
 }

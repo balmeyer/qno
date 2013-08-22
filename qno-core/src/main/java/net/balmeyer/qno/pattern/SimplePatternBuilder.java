@@ -49,8 +49,8 @@ public final class SimplePatternBuilder implements PatternBuilder {
 		// init markers
 		delimiters = new ArrayList<Delimiter>();
 
-		delimiters.add(new Delimiter('[', ']', 0 , 1));
-		delimiters.add(new Delimiter('{', '}' ,1 , 1 ));
+		delimiters.add(new Delimiter('[', ']', 0 , 1 , (char) 0));
+		delimiters.add(new Delimiter('{', '}' ,1 , 1 , '$')); //avoid variable! !
 
 		// pattern
 
@@ -94,6 +94,8 @@ public final class SimplePatternBuilder implements PatternBuilder {
 		
 		List<Node> currentNode = new ArrayList<Node>();
 		
+
+		//examine each char in the text
 		for (int i = 0; i < sb.length(); i++) {
 			
 			char c = sb.charAt(i);
@@ -158,6 +160,7 @@ public final class SimplePatternBuilder implements PatternBuilder {
 		sb.setLength(0);
 		for (int i = 0 ; i < loop ; i++ ){
 			StringBuilder sub = new StringBuilder(node.toString());
+			//browse inside node
 			browseBrackets(sub);
 			sb.append(sub);
 		}
@@ -190,10 +193,8 @@ public final class SimplePatternBuilder implements PatternBuilder {
 			}
 			//when inside a variable as "${...}"
 			if (insideVar){
-				if (c == '{') continue;
 				if (c == '}'){
 					insideVar = false;
-					continue;
 				}
 				continue;
 			}
@@ -215,9 +216,18 @@ public final class SimplePatternBuilder implements PatternBuilder {
 					if (level == 0) {
 						//replace pattern
 						StringBuilder inside = new StringBuilder(sb.substring(start + 1, i));
+
 						this.browseAndSplit(inside , currentMark.getOccurence());
+						
 						sb.replace(start  , i +1,inside.toString());
-						i--;
+						
+						if (sb.toString().contains("$") 
+								&& !sb.toString().contains("${")){
+							throw new IllegalStateException("Problem with replace :<<<"
+									+ sb.toString() + ">>>");
+						}
+						
+						i = start -1; // bug resolved !!!?!!!
 						currentMark = null;
 						
 					} else {

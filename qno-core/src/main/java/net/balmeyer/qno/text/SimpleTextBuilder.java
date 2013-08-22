@@ -66,8 +66,30 @@ public class SimpleTextBuilder implements TextBuilder {
 	public void replace(Variable var, Word word) {
 		Utils.check(var != null , "Var must not be null");
 		Utils.check(word != null, "word must not be null");
+		
+		//buuuuuuuuuuuuuuuuuuug
+		if (text.toString().contains("$") && ! text.toString().contains("${")){
+			System.out.println("MEGA BUUUUG");
+		}
+		
+		String poubelleBefore = this.text.toString();
+		
+		//buuuuuuuuuuuuuuuuuuug
+		if (text.toString().contains("$b")){
+			System.out.println("MEGA BUUUUG");
+		}
+		
 		this.text.replace(var.getStart(), var.getEnd()+1, word.toString());
+		
+		//buuuuuuuuuuuuuuuuuuug
+		if (text.toString().contains("$") && ! text.toString().contains("${")){
+			System.out.println("MEGA BUUUUG " + poubelleBefore);
+		}
 
+		//buuuuuuuuuuuuuuuuuuug
+		if (text.toString().contains("$b")){
+			System.out.println("MEGA BUUUUG");
+		}
 
 		this.rebuild();
 	}

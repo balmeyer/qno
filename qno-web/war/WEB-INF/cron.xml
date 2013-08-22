@@ -3,7 +3,7 @@
 
 
   <cron>
-    <url>/qno</url>
+    <url>/qno/tumblr</url>
     <description>Publish blog</description>
     <schedule>every 24 hours</schedule>
   </cron>

@@ -28,10 +28,30 @@ public class QnoServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		
-		String text = sendToBlog();
+		String whatToDo = req.getRequestURI();
 		
+		String text = null;
 		
+		resp.getWriter().println("command : " + whatToDo + "\r\n");
+
+		if (whatToDo != null && whatToDo.equals("/qno/tumblr")) {
+			text =  "+MAIL+\r\n" + sendToBlog();
+		}
+		
+		//
+		if (text == null) text = displaySomeQno();
+		
+		//not found ? Display some qno stuff
 		resp.getWriter().println(text);
+	}
+	
+	private String displaySomeQno() throws IOException{
+		//generate text
+		Qno qno = new Qno();
+		qno.load("patterns.txt");
+		
+		String text = qno.execute();
+		return text;
 	}
 	
 	private String sendToBlog() throws IOException{

@@ -1,51 +1,125 @@
-<
+@import dictionary.csv
+@format net.balmeyer.qno.text.SimpleFormater
+@format net.balmeyer.qno.text.ElisionFormater
 
-${titre}
-${body}
-${body}
-${body}
+#---------------------------------------------------------------
+# PATTERNS
+#---------------------------------------------------------------
+<
+${paragraphe}
 >
 
 <
-${titre}
-${titre}[, ${titre}]
-${body}
-[${body}]
-[${body}]
+${paragraphe}
+${paragraphe}
 >
 
-%titre
-{histoire d'une | une | la } ${.nf} ${.adj:f}
-{conte du | un | le } ${.nm} ${.adj:m}
-
-%body
-
-${intro}[ ! | ?]
-[${intro} | ${outro}]
-[...]
-${outro}
 <
-${intro}
-${body}
+${paragraphe}
+
+${paragraphe}
+
+${paragraphe}
 >
 
-%intro 
+<
+${paragraphe}
 
-[je {vois | sens}] {un|le} ${.nm}, [et] puis {une|la} ${.nf}
-[[moi] je {sais | connais}] {un|le} ${.nm} [${couleur} [, et ${couleur}|noire]] [sur {une|la} ${.nf}]
+${paragraphe}
+[${paragraphe}]
+${paragraphe}
+>
 
+#---------------------------------------------------------------
+# WORDS
+#---------------------------------------------------------------
 
-%outro
-et puis, ${intro}
-[alors] [soudain] {la ${.nf} plus {forte|verte|étrange} | le ${.nm} plus ${couleur}} {que le | qu'un} ${.nm}.
+%paragraphe
+<
+${phrase}
+>
 
+<
+${phrase}
+${phrase}
+>
+
+<
+${phrase}
+${phrase}
+${phrase}
+>
+
+<
+${phrase}
+${phrase}
+${phrase}
+${phrase}
+>
+
+<
+${phrase}
+${phrase}
+${phrase}
+[${phrase}]
+
+>
+
+#---------------------------------------------------------------
+
+%phrase
+${couleur} ${.nm} {et |ou |, } ${.nf} ${.adj:f} [et ${.adj:f}]
+Le ${.nm} {pour| afin de } ${.v} la ${.adj:f} ${.nf}
+${frag}, ${frag}
+${frag} !
+O ! ${frag}
+${frag} ?
+${frag}...
+${frag}[, ${frag}]
+Oui, ${frag}
+Las, ${frag} [, ${frag}] [et ${frag}]
+${frag} ? ${comparaison}
+
+#---------------------------------------------------------------
+%frag
+je sais la ${.nf} [${.adj:f}] [${comparaison}]
+${comparaison}, elle est {partie | allée | descendue | enfouie | envolée} ${.v} {la ${.nf} | le ${.nm} }
+où est {la ${.nf} | le ${.nm} }, dans quel ${couleur} ${.nm}
+{Invisible | Caché | Secret | Dissimulé | Discret | Obscur} ${.nm} ${.adj:m} [et ${.adj:m}]
+mais ${.v} {et | ou |, } ${.v} [{ ! | ? | ...}]
+Et ${comparaison}
+{partir | fuir | finir | mourir } ${.v} [ la ${.nf} | le ${.nm} ]
+${.v} {et |, } ${.v} [{et |, } ${.v}] [au ${couleur} ${.nm}]
+Le ${.nm} de la ${.nf}
+La ${.nf} au ${.nm} {${couleur} | ${.adj:m} }
+
+#---------------------------------------------------------------
+%comparaison
+Comme le ${.nm} [{et | ou } la ${frag}]
+Tel le ${.nm} [${.adj:m}] [, ${frag}]
+Telle la ${.nf} [${.adj:f}] [, ${frag}]
+Comme le ${.nm} [${.adj:m} [et ${.adj:m}]]
+Tel le ${.nm} [${.adj:m} [et ${.adj:m}]]
+Comme la ${.nf} [${.adj:f} [et ${.adj:f}]]
+Telle la ${.nf} [${.adj:f} [et ${.adj:f}]]
+A la manière du ${.nm} [${couleur} [et ${.adj:m} ]  ]
+A l'image du ${.nm} [${couleur} [et ${.adj:m} ]  ]
+Semblable à une ${.nf} { parée de ${.nf} ${.adj:f} | pour ${.v} }
+
+#---------------------------------------------------------------
 %couleur
 vert
 rouge
-bleu
+bleu [ciel]
 orange
 mordoré
 écarlate
 marron
 pourpre
+jaune
+pale
+livide
+noir [de jais]
+argenté
+
 

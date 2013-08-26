@@ -142,6 +142,20 @@ public class DictionaryCSV implements WordBag {
 		throw new IllegalArgumentException("not implemented");
 	}
 	
+	/**
+	 * Extract pattern from plain text
+	 * @param plain
+	 * @return
+	 */
+	public String extractPattern(String plain){
+		StringBuilder sb = new StringBuilder(plain.toLowerCase());
+		
+		
+		
+		
+		return plain;
+	}
+	
 	private TypedWord formalize(TypedWord word, String forme){
 		if (forme == null) forme = "";
 		if(word instanceof Adjectif){

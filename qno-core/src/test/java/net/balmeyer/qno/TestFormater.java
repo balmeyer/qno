@@ -52,6 +52,17 @@ public class TestFormater {
 		sb = new StringBuilder("haha.\r\n hihi.");
 		f.format(sb);
 		assertEquals("Haha.\r\nHihi.", sb.toString());
+		
+		//double virgules
+		sb = new StringBuilder("je ici,, et là");
+		f.format(sb);
+		assertEquals("Je ici, et là", sb.toString()); //attention majuscule !
+		sb = new StringBuilder("je ici,,oui");
+		f.format(sb);
+		assertEquals("Je ici, oui", sb.toString());
+		sb = new StringBuilder("ici,,,,,  bas");
+		f.format(sb);
+		assertEquals("Ici, bas", sb.toString());
 	}
 
 	@Test

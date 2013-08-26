@@ -228,7 +228,7 @@ public class TestCore {
 		Qno engine = new Qno();
 		engine.load("master.txt");
 		
-		for (int i = 0 ; i < 500 ; i++) {
+		for (int i = 0 ; i < 800 ; i++) {
 			String result = engine.execute();
 		}
 	}

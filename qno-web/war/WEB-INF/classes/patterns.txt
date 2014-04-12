@@ -5,9 +5,6 @@
 #---------------------------------------------------------------
 # PATTERNS
 #---------------------------------------------------------------
-<
-${paragraphe}
->
 
 <
 ${paragraphe}
@@ -28,6 +25,20 @@ ${paragraphe}
 ${paragraphe}
 [${paragraphe}]
 ${paragraphe}
+>
+
+<
+${paragraphe}
+
+${paragraphe}
+${paragraphe}
+${paragraphe}
+[${paragraphe}]
+${paragraphe}
+${paragraphe}
+[${paragraphe}]
+[${paragraphe}]
+[${paragraphe}]
 >
 
 #---------------------------------------------------------------
@@ -62,7 +73,8 @@ ${phrase}
 ${phrase}
 ${phrase}
 [${phrase}]
-
+[${phrase}]
+[${phrase}]
 >
 
 #---------------------------------------------------------------

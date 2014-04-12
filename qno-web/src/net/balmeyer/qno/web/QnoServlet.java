@@ -21,7 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.balmeyer.qno.Qno;
 
-
+/**
+ * 
+ * @author vovau
+ *
+ */
 @SuppressWarnings("serial")
 public class QnoServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -45,6 +49,11 @@ public class QnoServlet extends HttpServlet {
 		resp.getWriter().println(text);
 	}
 	
+	/**
+	 * Generate some sample qno
+	 * @return
+	 * @throws IOException
+	 */
 	private String displaySomeQno() throws IOException{
 		//generate text
 		Qno qno = new Qno();
@@ -54,6 +63,11 @@ public class QnoServlet extends HttpServlet {
 		return text;
 	}
 	
+	/**
+	 * Generate qno and send to blog
+	 * @return
+	 * @throws IOException
+	 */
 	private String sendToBlog() throws IOException{
 		
 		//generate text
@@ -69,7 +83,11 @@ public class QnoServlet extends HttpServlet {
 		return text;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	private String getBlogEmail() throws IOException{
 		URL url = QnoServlet.class.getClassLoader().getResource("mail.txt");
 		
@@ -87,6 +105,11 @@ public class QnoServlet extends HttpServlet {
 		
 	}
 	
+	/**
+	 * 
+	 * @param title
+	 * @param text
+	 */
 	private void sendEmail(String title, String text){
 		   Properties props = new Properties();
 	       Session session = Session.getDefaultInstance(props, null);

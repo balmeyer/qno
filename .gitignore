@@ -1,5 +1,7 @@
 *.class
 .metadata
+.classpath
+.project
 mail.txt
 
 # maven

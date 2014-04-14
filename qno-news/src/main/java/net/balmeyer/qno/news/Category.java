@@ -11,4 +11,11 @@ public class Category {
 	
 	public String url_category_name;
 	
+	
+	@Override
+	public String toString(){
+		return "[" + category_id + "] " + display_category_name;
+	
+	}
+	
 }

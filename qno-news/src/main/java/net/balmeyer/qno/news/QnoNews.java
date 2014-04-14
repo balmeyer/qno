@@ -29,22 +29,6 @@ public class QnoNews {
 	
 	private Gson gson = new Gson();
 	
-	public static void main(String [] args) {
-		
-		QnoNews qn = new QnoNews();
-		
-		qn.getCultures();
-		Category[]cats = qn.getCategories();
-		
-		Client client = ClientBuilder.newClient();
-		WebTarget myResource = client.target(API_CULTURES);
-		
-		String v = myResource.request().get(String.class);
-		
-		System.out.println(v);
-		
-	}
-	
 	
 	/**
 	 * 
@@ -66,6 +50,30 @@ public class QnoNews {
 		return (Category[]) this.geJson(API_CATEGORIES, Category[].class);
 	}
 	
+	public Subcategory[] getSubcategories(){
+		return (Subcategory[]) this.geJson(API_SUBCATEGORIES, Subcategory[].class);
+	}
+	
+	public Subcategory[] getSubcategories(Category parent){
+		Subcategory[] subs = (Subcategory[]) this.geJson(API_CATEGORIES + "/" 
+				+ parent.category_id + "/" + API_SUBCATEGORIES, Subcategory[].class);
+		
+		for(Subcategory s : subs) s.parent = parent;
+		
+		return subs;
+	}
+	
+	public Articles getArticles(Category category){
+		return (Articles) this.geJson(API_CATEGORIES +"/"  + category.category_id + "/" + API_ARTICLES, Articles.class);
+	}
+	
+	public Article[] getArticle(Subcategory subcategory){
+		return (Article[]) this.geJson(API_CATEGORIES +"/"  + subcategory.category_id 
+				+ "/" + API_SUBCATEGORIES + "/" + subcategory.subcategory_id
+				+ "/" + API_ARTICLES
+				, Article[].class);
+	}
+	
 	/**
 	 * 
 	 * @param query
@@ -79,20 +87,26 @@ public class QnoNews {
 		
 	}
 	
+	private String sendRequest(String query){
+		return this.sendRequest(query , null);
+	}
+	
 	/**
 	 * 
 	 * @param query
 	 * @param claz
 	 * @return
 	 */
-	private String sendRequest(String query ){
+	private String sendRequest(String query , String format){
+		if (format == null) format = this.format;
+		
 		StringBuilder sb = new StringBuilder(API_BASE);
 		sb.append('/');
 		sb.append(API_VERSION);
 		sb.append('/');
 		sb.append(query);
 		sb.append('.');
-		sb.append(this.format);
+		sb.append(format);
 		sb.append("?culture_code=");
 		sb.append(this.culture);
 		

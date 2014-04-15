@@ -113,7 +113,15 @@ public class QnoNews {
 		Client client = ClientBuilder.newClient();
 		WebTarget myResource = client.target(sb.toString());
 		
-		String result = myResource.request().get(String.class);
+		String result = null;
+		System.out.println("Requête : " + query);
+		try {
+			result = myResource.request().get(String.class);
+		}catch(Exception ex){
+			System.out.println("Erreur requête : " + query);
+			ex.printStackTrace();
+			throw ex;
+		}
 		return result;
 		
 	}

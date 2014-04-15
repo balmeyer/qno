@@ -8,6 +8,8 @@ import org.junit.Test;
 
 public class TestQnoNews {
 
+	private Category[] categories;
+	
 	@Test
 	public void cultures() {
 		QnoNews qn = new QnoNews();
@@ -28,9 +30,12 @@ public class TestQnoNews {
 
 	@Test
 	public void categories() {
+		
+		this.pleaseWait(2);
+		
 		QnoNews qn = new QnoNews();
 
-		Category[] cats = qn.getCategories();
+		Category[] cats = this.getCategories();
 
 		assertNotNull(cats);
 
@@ -44,12 +49,7 @@ public class TestQnoNews {
 
 			if (countSub++ < 3) {
 
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				this.pleaseWait(1);
 
 				try {
 					Subcategory[] subs = qn.getSubcategories(c);
@@ -72,14 +72,15 @@ public class TestQnoNews {
 
 	@Test
 	public void testArticle(){
-		QnoNews qn = new QnoNews();
 
-		Category[] cats = qn.getCategories();
+		this.pleaseWait(2);
+		Category[] cats = this.getCategories();
 
 		assertNotNull(cats);
 		
 		Category c = cats[0];
 		
+		QnoNews qn = new QnoNews();
 		Articles articles = qn.getArticles(c);
 		
 		assertNotNull(articles);
@@ -107,4 +108,25 @@ public class TestQnoNews {
 		assertTrue(sub.subcategory_id > 0);
 	}
 
+	private Category[] getCategories(){
+		if (categories == null){
+			System.out.println("init categories");
+			QnoNews qn = new QnoNews();
+
+			this.categories = qn.getCategories();
+		}
+		
+		return categories;
+	}
+	
+	private void pleaseWait(int seconds){
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

@@ -18,7 +18,7 @@ package net.balmeyer.qno.impl;
 import net.balmeyer.qno.Word;
 
 /**
- * 
+ * A simple Word in string value
  * @author Balmeyer
  *
  */

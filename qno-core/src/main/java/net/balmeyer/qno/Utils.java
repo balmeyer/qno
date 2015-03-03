@@ -15,6 +15,8 @@
  */
 package net.balmeyer.qno;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
@@ -42,6 +44,18 @@ public final class Utils {
 	}
 	
 	public static URL url(String path){
+		
+		File f = new File(path);
+		if (f.exists()) {
+			try {
+				URL url = f.toURI().toURL();
+				return url;
+			} catch (MalformedURLException e) {
+
+				//e.printStackTrace();
+			}
+		}
+		
 		return Utils.class.getClassLoader().getResource(path);
 	}
 	

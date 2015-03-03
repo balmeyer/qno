@@ -57,6 +57,27 @@ public class Qno {
 		}
 	}
 
+	public static void main(String [] args){
+		if (args.length < 1) {
+			System.out.println("Pattern path is missng");
+			System.exit(1);
+		}
+		
+		
+		//generate text
+		Qno qno = new Qno();
+		try {
+			qno.load(args[0]);
+			String text = qno.execute();
+			System.out.println(text);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	/**
 	 * Current Vocabulary used to generate text.
 	 * 
@@ -171,7 +192,9 @@ public class Qno {
 	public void load(String path) throws IOException {
 
 		URL url = Utils.url(path);
-
+		if (url == null){
+			System.out.println("Can't create URL from : " + path);
+		}
 		// add config to the empty qno object
 		add(url);
 

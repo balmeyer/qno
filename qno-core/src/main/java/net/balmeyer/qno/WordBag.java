@@ -16,9 +16,10 @@
 package net.balmeyer.qno;
 
 /**
- * A simple @Word container with one a several words for an specified ID.
+ * A simple @Word container that provides randomly one a several words for an specified ID.
  * 
  * This ID is the variable name found in patterns, for instance : @{name}, where "name" is the ID
+ * 
  * @author jean-baptiste Balmeyer
  *
  */
@@ -29,7 +30,7 @@ public interface WordBag extends WordSource{
 	
 	public void setID(String id);
 	
-	/** Add raw data : a string word. */
+	/** Add raw data : a simple word as string value. */
 	public void addRawData(String data);
 	
 	/** Add a @Word object. */

@@ -148,11 +148,6 @@ public class DictionaryCSV implements WordBag {
 	 * @return
 	 */
 	public String extractPattern(String plain){
-		StringBuilder sb = new StringBuilder(plain.toLowerCase());
-		
-		
-		
-		
 		return plain;
 	}
 	
@@ -211,13 +206,11 @@ public class DictionaryCSV implements WordBag {
 	private Noun buildNoun(String[]words){
 		
 		String definition = getValue(words,"type");
-		
 		Noun noun = new Noun(words[nameToColumn.get(DIC_COLUMN_TEXT)], definition);
 		
 		if (getValue(words,DIC_COLUMN_PLURIEL) != null){
 			noun.setPluriel(getValue(words,DIC_COLUMN_PLURIEL) );
 		}
-		
 		
 		return noun;
 	}

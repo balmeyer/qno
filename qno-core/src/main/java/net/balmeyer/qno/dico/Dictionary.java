@@ -78,9 +78,7 @@ public final class Dictionary implements WordBag {
 			String line = reader.readLine();
 			if (line == null) break;
 			this.addRawData(line);
-			
 		} while(true);
-
 	}
 
 	public Set<Entry> getEntries(){

@@ -62,6 +62,10 @@ public class WordSourceFactory {
 		
 	}
 	
+	/**
+	 * Provides a @WordBag containing patterns (basic text structure )
+	 * @return
+	 */
 	public static WordBag patterns(){
 		return bag(Vocabulary.PATTERN_ID, "");
 	}

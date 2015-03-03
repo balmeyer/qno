@@ -16,7 +16,7 @@
 package net.balmeyer.qno;
 
 /**
- * A word to display.
+ * A word to display (use toString() method for getting value)
  * 
  * @author JB Balmeyer
  *

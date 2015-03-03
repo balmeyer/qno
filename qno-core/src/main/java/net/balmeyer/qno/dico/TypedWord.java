@@ -18,7 +18,7 @@ package net.balmeyer.qno.dico;
 import net.balmeyer.qno.Word;
 
 /**
- * Word that can be typed (verb, noun ,adjective, etc), with a strign definition.
+ * Word that can be typed (verb, noun ,adjective, etc), with a string definition.
  * @author balmeyer
  *
  */

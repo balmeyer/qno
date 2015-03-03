@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balmeyer.qno.dico.Definition;
+import net.balmeyer.qno.dico.DictionaryCSV;
 import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.impl.WordBagImpl;
 import net.balmeyer.qno.query.Query;
@@ -75,7 +77,10 @@ public class Qno {
 			e.printStackTrace();
 		}
 		
+		DictionaryCSV doc = (DictionaryCSV) qno.getVocabulary().getSource(Vocabulary.DICTIONARY);
 		
+		Definition tag = doc.findWord("poilue");
+		System.out.println(tag);
 	}
 	
 	/**
@@ -225,7 +230,7 @@ public class Qno {
 	 * @throws IOException
 	 */
 	private void add(URL url) throws IOException {
-		// System.out.println(url);
+		System.out.println(url);
 		// open input stream to read text file
 		InputStream inputStream = url.openStream();
 

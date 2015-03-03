@@ -66,6 +66,14 @@ public class Vocabulary implements WordSource {
 		return w;
 	}
 
+	public Word get(String request){
+		Query q = new SimpleQuery(request);
+		return get(q);
+	}
+	
+	public WordSource getSource(String request){
+		return this.idToBag.get(request);
+	}
 	/**
 	 * Add a map to the current list
 	 * @param map

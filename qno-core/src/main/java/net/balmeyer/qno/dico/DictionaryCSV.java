@@ -49,8 +49,12 @@ public class DictionaryCSV implements WordBag {
 	//entries
 	private Map<Definition,List<TypedWord>> entries;
 	
+	//word to definition
+	private Map<String,Definition> wordToDefinition;
+	
 	public DictionaryCSV(){
 		this.entries = new HashMap<Definition,List<TypedWord>>();
+		this.wordToDefinition = new HashMap<String, Definition>();
 	}
 	
 	@Override
@@ -134,6 +138,8 @@ public class DictionaryCSV implements WordBag {
 		
 		entries.get(word.getDefinition()).add(word);
 		
+		//add word to defiintion
+		this.wordToDefinition.put(w.toString(), word.getDefinition());
 	}
 
 	@Override
@@ -149,6 +155,16 @@ public class DictionaryCSV implements WordBag {
 	 */
 	public String extractPattern(String plain){
 		return plain;
+	}
+	
+	/**
+	 * Find type and genre from word
+	 * @param word
+	 * @return
+	 */
+	public Definition findWord(String word){
+		if (this.wordToDefinition.containsKey(word)) return wordToDefinition.get(word);
+		return null;
 	}
 	
 	private TypedWord formalize(TypedWord word, String forme){

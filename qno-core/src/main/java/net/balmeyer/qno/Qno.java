@@ -16,9 +16,11 @@
 package net.balmeyer.qno;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,8 @@ public class Qno {
 
 	private List<Formater> formaters = new ArrayList<Formater>();
 
+	private File base;
+
 	public Qno() {
 		// add default dictionary
 		try {
@@ -59,30 +63,35 @@ public class Qno {
 		}
 	}
 
-	public static void main(String [] args){
+	public static void main(String[] args) {
 		if (args.length < 1) {
 			System.out.println("Pattern path is missng");
 			System.exit(1);
 		}
-		
-		
-		//generate text
+
+		// generate text
 		Qno qno = new Qno();
 		try {
-			qno.load(args[0]);
+
+			File f = new File(args[0]);
+
+			qno.load(f);
 			String text = qno.execute();
 			System.out.println(text);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		DictionaryCSV doc = (DictionaryCSV) qno.getVocabulary().getSource(Vocabulary.DICTIONARY);
-		
+
+		/*
+		DictionaryCSV doc = (DictionaryCSV) qno.getVocabulary().getSource(
+				Vocabulary.DICTIONARY);
+
 		Definition tag = doc.findWord("poilue");
 		System.out.println(tag);
+		*/
 	}
-	
+
 	/**
 	 * Current Vocabulary used to generate text.
 	 * 
@@ -194,11 +203,14 @@ public class Qno {
 	 * @return
 	 * @throws IOException
 	 */
-	public void load(String path) throws IOException {
+	public void load(File file) throws IOException {
 
-		URL url = Utils.url(path);
-		if (url == null){
-			System.out.println("Can't create URL from : " + path);
+		// dir
+		this.setDirectory(file.getParentFile());
+
+		URL url = file.toURI().toURL();
+		if (url == null) {
+			System.out.println("Can't create URL from : " + url);
 		}
 		// add config to the empty qno object
 		add(url);
@@ -207,6 +219,15 @@ public class Qno {
 		addFormater(new SimpleFormater());
 		addFormater(new ElisionFormater());
 
+	}
+
+	public void setDirectory(File directory) {
+		//System.out.println("Current directory is : " + directory);
+		this.base = directory;
+	}
+
+	public File getDirectory() {
+		return this.base;
 	}
 
 	/**
@@ -218,8 +239,24 @@ public class Qno {
 	 * @throws IOException
 	 */
 	private void add(String path) throws IOException {
-		URL url = Vocabulary.class.getClassLoader().getResource(path);
-		add(url);
+		//System.out.println("Path : " + path);
+
+		// current file ?
+		File file = new File(path);
+
+		if (file.exists()) {
+			this.add(file);
+		} else {
+			// with base
+			file = new File(this.getDirectory() + File.separator + path);
+			if (file.exists()) {
+				this.add(file);
+			} else {
+				//
+				URL url = Vocabulary.class.getClassLoader().getResource(path);
+				add(url);
+			}
+		}
 	}
 
 	/**
@@ -230,7 +267,7 @@ public class Qno {
 	 * @throws IOException
 	 */
 	private void add(URL url) throws IOException {
-		System.out.println(url);
+		//System.out.println(url);
 		// open input stream to read text file
 		InputStream inputStream = url.openStream();
 
@@ -260,9 +297,10 @@ public class Qno {
 			if (line != null) {
 				line = line.trim();
 
-				//comments
-				if (line.startsWith("#")) continue;
-				
+				// comments
+				if (line.startsWith("#"))
+					continue;
+
 				// import a configuration file
 				if (line.startsWith("@import")) {
 					add(line.substring(7).trim());
@@ -337,6 +375,10 @@ public class Qno {
 
 		// keep all maps
 		this.getVocabulary().add(allwords);
+	}
+
+	private void add(File file) throws MalformedURLException, IOException {
+		this.add(file.toURI().toURL());
 	}
 
 	/**

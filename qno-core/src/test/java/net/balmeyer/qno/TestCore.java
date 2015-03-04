@@ -84,10 +84,10 @@ public class TestCore {
 	
 	@Test
 	public void wordBuilder() {
-
+		/*
 		try {
 			Qno engine = new Qno();
-			engine.load("master.txt");
+			//engine.load("master.txt");
 			engine.addFormater(new SimpleFormater());
 			
 			//add dictionary
@@ -104,7 +104,7 @@ public class TestCore {
 		} catch (IOException e) {
 			//fail
 			fail("Exception : " + e.toString());
-		}
+		}*/
 	}
 
 	/**
@@ -225,12 +225,13 @@ public class TestCore {
 	
 	@Test
 	public void testSeveralTime() throws IOException{
+		/*
 		Qno engine = new Qno();
 		engine.load("master.txt");
 		
 		for (int i = 0 ; i < 800 ; i++) {
 			String result = engine.execute();
-		}
+		}*/
 	}
 	
 }

@@ -31,10 +31,20 @@ public class Adjectif implements TypedWord{
 	private boolean isfeminin;
 	
 	public Adjectif(String text){
+		
+		
 		this.base = text;
 		this.setPluriel(text + "s");
-		this.setFeminin(text + "e");
-		this.setFemininPluriel(text + "es");
+		if (text.endsWith("e")){
+			this.setFeminin(text);
+			this.setFemininPluriel(text + "s");
+		}
+		else { 
+			this.setFeminin(text + "e");
+			this.setFemininPluriel(text + "es");
+		}
+		
+		
 		this.text = this.base;
 		
 		this.definition = new Definition("adj");

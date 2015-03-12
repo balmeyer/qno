@@ -162,4 +162,111 @@ public class TestDictionaryCSV {
 		assertEquals("rouges", w.toString());
 	}
 	
+	@Test
+	public void accordPluriel(){
+		DictionaryCSV csv = new DictionaryCSV();
+		csv.addRawData("texte,type,groupe,pluriel,feminin,femininpluriel");
+		csv.addRawData("vieux,adj,,,vieille,");
+		
+		EntryQuery q = new EntryQuery("adj:f");
+		Word w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("vieille", w.toString());
+		
+		q = new EntryQuery("adj:m");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("vieux", w.toString());
+
+		q = new EntryQuery("adj:p");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("vieux", w.toString());
+		
+		q = new EntryQuery("adj:fp");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("vieilles", w.toString());
+		
+		///------------------
+		csv = new DictionaryCSV();
+		csv.addRawData("texte,type,groupe,pluriel,feminin,femininpluriel");
+		csv.addRawData("beau,adj,,beaux,belle,belles");
+		
+		q = new EntryQuery("adj:f");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("belle", w.toString());
+		
+		q = new EntryQuery("adj:m");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("beau", w.toString());
+
+		q = new EntryQuery("adj:p");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("beaux", w.toString());
+		
+		q = new EntryQuery("adj:fp");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("belles", w.toString());
+		
+	}
+	
+	@Test
+	public void invariable(){
+		DictionaryCSV csv = new DictionaryCSV();
+		csv.addRawData("texte,type,groupe,pluriel,feminin,femininpluriel");
+		csv.addRawData("orange,adji,,,,");
+		
+		EntryQuery q = new EntryQuery("adj:f");
+		Word w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("orange", w.toString());
+		
+		q = new EntryQuery("adj:m");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("orange", w.toString());
+
+		q = new EntryQuery("adj:p");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("orange", w.toString());
+		
+		q = new EntryQuery("adj:fp");
+		w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("orange", w.toString());
+	}
+	
+	@Test
+	public void emptyWord(){
+		DictionaryCSV csv = new DictionaryCSV();
+		csv.addRawData("texte,type,groupe,pluriel,feminin,femininpluriel");
+		csv.addRawData("rien,null,,,,");
+		csv.addRawData("patate,,,,,");
+		csv.addRawData("truc,nm,,,,");
+		
+		EntryQuery q = new EntryQuery("nm");
+		for(int i = 0 ; i < 200 ; i ++){
+			Word w = csv.get(q);
+			assertNotNull(w);
+			assertEquals("truc", w.toString());
+		}
+	}
+	
+	@Test
+	public void adverbe(){
+		DictionaryCSV csv = new DictionaryCSV();
+		csv.addRawData("texte,type,groupe,pluriel,feminin,femininpluriel");
+		csv.addRawData("cordialement,adv");
+		
+		EntryQuery q = new EntryQuery("adv");
+		Word w = csv.get(q);
+		assertNotNull(w);
+		assertEquals("cordialement", w.toString());
+	}
 }

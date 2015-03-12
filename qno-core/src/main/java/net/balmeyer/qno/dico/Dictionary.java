@@ -55,10 +55,13 @@ public final class Dictionary implements WordBag {
 		
 		if (data == null || data.startsWith("%")) return;
 		
+		data = data.replace(",", "\t").replace(";", "\t");
+		
 		String [] words = data.split("\t");
 		if (words[1].equals("null")) return;
 		
 		Entry e = Dictionary.buildEntry(words[0], words[1]);
+		if (e.getType() == null) return ; //throw new IllegalArgumentException("WTF !! No def !"); // debug
 		this.add(e);
 	}
 	
@@ -129,7 +132,7 @@ public final class Dictionary implements WordBag {
 		
 		if (this.selected == null) this.build();
 		
-		List<Entry> list = this.selected.get(getKey(eq));
+		List<Entry> list = this.selected.get(buildDefinition(eq));
 		
 		if (list != null && list.size() > 0 ){
 			int i = Utils.getRandInstance().nextInt(list.size());
@@ -147,7 +150,7 @@ public final class Dictionary implements WordBag {
 		
 		for(Entry e : this.entries){
 			//
-			Definition key = getKey(e);
+			Definition key = buildDefinition(e);
 			
 			List<Entry> list = this.selected.get(key);
 			if (list == null ){
@@ -158,7 +161,7 @@ public final class Dictionary implements WordBag {
 		}
 		
 		//build complete list of "nom" (name)
-		Definition key = new Definition(Type.noun);
+		Definition key = new Definition("n");
 		
 		ArrayList<Entry> allNames = new ArrayList<Entry>();
 		allNames.addAll(this.selected.get(new Definition(Type.noun , Gender.masculin)));
@@ -166,7 +169,8 @@ public final class Dictionary implements WordBag {
 		this.selected.put(key,allNames);
 	}
 	
-	private Definition getKey(TypeAndGenre tag){
+	private Definition buildDefinition(TypeAndGenre tag){
+		if (tag == null) throw new IllegalArgumentException("Tag can't be null !");
 		if (tag.getGenre() == null) return new Definition(tag.getType());
 		return new Definition(tag.getType(),  tag.getGenre());
 		

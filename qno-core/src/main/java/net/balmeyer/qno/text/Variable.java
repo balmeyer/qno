@@ -80,15 +80,24 @@ public class Variable {
 	
 	private void build(){
 
-		//bulld id
-		String inside = text.substring(text.indexOf("{")+1);
-		inside = inside.substring(0 , inside.indexOf("}")).toLowerCase();
+		//build id
+		String inside = null;
+		if (text.indexOf('{') >= 0) {
+			inside = text.substring(text.indexOf("{")+1);
+			inside = inside.substring(0 , inside.indexOf("}")).toLowerCase();
+		} else {
+			inside = text.substring(1);
+		}
 		
+		inside = inside.replace("_", ".");
 		if (inside.indexOf(".") >= 0){
 			this.ID = inside.substring(0, inside.indexOf("."));
 			this.property = inside.substring(inside.indexOf(".")+1);
 			//dictionary
 			if (this.ID.length() == 0) this.ID = Vocabulary.DICTIONARY;
+			
+			//replace property
+			this.property = this.property.replace(".",":");
 		} else {
 			this.ID = inside;
 		}

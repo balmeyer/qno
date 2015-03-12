@@ -29,6 +29,7 @@ public class WordSourceFactory {
 	public static WordBag bag(String expression){
 		
 		//remove %
+		expression = expression.replace(";", "").replace(",", "") ;
 		String name = expression.replace("%","").trim();
 		
 		if (!expression.contains(" ")) return bag(name, "");

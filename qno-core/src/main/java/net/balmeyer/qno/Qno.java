@@ -17,6 +17,7 @@ package net.balmeyer.qno;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -56,7 +57,7 @@ public class Qno {
 	public Qno() {
 		// add default dictionary
 		try {
-			this.add("dictionary.csv");
+			this.add("dico_fr.csv");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -208,6 +209,8 @@ public class Qno {
 		// dir
 		this.setDirectory(file.getParentFile());
 
+		if (!file.exists()) throw new FileNotFoundException(file.toString());
+		
 		URL url = file.toURI().toURL();
 		if (url == null) {
 			System.out.println("Can't create URL from : " + url);
@@ -254,6 +257,9 @@ public class Qno {
 			} else {
 				//
 				URL url = Vocabulary.class.getClassLoader().getResource(path);
+				if (url == null) {
+					throw new IllegalArgumentException("URL not found : " + path);
+				}
 				add(url);
 			}
 		}
@@ -267,6 +273,9 @@ public class Qno {
 	 * @throws IOException
 	 */
 	private void add(URL url) throws IOException {
+		
+		if (url == null) throw new IllegalArgumentException("Url cant' be null");
+		
 		//System.out.println(url);
 		// open input stream to read text file
 		InputStream inputStream = url.openStream();

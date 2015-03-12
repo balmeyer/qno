@@ -45,9 +45,32 @@ public class SimpleTextBuilder implements TextBuilder {
 		Variable v = null;
 		
 		int start = this.text.indexOf("$");
+		int end = -1;
 		
-		if (start >= 0){
-			int end = this.text.indexOf("}", start);
+		if (start >= 0 && start < this.text.length() - 1){
+			//var possible
+			if (text.charAt(start + 1) != '{'){
+				//forme ! variable
+				end = start ;
+				
+				String frame = text.toString().toLowerCase();
+				while (++end < text.length()) {
+					char c = frame.charAt(end);
+					if (c == '_' || (c >='a' && c <= 'z') || (c >='0' && c <= '9')) {
+						//ok
+					} else {
+						break;
+					}
+				}
+				end--;//remove final char
+				
+			} else {
+				//forme : ${variable}
+				end = this.text.indexOf("}", start);
+
+			}
+			
+			//build
 			if (end >= 0){
 				v = new Variable();
 				v.setStart(start);

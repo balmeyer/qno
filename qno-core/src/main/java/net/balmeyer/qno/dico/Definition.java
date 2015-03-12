@@ -1,5 +1,10 @@
 package net.balmeyer.qno.dico;
 
+/**
+ * Define an entry
+ * @author jean-baptiste
+ *
+ */
 public class Definition {
 
 	private String definition ;
@@ -12,8 +17,10 @@ public class Definition {
 	}
 	
 	public Definition(Type type){
-		this.definition = type.toString().substring(0,1) ;
+		if (type.toString().startsWith("n")) this.definition = "n";
+		else this.definition = type.toString();
 	}
+	
 	
 	public Definition(Type type, Gender gender){
 		this.definition = type.toString().substring(0,1) 

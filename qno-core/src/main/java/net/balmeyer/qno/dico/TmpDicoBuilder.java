@@ -29,11 +29,11 @@ public class TmpDicoBuilder {
 	public static void main(String[] args) throws IOException {
 		
 
-		File dico = new File("/home/vovau/dictionary.txt");
+		File dico = new File("D:/dictionary.txt");
 		FileWriter fw = new FileWriter(dico);
 		PrintWriter writer = new PrintWriter(fw);
 		
-		File f = new File("/home/vovau/Téléchargements/DicFra.csv");
+		File f = new File("D:/DicFra.csv");
 
 		FileInputStream fis = new FileInputStream(f);
 		InputStreamReader isr = new InputStreamReader(fis, "ISO-8859-1");
@@ -90,7 +90,7 @@ public class TmpDicoBuilder {
 		}
 		
 		
-		return word + "\t" + getType(def);
+		return word + "," + getType(def);
 	}
 	
 	private static String getType(String def){
@@ -99,10 +99,13 @@ public class TmpDicoBuilder {
 		String t = def;
 		if (t.indexOf("\n") >=0) t = t.substring(0, t.indexOf("\n"));
 		
-		if (t.contains("n. m.")) return "nm";
-		if (t.contains("n. f.")) return "nf";
-		if (t.contains("adj.")) return "adj";
-		if (t.contains("adv.")) return "adj";
+		String invar = "";
+		if (t.indexOf("inv.") >=0) invar = "i";
+		
+		if (t.contains("n. m.")) return "nm" + invar;
+		if (t.contains("n. f.")) return "nf" + invar;
+		if (t.contains("adj.")) return "adj" + invar;
+		if (t.contains("adv.")) return "adv" + invar;
 		if (t.contains("v. tr.")) return "v";
 		if (t.contains("v. intr.")) return "vi";
 		return null;

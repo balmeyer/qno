@@ -52,6 +52,8 @@ public class DictionaryCSV implements WordBag {
 	//word to definition
 	private Map<String,Definition> wordToDefinition;
 	
+	private SpellChecker spellchecker;
+	
 	public DictionaryCSV(){
 		this.entries = new HashMap<Definition,List<TypedWord>>();
 		this.wordToDefinition = new HashMap<String, Definition>();
@@ -66,12 +68,18 @@ public class DictionaryCSV implements WordBag {
 		List<TypedWord> list = this.entries.get(request.getDefinition());
 		
 		if (list != null && list.size() > 0 ){
-			int i = Utils.getRandInstance().nextInt(list.size());
-			TypedWord result = list.get(i);
 			
-			//forme ?
-			return this.formalize(result, request.getForme());
+			int tentative = 0 ;
 			
+			while (tentative++ < 30){
+			
+				int i = Utils.getRandInstance().nextInt(list.size());
+				TypedWord result = list.get(i);
+				
+				//forme ?
+				Word formalized = this.formalize(result, request.getForme());
+				if (this.getSpellChecker().check(formalized.toString())) return formalized;
+			}
 		}
 		
 		throw new IllegalArgumentException("Request not found : " + request);
@@ -95,6 +103,7 @@ public class DictionaryCSV implements WordBag {
 	@Override
 	public void addRawData(String data) {
 
+		data = data.replace(",", SEPARATOR).replace(";", SEPARATOR);
 		//build columns
 		if (this.nameToColumn == null){
 			this.buildNametoPattern(data);
@@ -104,6 +113,8 @@ public class DictionaryCSV implements WordBag {
 		String [] words = data.split(SEPARATOR); 
 		String type = getValue(words, DIC_COLUMN_TYPE);
 		TypedWord word = null;
+		
+		if (type == null) return;
 		
 		if (type.startsWith("n")){
 			//nom
@@ -118,6 +129,11 @@ public class DictionaryCSV implements WordBag {
 		if (type.startsWith("v")){
 			//Verb
 			word = this.buildVerbe(words);
+		}
+		
+		if (type.startsWith("adv")) {
+			//adverbe
+			word = this.buildAdverbe(words);
 		}
 		
 		if (word != null) {
@@ -232,18 +248,24 @@ public class DictionaryCSV implements WordBag {
 	}
 	
 	private Adjectif buildAdjectif(String[]words){
+		
 		Adjectif adj = new Adjectif(words[nameToColumn.get(DIC_COLUMN_TEXT)]);
 		
-		if (getValue(words,"pluriel") != null){
-			adj.setPluriel(getValue(words,DIC_COLUMN_PLURIEL) );
-		}
-		
-		if (getValue(words,"feminin") != null){
-			adj.setFeminin(getValue(words,DIC_COLUMN_FEMININ) );
-		}
-		
-		if (getValue(words,DIC_COLUMN_FEMININPLURIEL) != null){
-			adj.setFemininPluriel(getValue(words,DIC_COLUMN_FEMININPLURIEL) );
+		if (words[nameToColumn.get(DIC_COLUMN_TYPE)].equals("adji")) {
+			//invariable
+			adj = new AdjectifInvariable(words[nameToColumn.get(DIC_COLUMN_TEXT)]);
+		} else {
+			if (getValue(words,DIC_COLUMN_PLURIEL) != null){
+				adj.setPluriel(getValue(words,DIC_COLUMN_PLURIEL) );
+			}
+			
+			if (getValue(words,DIC_COLUMN_FEMININ) != null){
+				adj.setFeminin(getValue(words,DIC_COLUMN_FEMININ) );
+			}
+			
+			if (getValue(words,DIC_COLUMN_FEMININPLURIEL) != null){
+				adj.setFemininPluriel(getValue(words,DIC_COLUMN_FEMININPLURIEL) );
+			}
 		}
 		
 		return adj;
@@ -262,4 +284,13 @@ public class DictionaryCSV implements WordBag {
 		return verbe;
 	}
 
+	private Adverb buildAdverbe(String[] words){
+		return new Adverb(getValue(words, DIC_COLUMN_TEXT));
+	}
+
+	private SpellChecker getSpellChecker(){
+		if (this.spellchecker == null) this.spellchecker = new SpellChecker();
+		return this.spellchecker ;
+	}
+	
 }

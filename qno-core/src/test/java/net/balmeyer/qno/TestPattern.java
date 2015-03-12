@@ -143,5 +143,14 @@ public class TestPattern {
 
 	}
 
+	@Test
+	public void patternLightText(){
+		String pattern = "$_v {le|un} $_nm $_adj_m";
+		
+		PatternBuilder r = PatternBuilderFactory.get();
+		String result = r.buildPattern(pattern);
+		assertNotNull(result);
+	}
+	
 }
 

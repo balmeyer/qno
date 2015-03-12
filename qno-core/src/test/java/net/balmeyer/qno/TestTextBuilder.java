@@ -18,10 +18,12 @@ package net.balmeyer.qno;
 import static net.balmeyer.qno.WordSourceFactory.bag;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import net.balmeyer.qno.impl.PlainWord;
 import net.balmeyer.qno.query.QueryFactory;
-import net.balmeyer.qno.text.TextBuilder;
 import net.balmeyer.qno.text.SimpleTextBuilder;
+import net.balmeyer.qno.text.TextBuilder;
 import net.balmeyer.qno.text.Variable;
 
 import org.junit.Test;
@@ -68,7 +70,7 @@ public class TestTextBuilder {
 		
 		assertNotNull(parser);
 		
-		String text = "one ${two} three ${four} five ${six} ${two} seven";
+		String text = "one ${two} three ${four}. five ${six}, ${two}! seven";
 		parser.setPattern(text);
 		
 		assertEquals(text,parser.getCurrentText());
@@ -86,7 +88,7 @@ public class TestTextBuilder {
 			}
 		} while(v != null);
 		
-		assertEquals("one ok0 three ok1 five ok2 ok3 seven",parser.getCurrentText());
+		assertEquals("one ok0 three ok1. five ok2, ok3! seven",parser.getCurrentText());
 	}
 	
 	/**
@@ -130,5 +132,70 @@ public class TestTextBuilder {
 		} while(v != null);
 		
 		assertEquals("hello alpha hello beta hello alpha hello beta",parser.getCurrentText());
+	}
+	
+	@Test
+	public void testVarNull(){
+		String pattern = "${rien}";
+		
+		TextBuilder builder = new SimpleTextBuilder();
+		
+		builder.setPattern(pattern);
+		Variable v = builder.nextVariable();
+		
+		assertNotNull(v);
+		assertEquals("${rien}",v.getText());
+		assertEquals("rien",v.getID());
+		
+		builder.setPattern("$");
+		v = builder.nextVariable();
+		assertNull(v);
+	}
+	
+	@Test
+	public void testLightVariable(){
+		
+		String pattern = "Test pattern $test pattern";
+		
+		TextBuilder builder = new SimpleTextBuilder();
+		
+		builder.setPattern(pattern);
+		Variable v = builder.nextVariable();
+		
+		assertNotNull(v);
+		assertEquals("$test", v.toString());
+		assertEquals("test", v.getID());
+		
+		///-------------------
+		builder.setPattern("aa $toto $tata. arg $titi! tutu");
+		v = builder.nextVariable();
+		assertEquals("toto", v.getID());
+		builder.replace(v, new PlainWord("pouet"));
+		assertEquals("aa pouet $tata. arg $titi! tutu" , builder.toString());
+		v = builder.nextVariable();
+		assertEquals("tata", v.getID());
+		builder.replace(v, new PlainWord("urg"));
+		assertEquals("aa pouet urg. arg $titi! tutu" , builder.toString());
+		v = builder.nextVariable();
+		assertEquals("titi", v.getID());
+		builder.replace(v, new PlainWord("urg"));
+		assertEquals("aa pouet urg. arg urg! tutu" , builder.toString());
+		
+		///-------------------
+		builder.setPattern("$bip");
+		v = builder.nextVariable();
+		assertEquals("bip", v.getID());
+		builder.replace(v, new PlainWord("foo"));
+		assertEquals("foo" , builder.toString());
+		
+		builder.setPattern("hey $_bip !");
+		v = builder.nextVariable();
+		assertEquals("$_bip", v.toString());
+		assertEquals(Vocabulary.DICTIONARY, v.getID());
+		builder.replace(v, new PlainWord("foo"));
+		assertEquals("hey foo !" , builder.toString());
+		
+		///-------------------
+		
 	}
 }

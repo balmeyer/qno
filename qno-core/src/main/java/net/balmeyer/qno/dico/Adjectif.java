@@ -30,22 +30,12 @@ public class Adjectif implements TypedWord{
 	private boolean ispluriel;
 	private boolean isfeminin;
 	
+	private boolean currentlyBuilding = false; //avoid recursif
+	
 	public Adjectif(String text){
 		
-		
 		this.base = text;
-		this.setPluriel(text + "s");
-		if (text.endsWith("e")){
-			this.setFeminin(text);
-			this.setFemininPluriel(text + "s");
-		}
-		else { 
-			this.setFeminin(text + "e");
-			this.setFemininPluriel(text + "es");
-		}
-		
-		
-		this.text = this.base;
+		this.build();
 		
 		this.definition = new Definition("adj");
 	}
@@ -66,14 +56,18 @@ public class Adjectif implements TypedWord{
 
 	public void setPluriel(String pluriel){
 		this.pluriel = pluriel;
+		this.build();
 	}
 	
 	public void setFeminin(String feminin){
 		this.feminin = feminin;
+		this.femininPluriel = null;
+		this.build();
 	}
 	
 	public void setFemininPluriel(String femininPluriel){
 		this.femininPluriel = femininPluriel;
+		this.build();
 	}
 	
 	public void setPluriel(boolean value){
@@ -94,5 +88,38 @@ public class Adjectif implements TypedWord{
 		if (isfeminin && ispluriel) this.text = this.femininPluriel;
 	}
 	
+	
+	private void build(){
+		if (currentlyBuilding) return;
+		
+		currentlyBuilding = true;
+		
+		//fem
+		if (this.feminin == null){
+			if (base.endsWith("e")){
+				this.setFeminin(base);
+			}
+			else { 
+				this.setFeminin(base + "e");
+			}
+		}
+		
+		//fem pluriel
+		if (this.femininPluriel == null){
+			this.setFemininPluriel(this.feminin + "s");
+		}
+		
+		if (pluriel == null){
+			if(base.endsWith("x") || base.endsWith("s")) {
+				this.setPluriel(base);
+			} else {
+				this.setPluriel(base + "s");
+			}
+		}
+		
+		this.text = this.base;
+		
+		currentlyBuilding = false;
+	}
 	
 }

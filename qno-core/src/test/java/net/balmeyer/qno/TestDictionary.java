@@ -134,7 +134,7 @@ public class TestDictionary {
 		
 		assertEquals(d.getID(), Vocabulary.DICTIONARY);
 		
-		d.loadResource("dictionary.txt");
+		d.loadResource("dico_fr.csv");
 		Vocabulary v = new Vocabulary();
 		
 		v.add(d);
@@ -221,7 +221,7 @@ public class TestDictionary {
 	@Test
 	public void testBuildAll() throws UnsupportedEncodingException, IOException{
 		Dictionary d = new Dictionary();
-		d.loadResource("dictionary.txt");
+		d.loadResource("dico_fr.csv");
 		
 		assertTrue(d.getEntries().size() > 1000);
 		

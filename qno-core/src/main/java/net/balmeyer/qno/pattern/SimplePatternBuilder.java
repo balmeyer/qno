@@ -221,11 +221,6 @@ public final class SimplePatternBuilder implements PatternBuilder {
 						
 						sb.replace(start  , i +1,inside.toString());
 						
-						if (sb.toString().contains("$") 
-								&& !sb.toString().contains("${")){
-							throw new IllegalStateException("Problem with replace :<<<"
-									+ sb.toString() + ">>>");
-						}
 						
 						i = start -1; // bug resolved !!!?!!!
 						currentMark = null;

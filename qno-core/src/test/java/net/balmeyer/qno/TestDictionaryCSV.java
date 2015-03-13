@@ -111,8 +111,8 @@ public class TestDictionaryCSV {
 	@Test
 	public void adjectifAccent(){
 		DictionaryCSV csv = new DictionaryCSV();
-		csv.addRawData("texte	type	groupe	pluriel	feminin	femininpluriel");
-		csv.addRawData("passé	adj");
+		csv.addRawData("texte;type;groupe;pluriel;feminin;femininpluriel");
+		csv.addRawData("passé;adj");
 		
 		EntryQuery q = new EntryQuery("adj:f");
 		Word w = csv.get(q);
